@@ -10,6 +10,6 @@ namespace Contracts.IRepository
 {
     public interface ICompanyRepository: IRepositoryBase<CompanyModel>
     {
-        IEnumerable<CompanyModel> GetAllCompanies(bool trackChanges);
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace Contracts.IService
     public interface IEmployeeService : IService
     {
          List<EmployeeDto> GetEmployees(Guid companyId);
-
+         EmployeeModel CreateEmployeeForCompany(Guid companyId,EmployeeForCreationDto Emplyee);
     }
 }

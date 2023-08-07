@@ -16,9 +16,6 @@ namespace Repositories
     {
         public CompanyRepository(DBContextProvider dBContextProvider):base(dBContextProvider) { }
 
-        public IEnumerable<CompanyModel> GetAllCompanies(bool trackChanges)
-        {
-            return FindAll(trackChanges).OrderBy(c=>c.Name).ToList();
-        }
+       
     }
 }

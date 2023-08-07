@@ -12,5 +12,6 @@ namespace Contracts.IService
         List<CompanyDto> GetAllCompanies();
 
         CompanyDto GetCompany(Guid CompanyID);
+        CompanyDto CreateCompany(CompanyForCreationDto Company);
     }
 }

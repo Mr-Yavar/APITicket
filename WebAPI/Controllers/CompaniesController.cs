@@ -43,5 +43,17 @@ namespace WebAPI.Controllers
 
         }
 
+        [HttpPost(Name ="CreateCompany")]
+        public IActionResult CreateCompany([FromBody]CompanyForCreationDto Company) {
+            if (Company == null)
+            {
+                return BadRequest("Company could not be empty!");
+            }
+            var result = _companySerivce.CreateCompany(Company);
+            return CreatedAtRoute("CompanyById", new { id = result.Id },result);
+
+        }
+
+        
     }
 }

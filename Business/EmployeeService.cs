@@ -2,6 +2,7 @@
 using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,25 @@ namespace Services
             var employeesDtos = _mapper.Map<List<EmployeeDto>>(employeesFromDb);
             return employeesDtos;
 
+        }
+
+        public EmployeeModel CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto Emplyee)
+        {
+            try
+            {
+                var company = _repositoryManager.CompanyRepository.FindByCondition(x => x.Id == companyId, false).FirstOrDefault();
+                EmployeeModel newEmployee = new EmployeeModel();
+                newEmployee = _mapper.Map<EmployeeModel>(Emplyee);
+                newEmployee.CompanyId = companyId;
+                _repositoryManager.EmployeeRepository.Create(newEmployee);
+                _repositoryManager.Save();
+                return newEmployee;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            
         }
     }
 }
