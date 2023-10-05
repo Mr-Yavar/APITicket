@@ -6,6 +6,8 @@ using LoggerService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WebAPI.Controllers
 {
@@ -54,6 +56,38 @@ namespace WebAPI.Controllers
 
         }
 
-        
+        [HttpGet("collection/({ids})", Name = "CompanyCollection")]
+        public IActionResult GetCompanyCollection(IEnumerable<Guid> ids)
+        {
+            if (ids == null)
+            {
+                _logger.LogError("Parameter ids is null");
+                return BadRequest("Parameter ids is null");
+            }
+
+            var companyEntities =  _companySerivce.GetCompanyCollectionByIds(ids);
+            if (ids.Count() != companyEntities.Count())
+            {
+                _logger.LogError("Some ids are not valid in a collection");
+                return NotFound();
+            }
+          
+            return Ok(companyEntities);
+        }
+
+        [HttpPost("collection")]
+        public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection)
+        {
+            if (companyCollection == null)
+            {
+                _logger.LogError("Company collection sent from client is null.");
+                return BadRequest("Company collection is null");
+            }
+
+            var CompaniestoReturn = _companySerivce.CreateCompanyCollection(companyCollection);
+            var ids = string.Join(",", CompaniestoReturn.Select(c => c.Id));
+            return CreatedAtRoute("CompanyCollection", new { ids }, CompaniestoReturn);
+        }
+
     }
 }

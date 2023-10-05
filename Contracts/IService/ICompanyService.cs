@@ -13,5 +13,8 @@ namespace Contracts.IService
 
         CompanyDto GetCompany(Guid CompanyID);
         CompanyDto CreateCompany(CompanyForCreationDto Company);
+
+        List<CompanyDto> GetCompanyCollectionByIds(IEnumerable<Guid> ids);
+        IEnumerable<CompanyDto> CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection);
     }
 }

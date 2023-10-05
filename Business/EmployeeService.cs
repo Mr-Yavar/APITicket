@@ -25,6 +25,7 @@ namespace Services
             {
                 return null;
             }
+
             var employeesFromDb = _repositoryManager.EmployeeRepository.FindByCondition(x => x.CompanyId == companyId,
            trackChanges: false).ToList();
             var employeesDtos = _mapper.Map<List<EmployeeDto>>(employeesFromDb);

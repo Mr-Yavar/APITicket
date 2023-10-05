@@ -3,6 +3,7 @@ using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Services
 {
@@ -37,5 +38,24 @@ namespace Services
             return _mapper.Map<CompanyDto>(CompanyModel);
         }
 
+        public List<CompanyDto> GetCompanyCollectionByIds(IEnumerable<Guid> ids)
+        {
+            var Companies =    _repositoryManager.CompanyRepository.FindByCondition(x=>ids.Contains(x.Id),false).ToList();
+            return _mapper.Map<List<CompanyDto>>(Companies);
+        }
+
+        public IEnumerable<CompanyDto> CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection)
+        {
+            var companyEntities = _mapper.Map<IEnumerable<CompanyModel>>(companyCollection);
+            foreach (var company in companyEntities)
+            {
+                _repositoryManager.CompanyRepository.Create(company);
+            }
+            _repositoryManager.Save();
+
+            var companyCollectionToReturn =_mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
+            return companyCollectionToReturn;
+            
+        }
     }
 }
