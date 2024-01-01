@@ -51,5 +51,27 @@ namespace Services
             }
             
         }
+
+
+        public EmployeeModel DeleteEmployeeForCompany(Guid companyId, Guid EmplyeeId)
+        {
+            try
+            {
+                var Employee = _repositoryManager.EmployeeRepository.FindByCondition(x => x.Id == companyId && x.Id==EmplyeeId, false).FirstOrDefault();
+
+                if(Employee == null)
+                        return null;
+
+                _repositoryManager.EmployeeRepository.Delete(Employee);
+                _repositoryManager.Save();
+
+                return Employee;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
     }
 }

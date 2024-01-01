@@ -54,5 +54,19 @@ namespace WebAPI.Controllers
             
             
         }
+
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEmployeeForCompany(Guid companyId, Guid id)
+        {
+            var response = _employeeService.DeleteEmployeeForCompany(companyId, id);
+            if (response == null)
+            {
+                _logger.LogError("The Company or the spcific employee Not Found!");
+                return NotFound();
+            }
+            return NoContent();
+        }
+
     }
 }

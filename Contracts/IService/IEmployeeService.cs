@@ -12,5 +12,6 @@ namespace Contracts.IService
     {
          List<EmployeeDto> GetEmployees(Guid companyId);
          EmployeeModel CreateEmployeeForCompany(Guid companyId,EmployeeForCreationDto Emplyee);
+        EmployeeModel DeleteEmployeeForCompany(Guid companyId, Guid EmplyeeId);
     }
 }
