@@ -3,16 +3,18 @@ using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using LoggerService;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Services
 {
+
     public class CompanyService : ServiceBase, ICompanyService
     {
-      
-        public CompanyService(IRepositoryManager repositoryManager, IMapper mapper) : base(repositoryManager, mapper)
+        private readonly ILoggerManager _logger;
+        public CompanyService(ILoggerManager logger,IRepositoryManager repositoryManager, IMapper mapper) : base(repositoryManager, mapper)
         {
-
+            _logger = logger;
         }
 
         public List<CompanyDto> GetAllCompanies()
@@ -56,6 +58,30 @@ namespace Services
             var companyCollectionToReturn =_mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
             return companyCollectionToReturn;
             
+        }
+
+        public bool DeleteCompany(Guid id)
+        {
+            try
+            {
+                var company = _repositoryManager.CompanyRepository.FindByCondition(x=>(x.Id==id),false).First();
+                if (company == null)
+                {
+                    _logger.LogInfo($"Company with id : {id} does not exsit in the database!");
+                    return false;
+                }
+                _repositoryManager.CompanyRepository.DeleteCompany(company);
+                _repositoryManager.Save();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInfo($"Company with id : {id} cause : {e.Message}");
+
+                return false;
+            }
+
+            return true;
+          
         }
     }
 }

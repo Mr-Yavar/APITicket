@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Contracts.IService
 
         CompanyDto GetCompany(Guid CompanyID);
         CompanyDto CreateCompany(CompanyForCreationDto Company);
-
+        bool DeleteCompany(Guid Id);
         List<CompanyDto> GetCompanyCollectionByIds(IEnumerable<Guid> ids);
         IEnumerable<CompanyDto> CreateCompanyCollection(IEnumerable<CompanyForCreationDto> companyCollection);
     }

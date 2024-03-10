@@ -63,9 +63,9 @@ namespace WebAPI.Controllers
             if (response == null)
             {
                 _logger.LogError("The Company or the spcific employee Not Found!");
-                return NotFound();
+                return NotFound();//404
             }
-            return NoContent();
+            return NoContent();//204 
         }
 
     }

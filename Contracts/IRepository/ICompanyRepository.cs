@@ -11,5 +11,6 @@ namespace Contracts.IRepository
     public interface ICompanyRepository: IRepositoryBase<CompanyModel>
     {
         
+        public void DeleteCompany(CompanyModel company);
     }
 }

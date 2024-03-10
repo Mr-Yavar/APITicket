@@ -16,6 +16,12 @@ namespace Repositories
     {
         public CompanyRepository(DBContextProvider dBContextProvider):base(dBContextProvider) { }
 
-       
+
+        public void DeleteCompany(CompanyModel company)
+        {
+            Delete(company);
+        }
+
+
     }
 }

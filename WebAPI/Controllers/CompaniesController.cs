@@ -90,5 +90,14 @@ namespace WebAPI.Controllers
             return CreatedAtRoute("CompanyCollection", new { ids }, CompaniestoReturn);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCompany(Guid id)
+        {
+ 
+
+            if(!_companySerivce.DeleteCompany(id))
+                return NotFound();
+            return NoContent();
+        }
     }
 }
