@@ -3,8 +3,11 @@ using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using LoggerService;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +16,12 @@ namespace Services
 {
     public class EmployeeService : ServiceBase, IEmployeeService
     {
-        public EmployeeService(IRepositoryManager repositoryManager, IMapper mapper) : base(repositoryManager, mapper)
-        {
 
+        ILoggerManager _logger;
+
+        public EmployeeService(IRepositoryManager repositoryManager, IMapper mapper,ILoggerManager logger) : base(repositoryManager, mapper)
+        {
+            _logger = logger;
         }
 
         public List<EmployeeDto> GetEmployees(Guid companyId)
@@ -72,6 +78,28 @@ namespace Services
                 return null;
             }
 
+        }
+
+
+        public EmployeeModel UpdateEmployee(Guid companyId, Guid id, EmployeeForUpdateDto employee)
+        {
+         
+            var company = _repositoryManager.CompanyRepository.FindByCondition(x=>x.Id==companyId, trackChanges: true).FirstOrDefault();
+            if (company == null)
+            {
+                _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
+                return null;
+            }
+            var employeeEntity = _repositoryManager.EmployeeRepository.FindByCondition(x=>x.CompanyId==companyId && x.Id==id, trackChanges: true).FirstOrDefault();
+            if (employeeEntity == null)
+            {
+                _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
+                return null;
+            }
+            _mapper.Map(employee, employeeEntity);
+            _repositoryManager.Save();
+
+            return employeeEntity;
         }
     }
 }

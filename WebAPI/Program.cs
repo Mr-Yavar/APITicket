@@ -8,6 +8,7 @@ using LoggerService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NLog;
 using Repositories;
 using Services;
@@ -40,6 +41,16 @@ public class Program
 
 
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            });
+        });
+
+        builder.Services.ConfigureCors();
+
         builder.Services.AddAutoMapper(typeof(MappingProfile));
         //=====================Dependency Injection================
         builder.Services.AddScoped<ILoggerManager, LoggerManager>();
@@ -69,6 +80,13 @@ public class Program
         //    endpoints.MapControllerRoute("default", "{controller=home}/{action=Index}/{id?}");
 
         //});
+
+
+        app.Use(async (context, next)=>
+        {
+            
+            next.Invoke();
+        });
         app.MapControllers();
         app.ConfigureExceptionHandler(new LoggerManager());
         //Host.CreateDefaultBuilder(args)

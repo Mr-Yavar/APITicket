@@ -30,7 +30,11 @@ namespace Entities.Mapper
         {
             CreateMap<EmployeeModel, EmployeeDto>().ReverseMap();
             CreateMap<EmployeeModel,EmployeeForCreationDto>().ReverseMap();
+            CreateMap<EmployeeModel,EmployeeForUpdateDto>().ReverseMap();
+
         }
+
+        
     }
 
 }

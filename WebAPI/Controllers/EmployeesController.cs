@@ -68,5 +68,21 @@ namespace WebAPI.Controllers
             return NoContent();//204 
         }
 
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateEmployeeForCompany(Guid companyId, Guid id, [FromBody] EmployeeForUpdateDto employee)
+        {
+            if (employee == null)
+            {
+                _logger.LogError("EmployeeForUpdateDto object sent from client is null.");
+                return BadRequest("EmployeeForUpdateDto object is null");
+            }
+
+            if(_employeeService.UpdateEmployee(companyId,id, employee) == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
     }
 }
