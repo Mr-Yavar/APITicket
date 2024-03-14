@@ -13,6 +13,7 @@ using NLog;
 using Repositories;
 using Services;
 using WebAPI;
+using WebAPI.ActionFilters;
 using WebAPI.Extensions;
 
 public class Program
@@ -60,6 +61,10 @@ public class Program
 
         builder.Services.AddScoped<ICompanyService, CompanyService>();
         builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+
+        //ActionFilter on level of controller and actions
+        builder.Services.AddScoped<ValidationFilterAttribute>();
         //=========================================================
         var app = builder.Build();
 

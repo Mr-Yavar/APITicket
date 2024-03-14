@@ -96,6 +96,7 @@ namespace Services
                 _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
                 return null;
             }
+
             _mapper.Map(employee, employeeEntity);
             _repositoryManager.Save();
 
