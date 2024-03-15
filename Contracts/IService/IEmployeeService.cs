@@ -1,5 +1,6 @@
 ﻿using Entities.DataTransferObjects;
 using Entities.Models;
+using Features.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,9 @@ namespace Contracts.IService
 {
     public interface IEmployeeService : IService
     {
-         List<EmployeeDto> GetEmployees(Guid companyId);
-         EmployeeModel CreateEmployeeForCompany(Guid companyId,EmployeeForCreationDto Emplyee);
+        Task<List<EmployeeDto>> GetEmployeesAsync(Guid companyId);
+        Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters);
+        EmployeeModel CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto Emplyee);
         EmployeeModel DeleteEmployeeForCompany(Guid companyId, Guid EmplyeeId);
 
         EmployeeModel UpdateEmployee(Guid companyId, Guid id, EmployeeForUpdateDto employee);

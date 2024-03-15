@@ -2,8 +2,11 @@
 using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
+using Features.RequestFeatures;
 using LoggerService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
 
 namespace WebAPI.Controllers
 {
@@ -20,19 +23,15 @@ namespace WebAPI.Controllers
 
         }
 
-        [HttpGet]
-        public IActionResult GetEmployeesForCompany(Guid companyId)
+   
+        [HttpGet( Name = "GetEmployeeForCompany")]
+        public async Task<IActionResult> GetEmployeeForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
         {
-            var result = _employeeService.GetEmployees(companyId);
-            if (result == null)
+            var result = await _employeeService.GetEmployeesAsync(companyId , employeeParameters);
+            if(result == (null,null))
                 return NotFound();
-            return Ok(result);
-        }
+            Response.Headers.Add("X-Pagination",JsonSerializer.Serialize(result.metaData));
 
-        [HttpGet("{Id}", Name="GetEmployeeForCompany")]
-        public IActionResult GetEmployeeForCompany(Guid companyId, Guid id)
-        {
-            var result = _employeeService.GetEmployees(companyId).FirstOrDefault(x=>x.Id==id);
             return Ok(result);
         }
 
@@ -47,12 +46,12 @@ namespace WebAPI.Controllers
 
             EmployeeDto Dto = null;
             var result = _employeeService.CreateEmployeeForCompany(companyId, employee);
-            if (result==null)
+            if (result == null)
                 return BadRequest("somethins went wrong!");
             else
-                return CreatedAtRoute("GetEmployeeForCompany",new {companyId=result.CompanyId, id = result.Id }, Dto);
-            
-            
+                return CreatedAtRoute("GetEmployeeForCompany", new { companyId = result.CompanyId, id = result.Id }, Dto);
+
+
         }
 
 
@@ -78,7 +77,7 @@ namespace WebAPI.Controllers
                 return BadRequest("EmployeeForUpdateDto object is null");
             }
 
-            if(_employeeService.UpdateEmployee(companyId,id, employee) == null)
+            if (_employeeService.UpdateEmployee(companyId, id, employee) == null)
             {
                 return NotFound();
             }

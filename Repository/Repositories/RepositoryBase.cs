@@ -9,7 +9,7 @@ using Entities;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Repositories
+namespace Repositories.Repositories
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {

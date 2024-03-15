@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NLog;
 using Repositories;
-using Services;
+using Services.Services;
 using WebAPI;
 using WebAPI.ActionFilters;
 using WebAPI.Extensions;
@@ -46,10 +46,15 @@ public class Program
         {
             options.AddPolicy("CorsPolicy", builder =>
             {
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("X-Pagination");
             });
         });
 
+        
         builder.Services.ConfigureCors();
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));

@@ -6,27 +6,27 @@ using Entities.Models;
 using LoggerService;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace Services
+namespace Services.Services
 {
 
     public class CompanyService : ServiceBase, ICompanyService
     {
         private readonly ILoggerManager _logger;
-        public CompanyService(ILoggerManager logger,IRepositoryManager repositoryManager, IMapper mapper) : base(repositoryManager, mapper)
+        public CompanyService(ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper) : base(repositoryManager, mapper)
         {
             _logger = logger;
         }
 
         public List<CompanyDto> GetAllCompanies()
         {
-            var companies = _repositoryManager.CompanyRepository.FindAll(trackChanges: false).OrderBy(c=>c.Name).ToList();
+            var companies = _repositoryManager.CompanyRepository.FindAll(trackChanges: false).OrderBy(c => c.Name).ToList();
             var result = _mapper.Map<List<CompanyDto>>(companies);
             return result;
         }
 
         public CompanyDto GetCompany(Guid CompanyID)
         {
-            var companyModel = _repositoryManager.CompanyRepository.FindByCondition(x=>x.Id==CompanyID,false).FirstOrDefault();
+            var companyModel = _repositoryManager.CompanyRepository.FindByCondition(x => x.Id == CompanyID, false).FirstOrDefault();
             var result = _mapper.Map<CompanyDto>(companyModel);
             return result;
         }
@@ -42,7 +42,7 @@ namespace Services
 
         public List<CompanyDto> GetCompanyCollectionByIds(IEnumerable<Guid> ids)
         {
-            var Companies =    _repositoryManager.CompanyRepository.FindByCondition(x=>ids.Contains(x.Id),false).ToList();
+            var Companies = _repositoryManager.CompanyRepository.FindByCondition(x => ids.Contains(x.Id), false).ToList();
             return _mapper.Map<List<CompanyDto>>(Companies);
         }
 
@@ -55,16 +55,16 @@ namespace Services
             }
             _repositoryManager.Save();
 
-            var companyCollectionToReturn =_mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
+            var companyCollectionToReturn = _mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
             return companyCollectionToReturn;
-            
+
         }
 
         public bool DeleteCompany(Guid id)
         {
             try
             {
-                var company = _repositoryManager.CompanyRepository.FindByCondition(x=>(x.Id==id),false).First();
+                var company = _repositoryManager.CompanyRepository.FindByCondition(x => x.Id == id, false).First();
                 if (company == null)
                 {
                     _logger.LogInfo($"Company with id : {id} does not exsit in the database!");
@@ -81,7 +81,7 @@ namespace Services
             }
 
             return true;
-          
+
         }
     }
 }

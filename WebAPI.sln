@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entiti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repository\Repositories.csproj", "{E89DFE49-9293-4D88-9243-40348E94E43F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Business\Services.csproj", "{A5E38E24-A309-4E31-AA97-92D861021CF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Business\Services.csproj", "{A5E38E24-A309-4E31-AA97-92D861021CF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{FAAFF605-2DDF-4702-9415-8CB0898C3F17}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Business", "3-Business", "{6CE04787-115B-48C8-9610-58FF5E693A4D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logger", "Logger", "{2C7B5DC9-B486-412C-A200-532502407F9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Features", "Features\Features.csproj", "{2D9280A8-2120-4A49-A599-1CAB209B9AD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{A5E38E24-A309-4E31-AA97-92D861021CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5E38E24-A309-4E31-AA97-92D861021CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5E38E24-A309-4E31-AA97-92D861021CF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9280A8-2120-4A49-A599-1CAB209B9AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D9280A8-2120-4A49-A599-1CAB209B9AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D9280A8-2120-4A49-A599-1CAB209B9AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D9280A8-2120-4A49-A599-1CAB209B9AD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +76,7 @@ Global
 		{E323D44B-B6BA-4E36-B88F-A3EA027572E8} = {FAAFF605-2DDF-4702-9415-8CB0898C3F17}
 		{6CE04787-115B-48C8-9610-58FF5E693A4D} = {FAAFF605-2DDF-4702-9415-8CB0898C3F17}
 		{2C7B5DC9-B486-412C-A200-532502407F9D} = {FAAFF605-2DDF-4702-9415-8CB0898C3F17}
+		{2D9280A8-2120-4A49-A599-1CAB209B9AD7} = {6CE04787-115B-48C8-9610-58FF5E693A4D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A6CC5CF-CB96-44D1-BD22-7EB87B5E3222}
