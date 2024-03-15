@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Contracts.IDataShaper;
 using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
@@ -18,9 +19,9 @@ namespace Services.Services
 {
     public class EmployeeService : ServiceBase, IEmployeeService
     {
-
+        
         ILoggerManager _logger;
-
+        
         public EmployeeService(IRepositoryManager repositoryManager, IMapper mapper, ILoggerManager logger) : base(repositoryManager, mapper)
         {
             _logger = logger;
@@ -55,7 +56,7 @@ namespace Services.Services
             throw new Entities.Exceptions.SampleBadRequestException();
             List<EmployeeDto> employeesDtos = new();
 
-            var employeesFromDb = _repositoryManager.EmployeeRepository.FindByCondition(x => x.CompanyId == companyId,trackChanges: false)
+            var employeesFromDb = _repositoryManager.EmployeeRepository.FindByCondition(x => x.CompanyId == companyId, trackChanges: false)
                 .OrderBy(x => x.Name)
                 .ToList();
 

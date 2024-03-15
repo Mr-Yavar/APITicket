@@ -30,7 +30,7 @@ public class Program
         builder.Services.AddDbContext<DBContextProvider>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("WebAPI")));
 
         //builder.Services.AddControllers();
-
+   builder.Services.ConfigureVersioning();
         builder.Services.AddControllers(config =>
         {
             config.RespectBrowserAcceptHeader = true;
@@ -56,7 +56,7 @@ public class Program
 
         
         builder.Services.ConfigureCors();
-
+     
         builder.Services.AddAutoMapper(typeof(MappingProfile));
         //=====================Dependency Injection================
         builder.Services.AddScoped<ILoggerManager, LoggerManager>();
