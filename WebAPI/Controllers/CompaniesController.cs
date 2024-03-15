@@ -5,6 +5,7 @@ using Entities.DataTransferObjects;
 using LoggerService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using System;
 using System.Collections.Generic;
 using WebAPI.ModelBinders;
@@ -23,17 +24,30 @@ namespace WebAPI.Controllers
         {
             _companySerivce = companySerivce;
             _logger = logger;
-        
+
         }
 
 
         [HttpGet]
+        // [ResponseCache(Duration = 180)]
+        [OutputCache(Duration = 60)]
+
         public IActionResult GetCompanies()
         {
             var result = _companySerivce.GetAllCompanies();
             return Ok(result);
 
         }
+
+
+        //Caching OutPut by Key
+
+        //[HttpGet("output-varybykey")] 
+        //[OutputCache(VaryByQueryKeys = new[] { nameof(firstKey) })]
+        //public IActionResult VaryByKey(string firstKey, string secondKey)
+        //{
+        //    return Ok($"{firstKey} {secondKey} - retrieved at {DateTime.Now}");
+        //}
 
         [HttpGet("{CompanyId}", Name = "CompanyById")]
 
@@ -46,19 +60,20 @@ namespace WebAPI.Controllers
 
         }
 
-        [HttpPost(Name ="CreateCompany")]
-        public IActionResult CreateCompany([FromBody]CompanyForCreationDto Company) {
+        [HttpPost(Name = "CreateCompany")]
+        public IActionResult CreateCompany([FromBody] CompanyForCreationDto Company)
+        {
             if (Company == null)
             {
                 return BadRequest("Company could not be empty!");
             }
             var result = _companySerivce.CreateCompany(Company);
-            return CreatedAtRoute("CompanyById", new { id = result.Id },result);
+            return CreatedAtRoute("CompanyById", new { id = result.Id }, result);
 
         }
 
         [HttpGet("collection/({ids})", Name = "CompanyCollection")]
-        public IActionResult GetCompanyCollection([ModelBinder(BinderType =typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
+        public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             if (ids == null)
             {
@@ -66,13 +81,13 @@ namespace WebAPI.Controllers
                 return BadRequest("Parameter ids is null");
             }
 
-            var companyEntities =  _companySerivce.GetCompanyCollectionByIds(ids);
+            var companyEntities = _companySerivce.GetCompanyCollectionByIds(ids);
             if (ids.Count() != companyEntities.Count())
             {
                 _logger.LogError("Some ids are not valid in a collection");
                 return NotFound();
             }
-          
+
             return Ok(companyEntities);
         }
 
@@ -93,9 +108,9 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteCompany(Guid id)
         {
- 
 
-            if(!_companySerivce.DeleteCompany(id))
+
+            if (!_companySerivce.DeleteCompany(id))
                 return NotFound();
             return NoContent();
         }

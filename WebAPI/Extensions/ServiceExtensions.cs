@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.HttpOverrides;
+using System.Threading.RateLimiting;
 
 namespace WebAPI.Extensions
 {
@@ -64,7 +65,7 @@ namespace WebAPI.Extensions
                 opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
                 opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
-               
+
             }).AddApiExplorer(options =>
             {
                 // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
@@ -76,6 +77,73 @@ namespace WebAPI.Extensions
                 options.SubstituteApiVersionInUrl = true;
             }).AddMvc(); // Nuget Package: Asp.Versioning.Mvc.ApiExplorer;
 
+
+        }
+
+        public static void ConfigureResponseCaching(this IServiceCollection services)
+        {
+            services.AddResponseCaching();
+        }
+
+        public static void ConfigureOutputCaching(this IServiceCollection services)
+        {
+            services.AddOutputCache();
+        }
+
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services)
+        {
+            services.AddRateLimiter((opt) =>
+            {
+                //[DisableRateLimiting]    - for disable limition for certain endpint
+
+
+                // FOR ALL ENDPOINT (I MEAN GLOBALLY)
+                opt.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>((context) =>
+                {
+                    return RateLimitPartition.GetFixedWindowLimiter("GlobalLimiter",
+                      (partition) => new FixedWindowRateLimiterOptions
+                      {
+                          AutoReplenishment = true,
+                          PermitLimit = 5,
+                          QueueLimit = 0, // more than 5 reqs will be settle in queue , if reqs be more than limit+queue req will be rejected!
+                          QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                          Window = TimeSpan.FromMinutes(1)
+                      });
+                });
+
+
+                // CERTAIN ENPOINT
+                // [EnableRateLimiting("SpecificPolicy")]  - add attribute to your endpoint
+                opt.AddPolicy("SpecificPolicy", context =>
+                {
+                    return RateLimitPartition.GetFixedWindowLimiter("SpecificLimiter", partition =>
+                    {
+                        return new FixedWindowRateLimiterOptions()
+                        {
+                            AutoReplenishment = true,
+                            PermitLimit = 3,
+                            Window = TimeSpan.FromSeconds(10)
+                        };
+                    });
+                });
+
+
+
+
+                opt.RejectionStatusCode = 429;  //default = 503 Service Unavaliable!
+
+
+                // instead of RejectionCode we can use it
+                opt.OnRejected = async (context, token) =>
+                {
+                    context.HttpContext.Response.StatusCode = 429;
+                    if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+                        await context.HttpContext.Response.WriteAsync($"Too many requests. Please try again after {retryAfter.TotalSeconds} second(s).", token);
+                    else
+                        await context.HttpContext.Response.WriteAsync("Too many requests. Please try again later.", token);
+                };
+
+            });
 
         }
     }

@@ -30,7 +30,7 @@ public class Program
         builder.Services.AddDbContext<DBContextProvider>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("WebAPI")));
 
         //builder.Services.AddControllers();
-   builder.Services.ConfigureVersioning();
+        builder.Services.ConfigureVersioning();
         builder.Services.AddControllers(config =>
         {
             config.RespectBrowserAcceptHeader = true;
@@ -39,8 +39,8 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-
-
+        builder.Services.ConfigureResponseCaching();
+        builder.Services.ConfigureOutputCaching();
 
         builder.Services.AddCors(options =>
         {
@@ -54,9 +54,9 @@ public class Program
             });
         });
 
-        
+
         builder.Services.ConfigureCors();
-     
+
         builder.Services.AddAutoMapper(typeof(MappingProfile));
         //=====================Dependency Injection================
         builder.Services.AddScoped<ILoggerManager, LoggerManager>();
@@ -91,10 +91,13 @@ public class Program
 
         //});
 
-
-        app.Use(async (context, next)=>
+        app.UseCors("CorsPolicy");
+        app.UseResponseCaching();
+        app.UseOutputCache();
+        app.UseRateLimiter();
+        app.Use(async (context, next) =>
         {
-            
+
             next.Invoke();
         });
         app.MapControllers();
