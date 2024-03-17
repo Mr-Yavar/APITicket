@@ -8,6 +8,7 @@ namespace WebAPI
 {
     public class Startup
     {
-    
+     public Startup(){
+     }
     }
 }
