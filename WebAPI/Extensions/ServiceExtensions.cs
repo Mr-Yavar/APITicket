@@ -1,5 +1,8 @@
 ﻿using Asp.Versioning;
+using Entities;
+using Entities.Models;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using System.Threading.RateLimiting;
 
 namespace WebAPI.Extensions
@@ -144,6 +147,21 @@ namespace WebAPI.Extensions
                 };
 
             });
+
+        }
+
+        public static void ConfigureIdentity(this IServiceCollection services)
+        {
+            var builder = services.AddIdentity<User, IdentityRole>(o =>
+            {
+                o.Password.RequireDigit = true;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 10;
+                o.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<DBContextProvider>()
+            .AddDefaultTokenProviders();
 
         }
     }

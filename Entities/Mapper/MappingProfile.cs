@@ -16,6 +16,7 @@ namespace Entities.Mapper
         {
             ConfigureCompany(); // Model <-> Dto
             ConfigureEmplyee(); // Model <-> Dto
+            ConfigureIdentity();
         }
 
         public void ConfigureCompany()
@@ -32,6 +33,11 @@ namespace Entities.Mapper
             CreateMap<EmployeeModel,EmployeeForCreationDto>().ReverseMap();
             CreateMap<EmployeeModel,EmployeeForUpdateDto>().ReverseMap();
 
+        }
+
+        public void ConfigureIdentity()
+        {
+            CreateMap<UserForRegistrationDto, User>();
         }
 
         

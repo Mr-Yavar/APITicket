@@ -56,7 +56,7 @@ public class Program
 
 
         builder.Services.ConfigureCors();
-
+        builder.Services.ConfigureIdentity();
         builder.Services.AddAutoMapper(typeof(MappingProfile));
         //=====================Dependency Injection================
         builder.Services.AddScoped<ILoggerManager, LoggerManager>();
@@ -81,7 +81,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseRouting();
