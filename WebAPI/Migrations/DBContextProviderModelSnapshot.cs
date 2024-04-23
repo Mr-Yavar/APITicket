@@ -139,11 +139,11 @@ namespace WebAPI.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("First_name")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Last_name")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -169,6 +169,12 @@ namespace WebAPI.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -222,13 +228,13 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "42e64a91-1728-4034-858c-5f46727c4bd7",
+                            Id = "63e244fe-a1b7-4696-8527-c5d46b58e793",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "d585971c-60ba-4083-81cc-0a199cb8d974",
+                            Id = "df2ec4f3-4b48-4e97-b4aa-e3b5b0cce763",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
