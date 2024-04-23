@@ -5,6 +5,7 @@ using Contracts.IService;
 using Entities;
 using Entities.Mapper;
 using LoggerService;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,10 @@ using Repositories;
 using Services.Services;
 using WebAPI;
 using WebAPI.ActionFilters;
+using WebAPI.Configuration;
 using WebAPI.Extensions;
+using AuthenticationService = Services.Services.AuthenticationService;
+using IAuthenticationService = Contracts.IService.IAuthenticationService;
 
 public class Program
 {
@@ -37,8 +41,10 @@ public class Program
             config.ReturnHttpNotAcceptable = true;
         }).AddXmlDataContractSerializerFormatters();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+
+        builder.Services.ConfigureSwagger();
+       builder.Services.AddEndpointsApiExplorer();
+       builder.Services.AddSwaggerGen();
         builder.Services.ConfigureResponseCaching();
         builder.Services.ConfigureOutputCaching();
 
@@ -54,6 +60,7 @@ public class Program
             });
         });
 
+        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
         builder.Services.ConfigureCors();
         builder.Services.ConfigureIdentity();
@@ -68,16 +75,21 @@ public class Program
 
         builder.Services.AddScoped<ICompanyService, CompanyService>();
         builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-
+        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         //ActionFilter on level of controller and actions
         builder.Services.AddScoped<ValidationFilterAttribute>();
         //=========================================================
+
+  
+
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+            
             app.UseSwagger();
             app.UseSwaggerUI();
         }

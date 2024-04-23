@@ -6,6 +6,7 @@ using Entities.Models;
 using LoggerService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Shared.DataTransferObjects;
 using System;
@@ -17,6 +18,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using WebAPI.Configuration;
 
 namespace Services.Services
 {
@@ -28,10 +30,12 @@ namespace Services.Services
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole> _roleManager;
         private User? _user;
-        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
+        private IOptionsMonitor<JwtSettings> Settings;
+        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtSettings> _settings)
         {
             _logger = logger; _mapper = mapper; _userManager = userManager; _configuration = configuration;
             _roleManager = roleManager;
+            Settings = _settings;
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
