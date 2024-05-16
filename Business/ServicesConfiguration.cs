@@ -18,7 +18,7 @@ namespace Services
                 var t =service.GetInterface("I"+service.Name);
 
 
-                var x = 5;
+               
             });
         }
     }
