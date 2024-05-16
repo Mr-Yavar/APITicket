@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LoggerService;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace WebAPI.ActionFilters
@@ -25,7 +26,7 @@ namespace WebAPI.ActionFilters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            throw new NotImplementedException();
+ 
         }
     }
 }

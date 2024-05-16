@@ -1,4 +1,5 @@
 ﻿using Contracts.IService;
+using Entities;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +12,18 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticationService _Authenticationservice;
+        private readonly Contracts.IService.IAuthenticationService _Authenticationservice;
         private readonly IConfiguration _configuration;
 
 
-        public AuthenticationController(IAuthenticationService Authenticationservice) => _Authenticationservice = Authenticationservice;
+        public AuthenticationController( Contracts.IService.IAuthenticationService Authenticationservice) { 
+            _Authenticationservice = Authenticationservice;
 
-        [HttpPost]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        
+        }
+
+        [HttpPost("register")]
+
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
             var result = await _Authenticationservice.RegisterUser(userForRegistration);

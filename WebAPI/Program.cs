@@ -36,6 +36,11 @@ public class Program
 
         var connectionString = builder.Configuration.GetConnectionString("sqlConnection");
         builder.Services.AddDbContext<DBContextProvider>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("WebAPI")));
+  
+        builder.Services.ConfigureIdentity();
+        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+
+        builder.Services.ConfigureCors();
 
         //builder.Services.AddControllers();
         builder.Services.ConfigureVersioning();
@@ -64,10 +69,8 @@ public class Program
             });
         });
 
-        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
-        builder.Services.ConfigureCors();
-        builder.Services.ConfigureIdentity();
+       
 
 
 
@@ -79,7 +82,6 @@ public class Program
         builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
         builder.Services.AddScoped<IDapperRepositoryManager, DapperRepositoryManager>();
         builder.Services.RegisterServices();
-
 
 
 
@@ -99,9 +101,9 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+   
         app.UseHttpsRedirection();
-        app.UseAuthentication();
+     app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseRouting();

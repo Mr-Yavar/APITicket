@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts.IRepository;
 using Contracts.IService;
+using Entities;
 using Entities.DataTransferObjects;
 using Entities.Enum;
 using Entities.Exceptions;
@@ -33,29 +34,32 @@ namespace Services.Services
         private User? _user;
         private ILoggerManager _logger;
         private IOptionsMonitor<JwtSettings> Settings;
-        public AuthenticationService(ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtSettings> _settings) : base(repositoryManager,mapper)
+        public AuthenticationService(DBContextProvider f,ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtSettings> _settings) : base(repositoryManager,mapper)
         {
             _logger=logger;
             _userManager = userManager; _configuration = configuration;
             _roleManager = roleManager;
             Settings = _settings;
+            var t = f.Concerts.FirstOrDefault();
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
         {
+            
             if (userForRegistration.gender == null)
                 userForRegistration.gender = GenderType.Unknown;
 
-
-            var user = _mapper.Map<User>(userForRegistration);
-            var result = await _userManager.CreateAsync(user, userForRegistration.Password);
-            if (result.Succeeded)
+       
+            var user =  _mapper.Map<User>(userForRegistration);
+            try
             {
-
-                await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
-
+                var result = _userManager.CreateAsync(user, userForRegistration.Password).Result;
+              
+                return result;
+            }catch(Exception ex)
+            {
+                return null;
             }
-            return result;
         }
 
 

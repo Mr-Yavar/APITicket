@@ -17,11 +17,12 @@ namespace Services
         {
             (typeof(ServiceBase)).Assembly.GetTypes().Where(x => x.IsSubclassOf(typeof(ServiceBase)) && !x.IsAbstract).ToList().ForEach(service =>
             {
-                var interfaceService = service.GetInterface("I" + service.Name)?.GetType().ReflectedType;
-               
-                
-                if (interfaceService != null)
-                    services.AddScoped(interfaceService, service);
+                var interfaceService = service.GetInterfaces().FirstOrDefault(x=>x.FullName.EndsWith(service.Name));
+
+          
+
+              if (interfaceService != null)
+                services.AddScoped(interfaceService, service);
 
 
             });
