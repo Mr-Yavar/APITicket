@@ -1,27 +1,27 @@
 ﻿using Contracts.IDapperRepository;
-using Dapper;
+using Dapper.DapperReporsitory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dapper.DapperReporsitory
+namespace Dapper
 {
     public class DapperRepositoryManager : IDapperRepositoryManager
     {
         private readonly DapperContext _dapperContext;
         private readonly Lazy<ICategoryDapperRepository> _ICategoryDapperRepository;
-        private readonly Lazy<IEventDapperRepository>      _IEventDapperRepository;
-        private readonly Lazy<IConcertDapperRepository>    _IConcertDapperRepository;
-        private readonly Lazy<ITicketDapperRepository>     _ITicketDapperRepository;
-        private readonly Lazy<IHallDapperRepository>       _IHallDapperRepository;
-        private readonly Lazy<ISeatDapperRepository>       _ISeatDapperRepository;
+        private readonly Lazy<IEventDapperRepository> _IEventDapperRepository;
+        private readonly Lazy<IConcertDapperRepository> _IConcertDapperRepository;
+        private readonly Lazy<ITicketDapperRepository> _ITicketDapperRepository;
+        private readonly Lazy<IHallDapperRepository> _IHallDapperRepository;
+        private readonly Lazy<ISeatDapperRepository> _ISeatDapperRepository;
         private readonly Lazy<IReservationDapperRepository> _IReservationDapperRepository;
-        private readonly Lazy<IPromoterDapperRepository>   _IPromoterDapperRepository;
-        private readonly Lazy<IPlaceDapperRepository>      _IPlaceDapperRepository;
-        private readonly Lazy<IFloorDapperRepository>      _IFloorDapperRepository;
-        private readonly Lazy<IFloorSeatDapperRepository>  _IFloorSeatDapperRepository;
+        private readonly Lazy<IPromoterDapperRepository> _IPromoterDapperRepository;
+        private readonly Lazy<IPlaceDapperRepository> _IPlaceDapperRepository;
+        private readonly Lazy<IFloorDapperRepository> _IFloorDapperRepository;
+        private readonly Lazy<IFloorSeatDapperRepository> _IFloorSeatDapperRepository;
 
         public DapperRepositoryManager(DapperContext dapperContext)
         {
@@ -35,12 +35,12 @@ namespace Dapper.DapperReporsitory
             _IReservationDapperRepository = new Lazy<IReservationDapperRepository>(() => new ReservationDapperRepository(_dapperContext));
             _IPromoterDapperRepository = new Lazy<IPromoterDapperRepository>(() => new PromoterDapperRepository(_dapperContext));
             _IPlaceDapperRepository = new Lazy<IPlaceDapperRepository>(() => new PlaceDapperRepository(_dapperContext));
-            _IFloorDapperRepository= new Lazy<IFloorDapperRepository>(() => new FloorDapperRepository(_dapperContext));
+            _IFloorDapperRepository = new Lazy<IFloorDapperRepository>(() => new FloorDapperRepository(_dapperContext));
             _IFloorSeatDapperRepository = new Lazy<IFloorSeatDapperRepository>(() => new FloorSeatDapperRepository(_dapperContext));
 
         }
 
- 
+
 
         public ICategoryDapperRepository CategoryDapperRepository => _ICategoryDapperRepository.Value;
 
