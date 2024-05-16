@@ -1,7 +1,9 @@
 
 
-using Contracts.IRepository;
+using Contracts.IDapperRepository;
 using Contracts.IService;
+using Dapper;
+using Dapper.DapperReporsitory;
 using Entities;
 using Entities.Mapper;
 using LoggerService;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NLog;
 using Repositories;
+using Services;
 using Services.Services;
 using WebAPI;
 using WebAPI.ActionFilters;
@@ -66,23 +69,24 @@ public class Program
         builder.Services.ConfigureIdentity();
 
 
+
+        builder.Services.DapperInstallation();
+
         builder.Services.AddAutoMapper(typeof(MappingProfile));
         //=====================Dependency Injection================
         builder.Services.AddScoped<ILoggerManager, LoggerManager>();
 
-        builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+        builder.Services.RegisterServices();
 
 
-        builder.Services.AddScoped<ICompanyService, CompanyService>();
-        builder.Services.AddScoped<IEmployeeService, EmployeeService>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         //ActionFilter on level of controller and actions
         builder.Services.AddScoped<ValidationFilterAttribute>();
         //=========================================================
 
-  
 
+  
 
         var app = builder.Build();
 

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Services.Services
 {
-    public class EmployeeService : ServiceBase, IEmployeeService
+    public class EmployeeService : ServiceBase
     {
         
         ILoggerManager _logger;
@@ -28,112 +28,8 @@ namespace Services.Services
         }
 
 
-        public async Task<List<EmployeeDto>> GetEmployeesAsync(Guid companyId)
-        {
-            var company = _repositoryManager.CompanyRepository.FindByCondition(x => x.Id == companyId, trackChanges: false);
-            if (company == null)
-            {
-                return null;
-            }
-
-            var employeesFromDb = _repositoryManager.EmployeeRepository.FindByCondition(x => x.CompanyId == companyId,
-           trackChanges: false).ToList();
-            var employeesDtos = _mapper.Map<List<EmployeeDto>>(employeesFromDb);
-            return employeesDtos;
-
-        }
 
 
-        public async Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters)
-        {
-            var company = _repositoryManager.CompanyRepository.FindByCondition(x => x.Id.Equals(companyId), false);
-            if (company == null)
-            {
-                return (null, null);
-
-            }
-
-            throw new Entities.Exceptions.SampleBadRequestException();
-            List<EmployeeDto> employeesDtos = new();
-
-            var employeesFromDb = _repositoryManager.EmployeeRepository.FindByCondition(x => x.CompanyId == companyId, trackChanges: false)
-                .OrderBy(x => x.Name)
-                .ToList();
-
-            int count = _repositoryManager.EmployeeRepository.FindByCondition(x => x.CompanyId == companyId, trackChanges: false).Count();
-
-            var employeeWithMetaData = PagedList<EmployeeModel>.ToPagedList(employeesFromDb, count, employeeParameters.PageNumber, employeeParameters.PageSize);
-
-            var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeeWithMetaData);
-            return (employees: employeesDto, metaData: employeeWithMetaData.MetaData);
-
-
-
-
-        }
-
-        public EmployeeModel CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto Emplyee)
-        {
-            try
-            {
-                var company = _repositoryManager.CompanyRepository.FindByCondition(x => x.Id == companyId, false).FirstOrDefault();
-                EmployeeModel newEmployee = new EmployeeModel();
-                newEmployee = _mapper.Map<EmployeeModel>(Emplyee);
-                newEmployee.CompanyId = companyId;
-                _repositoryManager.EmployeeRepository.Create(newEmployee);
-                _repositoryManager.Save();
-                return newEmployee;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
-        }
-
-
-        public EmployeeModel DeleteEmployeeForCompany(Guid companyId, Guid EmplyeeId)
-        {
-            try
-            {
-                var Employee = _repositoryManager.EmployeeRepository.FindByCondition(x => x.Id == companyId && x.Id == EmplyeeId, false).FirstOrDefault();
-
-                if (Employee == null)
-                    return null;
-
-                _repositoryManager.EmployeeRepository.Delete(Employee);
-                _repositoryManager.Save();
-
-                return Employee;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
-        }
-
-
-        public EmployeeModel UpdateEmployee(Guid companyId, Guid id, EmployeeForUpdateDto employee)
-        {
-
-            var company = _repositoryManager.CompanyRepository.FindByCondition(x => x.Id == companyId, trackChanges: true).FirstOrDefault();
-            if (company == null)
-            {
-                _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
-                return null;
-            }
-            var employeeEntity = _repositoryManager.EmployeeRepository.FindByCondition(x => x.CompanyId == companyId && x.Id == id, trackChanges: true).FirstOrDefault();
-            if (employeeEntity == null)
-            {
-                _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
-                return null;
-            }
-
-            _mapper.Map(employee, employeeEntity);
-            _repositoryManager.Save();
-
-            return employeeEntity;
-        }
+       
     }
 }

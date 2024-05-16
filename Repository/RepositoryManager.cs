@@ -12,32 +12,23 @@ namespace Repositories
     public class RepositoryManager : IRepositoryManager
     {
         private DBContextProvider _context;
-        private ICompanyRepository _companyRepository;
-        private IEmployeeRepository _employeeRepository;
+        private ICategoryRepository _categoryRepository;
+      
         public RepositoryManager(DBContextProvider Context)
         {
             _context = Context;
         }
-        public ICompanyRepository CompanyRepository
+        public ICategoryRepository CompanyRepository
         {
             get
             {
-                if (_companyRepository == null)
-                    _companyRepository = new CompanyRepository(_context);
+                if (_categoryRepository == null)
+                    _categoryRepository = new CategoryRepository(_context);
 
-                return _companyRepository;
+                return _categoryRepository;
             }
         }
-        public IEmployeeRepository EmployeeRepository
-        {
-            get
-            {
-                if (_employeeRepository == null)
-                    _employeeRepository = new EmployeeRepository(_context);
-              
-                return _employeeRepository;
-            }
-        }
+
         public void Save()
         {
             _context.SaveChanges();

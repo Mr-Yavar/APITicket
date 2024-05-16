@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Contracts.IRepository
 {
-    public interface IEmployeeRepository : IRepositoryBase<EmployeeModel>
+    public interface IPromoterRepository : IRepositoryBase<Promoter>
     {
     }
 }

@@ -1,4 +1,5 @@
-﻿using Contracts.IRepository;
+﻿using Contracts.IDapperRepository;
+using Contracts.IRepository;
 using Entities;
 using Entities.Models;
 using System;
@@ -11,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace Repositories.Repositories
 {
-    public class CompanyRepository : RepositoryBase<CompanyModel>, ICompanyRepository
+    public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
-        public CompanyRepository(DBContextProvider dBContextProvider) : base(dBContextProvider) { }
+        public CategoryRepository(DBContextProvider dBContextProvider) : base(dBContextProvider) { }
 
 
-        public void DeleteCompany(CompanyModel company)
+        public void DeleteCompany(Category company)
         {
             Delete(company);
         }

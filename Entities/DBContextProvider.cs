@@ -18,12 +18,11 @@ namespace Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new CompanyConfiguration());
-            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
 
-        public DbSet<CompanyModel> Companies { get; set; }
-        public DbSet<EmployeeModel> Employees { get; set; }
+        public DbSet<Category> Category { get; set; }
+
     }
 }

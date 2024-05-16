@@ -21,17 +21,17 @@ namespace Entities.Mapper
 
         public void ConfigureCompany()
         {
-            CreateMap<CompanyModel, CompanyDto>()
-                .ForMember(c => c.FullAddress,opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
+            //CreateMap<CompanyModel, CompanyDto>()
+             //   .ForMember(c => c.FullAddress,opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
 
-            CreateMap<CompanyForCreationDto, CompanyModel>();//.ForMember(c=>c.Id,opt=>opt.MapFrom(val=>new Guid()));
+          //  CreateMap<CompanyForCreationDto, CompanyModel>();//.ForMember(c=>c.Id,opt=>opt.MapFrom(val=>new Guid()));
         }
 
         public void ConfigureEmplyee()
         {
-            CreateMap<EmployeeModel, EmployeeDto>().ReverseMap();
-            CreateMap<EmployeeModel,EmployeeForCreationDto>().ReverseMap();
-            CreateMap<EmployeeModel,EmployeeForUpdateDto>().ReverseMap();
+          //  CreateMap<EmployeeModel, EmployeeDto>().ReverseMap();
+           // CreateMap<EmployeeModel,EmployeeForCreationDto>().ReverseMap();
+           // CreateMap<EmployeeModel,EmployeeForUpdateDto>().ReverseMap();
 
         }
 
