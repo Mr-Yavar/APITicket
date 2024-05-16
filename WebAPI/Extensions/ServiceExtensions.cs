@@ -20,24 +20,29 @@ namespace WebAPI.Extensions
             services.AddControllers();
         }
 
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(this IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
             else
             {
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.All
             });
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
@@ -163,7 +168,8 @@ namespace WebAPI.Extensions
                 o.Password.RequireUppercase = false;
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredLength = 3;
-                o.User.RequireUniqueEmail = true;
+                o.User.RequireUniqueEmail = false;
+                
             }).AddEntityFrameworkStores<DBContextProvider>()
             .AddDefaultTokenProviders();
 

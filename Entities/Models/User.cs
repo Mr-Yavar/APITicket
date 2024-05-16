@@ -10,6 +10,7 @@ namespace Entities.Models
 {
     public class User: IdentityUser
     {
+        public override string? Email { get => base.Email ; set => base.Email = value ; }
         public string FirstName { get; set; }
         public string LastName { get; set;}
 

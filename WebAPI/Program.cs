@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 using NLog;
 using Repositories;
 using Services;
@@ -57,17 +58,7 @@ public class Program
         builder.Services.ConfigureResponseCaching();
         builder.Services.ConfigureOutputCaching();
 
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("CorsPolicy", builder =>
-            {
-                builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .WithExposedHeaders("X-Pagination");
-            });
-        });
+
 
 
        
@@ -94,35 +85,20 @@ public class Program
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
 
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-   
-        app.UseHttpsRedirection();
-     app.UseAuthentication();
-        app.UseAuthorization();
+        app.Configure(app.Environment);
 
-        app.UseRouting();
-        //app.UseEndpoints(endpoints =>
-        //{
-        //    endpoints.MapControllerRoute("default", "{controller=home}/{action=Index}/{id?}");
 
-        //});
-
-        app.UseCors("CorsPolicy");
+       
         app.UseResponseCaching();
         app.UseOutputCache();
         app.UseRateLimiter();
-        app.Use(async (context, next) =>
+        app.Use( async (context, next) =>
         {
-
+            
             next.Invoke();
         });
-        app.MapControllers();
+     
         app.ConfigureExceptionHandler(new LoggerManager());
         //Host.CreateDefaultBuilder(args)
         //        .ConfigureWebHostDefaults(webBuilder =>
