@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
+using Entities.Enum;
 using Entities.Exceptions;
 using Entities.Models;
 using LoggerService;
@@ -22,24 +24,29 @@ using WebAPI.Configuration;
 
 namespace Services.Services
 {
-    public sealed class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : ServiceBase,IAuthenticationService
     {
-        private readonly ILoggerManager _logger;
-        private readonly IMapper _mapper;
+
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole> _roleManager;
         private User? _user;
+        private ILoggerManager _logger;
         private IOptionsMonitor<JwtSettings> Settings;
-        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtSettings> _settings)
+        public AuthenticationService(ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtSettings> _settings) : base(repositoryManager,mapper)
         {
-            _logger = logger; _mapper = mapper; _userManager = userManager; _configuration = configuration;
+            _logger=logger;
+            _userManager = userManager; _configuration = configuration;
             _roleManager = roleManager;
             Settings = _settings;
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
         {
+            if (userForRegistration.gender == null)
+                userForRegistration.gender = GenderType.Unknown;
+
+
             var user = _mapper.Map<User>(userForRegistration);
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (result.Succeeded)
