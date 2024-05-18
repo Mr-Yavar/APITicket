@@ -82,7 +82,7 @@ namespace Services.Services
 
         private SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
+            var key = Encoding.UTF8.GetBytes(_configuration.GetSection("JwtSettings:Secret").Value);
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
@@ -159,7 +159,7 @@ namespace Services.Services
                 _user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
             await _userManager.UpdateAsync(_user);
             var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            return new TokenDto(accessToken, refreshToken,_user.RefreshTokenExpiryTime);
+            return new TokenDto(accessToken, refreshToken, _user.RefreshTokenExpiryTime, new(userName:_user.UserName,firstName:_user.FirstName,lastName:_user.LastName,phoneNumber:_user.PhoneNumber));
         }
 
         public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
