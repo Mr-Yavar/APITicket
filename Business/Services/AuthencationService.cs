@@ -40,7 +40,7 @@ namespace Services.Services
             _userManager = userManager; _configuration = configuration;
             _roleManager = roleManager;
             Settings = _settings;
-            var t = f.Concerts.FirstOrDefault();
+            
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
