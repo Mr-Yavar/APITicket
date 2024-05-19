@@ -2,6 +2,7 @@
 using Contracts.IRepository;
 using Contracts.IService;
 using Entities;
+using Entities.Claims;
 using Entities.DataTransferObjects;
 using Entities.Enum;
 using Entities.Exceptions;
@@ -25,7 +26,7 @@ using WebAPI.Configuration;
 
 namespace Services.Services
 {
-    public class AuthenticationService : ServiceBase,IAuthenticationService
+    public class AuthenticationService : ServiceBase, IAuthenticationService
     {
 
         private readonly UserManager<User> _userManager;
@@ -34,37 +35,53 @@ namespace Services.Services
         private User? _user;
         private ILoggerManager _logger;
         private IOptionsMonitor<JwtSettings> Settings;
-        public AuthenticationService(DBContextProvider f,ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtSettings> _settings) : base(repositoryManager,mapper)
+        public AuthenticationService(DBContextProvider f, ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtSettings> _settings) : base(repositoryManager, mapper)
         {
-            _logger=logger;
+            _logger = logger;
             _userManager = userManager; _configuration = configuration;
             _roleManager = roleManager;
             Settings = _settings;
-            
+
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
         {
-            
+
             if (userForRegistration.gender == null)
                 userForRegistration.gender = GenderType.Unknown;
 
-       
-            var user =  _mapper.Map<User>(userForRegistration);
+            IdentityResult result = new();
+
+            if (_userManager.Users.Any(x => x.PhoneNumber == userForRegistration.PhoneNumber))
+                return IdentityResult.Failed(new IdentityError()
+                {
+                    Code = "DuplicatePhoneNumber",
+                    Description = "An existing user with the new PhoneNumber already exists."
+                });
+
+
+
+            var user = _mapper.Map<User>(userForRegistration);
             try
             {
-                var result = _userManager.CreateAsync(user, userForRegistration.Password).Result;
-              
+                result = _userManager.CreateAsync(user, userForRegistration.Password).Result;
+
                 return result;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                return null;
+                return IdentityResult.Failed(new IdentityError()
+                {
+                    Code = "unexpctedError",
+                    Description = ex.Message
+                });
             }
         }
 
 
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
+
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);
             var result = (_user != null && await _userManager.CheckPasswordAsync(_user,
            userForAuth.Password));
@@ -88,12 +105,36 @@ namespace Services.Services
         }
         private async Task<List<Claim>> GetClaims()
         {
-            var claims = new List<Claim>{new Claim(ClaimTypes.Name, _user.UserName)};
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name, _user.UserName) };
+
             var roles = await _userManager.GetRolesAsync(_user);
-            foreach (var role in roles)
+            var userRoles = roles.Select(r => new Claim(ClaimTypes.Role, r)).ToArray();
+            var userClaims = await _userManager.GetClaimsAsync(_user).ConfigureAwait(false);
+            IList<Claim> roleClaims = new List<Claim>();
+            _roleManager.Roles.Where(x => roles.Contains(x.Name)).ToList().ForEach(async (role) =>
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
+                var claims = await _roleManager.GetClaimsAsync(role).ConfigureAwait(false);
+                foreach (var claim in claims)
+                {
+                    roleClaims.Add(claim);
+                }
+
+
+            });
+
+
+
+            claims.AddRange((new[] {
+                 new Claim(ClaimTypes.NameIdentifier, _user.Id)
+             }.Union(userClaims).Union(roleClaims).Union(userRoles)).ToList());
+
+           
+
+
+            //foreach (var role in roles)
+            //{
+            //    claims.Add(new Claim(ClaimTypes.Role, role));
+            //}
             return claims;
         }
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
@@ -120,7 +161,7 @@ namespace Services.Services
             {
                 rng.GetBytes(randomNumber);
 
-            return Convert.ToBase64String(randomNumber);
+                return Convert.ToBase64String(randomNumber);
             }
         }
 
@@ -141,7 +182,7 @@ namespace Services.Services
             SecurityToken securityToken;
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,StringComparison.InvariantCultureIgnoreCase))
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new SecurityTokenException("Invalid token");
             }
@@ -159,14 +200,14 @@ namespace Services.Services
                 _user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
             await _userManager.UpdateAsync(_user);
             var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            return new TokenDto(accessToken, refreshToken, _user.RefreshTokenExpiryTime, new(userName:_user.UserName,firstName:_user.FirstName,lastName:_user.LastName,phoneNumber:_user.PhoneNumber));
+            return new TokenDto(accessToken, refreshToken, _user.RefreshTokenExpiryTime, new(userName: _user.UserName, firstName: _user.FirstName, lastName: _user.LastName, phoneNumber: _user.PhoneNumber));
         }
 
         public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
         {
             var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
             var user = await _userManager.FindByNameAsync(principal.Identity.Name);
-            if (user == null || user.RefreshToken != tokenDto.RefreshToken ||user.RefreshTokenExpiryTime <= DateTime.Now)
+            if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
                 throw new RefreshTokenBadRequest();
 
             _user = user;
