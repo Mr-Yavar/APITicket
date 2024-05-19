@@ -169,6 +169,7 @@ namespace WebAPI.Extensions
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredLength = 3;
                 o.User.RequireUniqueEmail = false;
+               ;
                 
             }).AddEntityFrameworkStores<DBContextProvider>()
             .AddDefaultTokenProviders();

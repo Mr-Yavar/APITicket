@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("register")]
-
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
             var result = await _Authenticationservice.RegisterUser(userForRegistration);
