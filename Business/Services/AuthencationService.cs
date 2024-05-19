@@ -109,11 +109,11 @@ namespace Services.Services
 
             var roles = await _userManager.GetRolesAsync(_user);
             var userRoles = roles.Select(r => new Claim(ClaimTypes.Role, r)).ToArray();
-            var userClaims = await _userManager.GetClaimsAsync(_user).ConfigureAwait(false);
+           // var userClaims = await _userManager.GetClaimsAsync(_user).ConfigureAwait(false);
             IList<Claim> roleClaims = new List<Claim>();
-            _roleManager.Roles.Where(x => roles.Contains(x.Name)).ToList().ForEach(async (role) =>
+            _roleManager.Roles.Where(x => roles.Contains(x.Name)).ToList().ForEach( (role) =>
             {
-                var claims = await _roleManager.GetClaimsAsync(role).ConfigureAwait(false);
+                var claims =  _roleManager.GetClaimsAsync(role).Result;
                 foreach (var claim in claims)
                 {
                     roleClaims.Add(claim);
@@ -126,7 +126,7 @@ namespace Services.Services
 
             claims.AddRange((new[] {
                  new Claim(ClaimTypes.NameIdentifier, _user.Id)
-             }.Union(userClaims).Union(roleClaims).Union(userRoles)).ToList());
+             }.Union(roleClaims).Union(userRoles)).ToList());
 
            
 

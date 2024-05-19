@@ -12,6 +12,8 @@ public partial class Floor : ModelBase
 
     public Guid HallId { get; set; }
 
+    public string seatMap_url { get; set; } = "./drawing.svg";
+
     public virtual ICollection<FloorSeat> FloorSeats { get; } = new List<FloorSeat>();
 
     public virtual Hall Hall { get; set; } = null!;

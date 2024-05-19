@@ -6,6 +6,7 @@ namespace Entities.Models;
 public partial class Concert :ModelBase
 {
 
+
     public string Title { get; set; } = null!;
 
     public Guid CategoryId { get; set; }
@@ -18,7 +19,8 @@ public partial class Concert :ModelBase
 
     public DateTime EndDate { get; set; }
  
-
+    public string img_url { get; set; }
+    public string? poster {  get; set; } 
     public virtual Category Category { get; set; } = null!;
 
     public virtual ICollection<Event> Events { get; } = new List<Event>();

@@ -41,16 +41,19 @@ namespace WebAPI.Extensions
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");
 
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.All
-            });
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
             });
         }
 
@@ -173,8 +176,8 @@ namespace WebAPI.Extensions
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredLength = 3;
                 o.User.RequireUniqueEmail = false;
-               ;
-                
+                ;
+
             }).AddEntityFrameworkStores<DBContextProvider>()
             .AddDefaultTokenProviders();
 
@@ -188,7 +191,7 @@ namespace WebAPI.Extensions
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-               
+                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 
             })
             .AddJwtBearer(options =>
@@ -201,8 +204,29 @@ namespace WebAPI.Extensions
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings["validIssuer"],
                     ValidAudience = jwtSettings["validAudience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+
                 };
+
+                options.Events = new JwtBearerEvents()
+                {
+                    OnTokenValidated = (ctx) =>
+                    {
+                        var t = ctx;
+                        return Task.CompletedTask; 
+                    },
+                    OnChallenge = (ctx) =>
+                    {
+                        var t = ctx;
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = (ctx) =>
+                    {
+                        var t = ctx;
+                        return Task.CompletedTask;
+                    }
+                };
+
             });
         }
 
@@ -246,11 +270,21 @@ namespace WebAPI.Extensions
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(PolicyTypes.Teams.Manage, policy => { policy.RequireClaim(CustomClaimTypes.Permission, Teams.EditManagers); });
-                options.AddPolicy(PolicyTypes.Teams.AddRemove, policy => { policy.RequireClaim(CustomClaimTypes.Permission,Teams.AddRemove); });
+                options.AddPolicy(PolicyTypes.Teams.Manage, policy =>
+                {
+                    policy.RequireClaim(CustomClaimTypes.Permission, Teams.EditManagers);
+                });
+                options.AddPolicy(PolicyTypes.Teams.AddRemove, policy => { policy.RequireClaim(CustomClaimTypes.Permission, Teams.AddRemove); });
                 options.AddPolicy(PolicyTypes.Users.Manage, policy => { policy.RequireClaim(CustomClaimTypes.Permission, Users.Add); });
                 options.AddPolicy(PolicyTypes.Users.EditRole, policy => { policy.RequireClaim(CustomClaimTypes.Permission, Users.EditRole); });
+                options.AddPolicy(PolicyTypes.Users.EditRole, policy => { policy.RequireClaim(CustomClaimTypes.Permission, Users.EditRole); });
+
+                options.InvokeHandlersAfterFailure = true;
+
+
             });
+
+           
         }
     }
 }

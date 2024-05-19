@@ -10,7 +10,7 @@ namespace Entities.PolicyTypes
     {
         public static class Users
         {
-            public const string Manage = "users.manage.policy";
+            public const string Manage = "users.add";
             public const string EditRole = "users.edit.role.policy";
         }
 

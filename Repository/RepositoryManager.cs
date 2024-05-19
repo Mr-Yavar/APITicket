@@ -46,26 +46,26 @@ namespace Repositories
 
 
 
-        public ICategoryRepository CategoryRepository => _ICategoryRepository.Value;
+        public ICategoryRepository ICategoryRepository => _ICategoryRepository.Value;
 
-        public IEventRepository EventRepository => _IEventRepository.Value;
+        public IEventRepository IEventRepository => _IEventRepository.Value;
 
-        public IConcertRepository ConcertRepository => _IConcertRepository.Value;
-        public ITicketRepository TicketRepository => _ITicketRepository.Value;
+        public IConcertRepository IConcertRepository => _IConcertRepository.Value;
+        public ITicketRepository ITicketRepository => _ITicketRepository.Value;
 
-        public IHallRepository HallRepository => _IHallRepository.Value;
+        public IHallRepository IHallRepository => _IHallRepository.Value;
 
-        public ISeatRepository SeatRepository => _ISeatRepository.Value;
+        public ISeatRepository ISeatRepository => _ISeatRepository.Value;
 
-        public IReservationRepository ReservationRepository => _IReservationRepository.Value;
+        public IReservationRepository IReservationRepository => _IReservationRepository.Value;
 
-        public IPromoterRepository ProvoterRepository => _IPromoterRepository.Value;
+        public IPromoterRepository IPromoterRepository => _IPromoterRepository.Value;
 
-        public IPlaceRepository PlaceRepository => _IPlaceRepository.Value;
+        public IPlaceRepository IPlaceRepository => _IPlaceRepository.Value;
 
-        public IFloorRepository FloorRepository => _IFloorRepository.Value;
+        public IFloorRepository IFloorRepository => _IFloorRepository.Value;
 
-        public IFloorSeatRepository FloorSeatRepository => _IFloorSeatRepository.Value;
+        public IFloorSeatRepository IFloorSeatRepository => _IFloorSeatRepository.Value;
 
         public void Save()
         {

@@ -10,6 +10,7 @@ using Entities.Claims;
 using Entities.Mapper;
 using LoggerService;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -40,6 +41,7 @@ public class Program
         builder.Services.AddDbContext<DBContextProvider>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("WebAPI")));
   
         builder.Services.ConfigureIdentity();
+        builder.Services.ConfigureJWT(builder.Configuration);
         builder.Services.ConfigureAuthorization();
         builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
         
@@ -65,7 +67,7 @@ public class Program
 
 
        
-
+        builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
 
 
         builder.Services.DapperInstallation();
@@ -95,7 +97,7 @@ public class Program
        
         app.UseResponseCaching();
         app.UseOutputCache();
-        app.UseRateLimiter();
+       // app.UseRateLimiter();
         app.Use( async (context, next) =>
         {
             
