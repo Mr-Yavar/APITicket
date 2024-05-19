@@ -6,6 +6,7 @@ using Contracts.IService;
 using Dapper;
 using Dapper.DapperReporsitory;
 using Entities;
+using Entities.Claims;
 using Entities.Mapper;
 using LoggerService;
 using Microsoft.AspNetCore.Authentication;
@@ -39,7 +40,9 @@ public class Program
         builder.Services.AddDbContext<DBContextProvider>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("WebAPI")));
   
         builder.Services.ConfigureIdentity();
+        builder.Services.ConfigureAuthorization();
         builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+        
 
         builder.Services.ConfigureCors();
 

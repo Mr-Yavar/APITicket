@@ -2,6 +2,7 @@
 using Contracts.IRepository;
 using Contracts.IService;
 using Entities;
+using Entities.Claims;
 using Entities.DataTransferObjects;
 using Entities.Enum;
 using Entities.Exceptions;
@@ -54,7 +55,7 @@ namespace Services.Services
             if (_userManager.Users.Any(x => x.PhoneNumber == userForRegistration.PhoneNumber))
                 return IdentityResult.Failed(new IdentityError()
                 {
-                    Code = "DuplicatePhoneNumber", 
+                    Code = "DuplicatePhoneNumber",
                     Description = "An existing user with the new PhoneNumber already exists."
                 });
 
@@ -63,7 +64,7 @@ namespace Services.Services
             var user = _mapper.Map<User>(userForRegistration);
             try
             {
-                 result = _userManager.CreateAsync(user, userForRegistration.Password).Result;
+                result = _userManager.CreateAsync(user, userForRegistration.Password).Result;
 
                 return result;
             }
@@ -80,6 +81,7 @@ namespace Services.Services
 
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
+
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);
             var result = (_user != null && await _userManager.CheckPasswordAsync(_user,
            userForAuth.Password));
@@ -104,11 +106,35 @@ namespace Services.Services
         private async Task<List<Claim>> GetClaims()
         {
             var claims = new List<Claim> { new Claim(ClaimTypes.Name, _user.UserName) };
+
             var roles = await _userManager.GetRolesAsync(_user);
-            foreach (var role in roles)
+            var userRoles = roles.Select(r => new Claim(ClaimTypes.Role, r)).ToArray();
+            var userClaims = await _userManager.GetClaimsAsync(_user).ConfigureAwait(false);
+            IList<Claim> roleClaims = new List<Claim>();
+            _roleManager.Roles.Where(x => roles.Contains(x.Name)).ToList().ForEach(async (role) =>
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
+                var claims = await _roleManager.GetClaimsAsync(role).ConfigureAwait(false);
+                foreach (var claim in claims)
+                {
+                    roleClaims.Add(claim);
+                }
+
+
+            });
+
+
+
+            claims.AddRange((new[] {
+                 new Claim(ClaimTypes.NameIdentifier, _user.Id)
+             }.Union(userClaims).Union(roleClaims).Union(userRoles)).ToList());
+
+           
+
+
+            //foreach (var role in roles)
+            //{
+            //    claims.Add(new Claim(ClaimTypes.Role, role));
+            //}
             return claims;
         }
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)

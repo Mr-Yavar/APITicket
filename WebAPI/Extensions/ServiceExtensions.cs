@@ -1,13 +1,17 @@
 ﻿using Asp.Versioning;
 using Entities;
+using Entities.Claims;
 using Entities.Models;
+using Entities.PolicyTypes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Threading.RateLimiting;
+using Entities;
 
 namespace WebAPI.Extensions
 {
@@ -184,6 +188,8 @@ namespace WebAPI.Extensions
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+               
+
             })
             .AddJwtBearer(options =>
             {
@@ -235,5 +241,16 @@ namespace WebAPI.Extensions
             });
         }
 
+
+        public static void ConfigureAuthorization(this IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(PolicyTypes.Teams.Manage, policy => { policy.RequireClaim(CustomClaimTypes.Permission, Teams.EditManagers); });
+                options.AddPolicy(PolicyTypes.Teams.AddRemove, policy => { policy.RequireClaim(CustomClaimTypes.Permission,Teams.AddRemove); });
+                options.AddPolicy(PolicyTypes.Users.Manage, policy => { policy.RequireClaim(CustomClaimTypes.Permission, Users.Add); });
+                options.AddPolicy(PolicyTypes.Users.EditRole, policy => { policy.RequireClaim(CustomClaimTypes.Permission, Users.EditRole); });
+            });
+        }
     }
 }
