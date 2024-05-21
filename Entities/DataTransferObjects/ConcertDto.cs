@@ -11,8 +11,6 @@ namespace Entities.DataTransferObjects
     {
         public string Title { get; set; } = null!;
 
-        public Guid CategoryId { get; set; }
-
         public Guid PromoterId { get; set; }
 
         public Guid PlaceId { get; set; }
@@ -21,13 +19,5 @@ namespace Entities.DataTransferObjects
 
         public DateTime EndDate { get; set; }
 
-
-        public virtual Category Category { get; set; } 
-
-        public virtual List<Event> Events { get; set; } 
-
-        public virtual Place Place { get; set; } 
-
-        public virtual Promoter Promoter { get; set; }
     }
 }

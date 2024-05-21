@@ -18,19 +18,24 @@ namespace WebAPI.Controllers
         concertService = _concertServic;
         }
 
-        [Authorize(Policy = PolicyTypes.Users.EditRole)]
+        [AllowAnonymous]
         [HttpGet("[action]")]
-
         public async Task<IActionResult> GetAllConcerts()
         {
             
-           
-
             var result = concertService.GetAllConcerts();
 
             return Ok(result);
         }
 
+        [AllowAnonymous]
+        [HttpGet("[action]/{concertId}")]
+        public async Task<IActionResult> GetSpecificConcert(Guid concertId)
+        {
 
+            var result = concertService.GetSpecificConcert(concertId);
+
+            return Ok(result);
+        }
     }
 }

@@ -11,5 +11,8 @@ namespace Contracts.IService
     public interface IConcertService : IService
     {
         glbConcertsDto GetAllConcerts();
+
+
+        glbConcertsDto GetSpecificConcert(Guid ConcertId);
     }
 }
