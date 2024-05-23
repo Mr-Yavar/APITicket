@@ -28,7 +28,7 @@ namespace Entities
         public DbSet<Concert>  Concerts { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Floor> Floors { get; set; }
-        public DbSet<FloorSeat> FloorsSeat { get; set; }
+        public DbSet<FloorSeat> FloorSeats { get; set; }
         public DbSet<Hall> Halls { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Promoter> Promoters { get; set; }

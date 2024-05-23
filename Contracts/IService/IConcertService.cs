@@ -14,5 +14,6 @@ namespace Contracts.IService
 
 
         glbConcertsDto GetSpecificConcert(Guid ConcertId);
+        glbEventDto GetSpecificEvent(Guid EventId);
     }
 }

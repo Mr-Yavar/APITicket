@@ -99,7 +99,68 @@ namespace Services.Services
             return concerts;
 
 
-            return null;
+          
         }
+
+        public glbEventDto GetSpecificEvent(Guid EventId)
+        {
+            var concerts = new glbEventDto();
+
+            concerts.Events = new();
+
+            _context.Events.Where(x => x.ExecutionDate > DateTime.Now && x.EndSaleDate > DateTime.Now && x.StartSaleDate < DateTime.Now  && x.Id==EventId)
+                .Include(x=>x.Hall.Floors)
+                .Include(x => x.Tickets.OrderBy(x => Convert.ToInt32(((x.FloorSeat.Seat.Row+999).ToString()) + ((x.FloorSeat.Seat.Column + 999).ToString())) )).ThenInclude(y=>y.FloorSeat.Seat).AsNoTracking()
+               
+                .ToList().ForEach(evnt =>
+            {
+
+                concerts.Events.Add(new()
+                {
+
+                    EventId = evnt.Id,
+                    EndSaleDate = evnt.EndSaleDate,
+                    StartSaleDate = evnt.StartSaleDate,
+                    ExecutionDate = evnt.ExecutionDate,
+                    Note = evnt.Note,
+                    isFilled = evnt.Tickets.Any(x => x.ReservedGroupId == null),
+                    Floors = evnt.Hall.Floors.Select(floor => new FloorInfoDto()
+                    {
+                        Title = floor.Title,
+                        DisplayOrder = floor.DisplayOrder,
+                        seatMap_url = floor.seatMap_url,
+                        SeatsInfo = new ()
+                        {
+                            ItemTitle = "tikets",
+                            Items = evnt.Tickets.Where(x =>  x.FloorSeat.FloorId==floor.Id).Select(ticket => new SeatInfo()
+                            {
+                                Id = ticket.Id,
+                                EventId = evnt.Id,
+                                FloorSeatId = ticket.FloorSeatId,
+                                Name = "f"+floor.DisplayOrder+"_r"+ticket.FloorSeat.Seat.Row.ToString()+"_c"+ticket.FloorSeat.Seat.Column.ToString(),
+                                Price = ticket.Price,
+                                SeatId = ticket.FloorSeat.Seat.Id,
+                                isReserved = ticket.ReservedGroupId!=null
+                            }).ToList()
+
+                        }
+
+
+                    } ).ToList()
+
+
+                
+                });
+
+            });
+
+            return concerts;
+
+
+
+        }
+
+
+
     }
 }

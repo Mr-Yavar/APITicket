@@ -58,6 +58,10 @@ namespace WebAPI.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Note")
+                        .HasMaxLength(72)
+                        .HasColumnType("nvarchar(72)");
+
                     b.Property<Guid>("PlaceId")
                         .HasColumnType("uniqueidentifier");
 
@@ -74,6 +78,12 @@ namespace WebAPI.Migrations
                     b.Property<string>("img_url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("lat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("lng")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("poster")
                         .HasColumnType("nvarchar(max)");
@@ -176,7 +186,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("SeatId");
 
-                    b.ToTable("FloorsSeat");
+                    b.ToTable("FloorSeats");
                 });
 
             modelBuilder.Entity("Entities.Models.Hall", b =>
@@ -284,16 +294,13 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Column")
+                    b.Property<int>("Column")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("Row")
+                    b.Property<int>("Row")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

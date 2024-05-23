@@ -37,5 +37,15 @@ namespace WebAPI.Controllers
 
             return Ok(result);
         }
+
+        [AllowAnonymous]
+        [HttpGet("[action]/{eventId}")]
+        public async Task<IActionResult> GetSpecificEvent(Guid eventId)
+        {
+
+            var result = concertService.GetSpecificEvent(eventId);
+
+            return Ok(result);
+        }
     }
 }

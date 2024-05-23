@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
+    public class glbEventDto{
+        public List<EventInfoDto> Events { get; set; }
+
+    }
 
 
     public class glbConcertsDto
@@ -14,6 +18,7 @@ namespace Entities.DataTransferObjects
 
         public List<ConcertInfoDto> Concerts { get; set; }
 
+ 
 
     }
 
@@ -29,6 +34,8 @@ namespace Entities.DataTransferObjects
         public PlaceInfoDto Place { get; set; }
 
         public DateTime EndDate { get; set; }
+        public Decimal lat { get; set; }
+        public Decimal lng { get; set; }
 
         public KeyItemsDto<EventInfoDto> Events { get; set; }
 
@@ -57,7 +64,7 @@ namespace Entities.DataTransferObjects
         public DateTime ExecutionDate { get; set; }
         public string? Note { get; set; }
         public bool isFilled { get; set; }
-        public List<FloorInfoDto> Floors { get; }
+        public List<FloorInfoDto> Floors { get; set; }
 
 
     }
@@ -70,7 +77,7 @@ namespace Entities.DataTransferObjects
         public string seatMap_url { get; set; }
         public int DisplayOrder { get; set; }
 
-        KeyItemsDto<SeatInfo> SeatsInfo { get; }
+        public KeyItemsDto<SeatInfo> SeatsInfo { get; set; }
     }
 
 
@@ -87,6 +94,8 @@ namespace Entities.DataTransferObjects
         public Guid SeatId { get; set; }
         public Guid FloorSeatId { get; set; }
         public Guid? ReservedGroupId { get; set; }
+
+        public bool isReserved { get; set; }
 
     }
 
