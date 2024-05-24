@@ -126,6 +126,7 @@ namespace Services.Services
                     isFilled = evnt.Tickets.Any(x => x.ReservedGroupId == null),
                     Floors = evnt.Hall.Floors.Select(floor => new FloorInfoDto()
                     {
+                        floorId = floor.Id,
                         Title = floor.Title,
                         DisplayOrder = floor.DisplayOrder,
                         seatMap_url = floor.seatMap_url,

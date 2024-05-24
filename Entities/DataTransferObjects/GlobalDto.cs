@@ -72,6 +72,7 @@ namespace Entities.DataTransferObjects
 
     public class FloorInfoDto
     {
+        public Guid floorId { get; set; }
         public string Title { get; set; }
 
         public string seatMap_url { get; set; }
