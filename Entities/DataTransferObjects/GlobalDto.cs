@@ -64,6 +64,7 @@ namespace Entities.DataTransferObjects
         public DateTime ExecutionDate { get; set; }
         public string? Note { get; set; }
         public bool isFilled { get; set; }
+        public bool isEnded { get; set; }
         public List<FloorInfoDto> Floors { get; set; }
 
 
