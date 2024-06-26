@@ -196,6 +196,7 @@ namespace WebAPI.Extensions
             })
             .AddJwtBearer(options =>
             {
+               // options.Authority = "https://localhost:7100";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -234,6 +235,7 @@ namespace WebAPI.Extensions
         {
             services.AddSwaggerGen(s =>
             {
+                s.IncludeXmlComments(Directory.GetCurrentDirectory()+Path.DirectorySeparatorChar+ "WebAPI.swagger.xml", true);
                 s.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Code Maze API",

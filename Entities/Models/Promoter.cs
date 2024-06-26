@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Entities.Models;
 
@@ -11,7 +12,8 @@ public partial class Promoter  :  ModelBase
 
     public Guid CategoryId { get; set; }
 
-
+    [DefaultValue(false)]
+    public bool IsDeleted { get; set; }
     public virtual Category Category { get; set; } = null!;
 
     public virtual ICollection<Concert> Concerts { get; } = new List<Concert>();

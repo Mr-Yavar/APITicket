@@ -8,6 +8,7 @@ using Contracts.IRepository;
 using Entities;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace Repositories.Repositories
 {
@@ -64,6 +65,10 @@ namespace Repositories.Repositories
             }
         }
 
+        public void SaveChanges()
+        {
+            _dbContextProvider.SaveChanges();
+        }
 
     }
 }

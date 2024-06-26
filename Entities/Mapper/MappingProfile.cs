@@ -17,6 +17,10 @@ namespace Entities.Mapper
             ConfigureCompany(); // Model <-> Dto
             ConfigureEmplyee(); // Model <-> Dto
             ConfigureIdentity();
+
+
+            
+            CreateMap<PlaceDto,Place>().ReverseMap();
         }
 
         public void ConfigureCompany()
