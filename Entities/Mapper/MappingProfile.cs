@@ -21,6 +21,7 @@ namespace Entities.Mapper
 
             
             CreateMap<PlaceDto,Place>().ReverseMap();
+            CreateMap<HallDto, Hall>().ReverseMap();
         }
 
         public void ConfigureCompany()

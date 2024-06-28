@@ -1,13 +1,17 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
-    public class glbEventDto{
+    public class glbEventDto
+    {
         public List<EventInfoDto> Events { get; set; }
 
     }
@@ -18,7 +22,7 @@ namespace Entities.DataTransferObjects
 
         public List<ConcertInfoDto> Concerts { get; set; }
 
- 
+
 
     }
 
@@ -27,7 +31,7 @@ namespace Entities.DataTransferObjects
         public Guid Concertid { get; set; }
         public string Category { get; set; }
         public string img_Url { get; set; }
-        public string? poster {  get; set; }
+        public string? poster { get; set; }
         public string Title { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -44,7 +48,7 @@ namespace Entities.DataTransferObjects
 
     public class PlaceInfoDto
     {
-                      
+
         public Guid placeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -76,7 +80,8 @@ namespace Entities.DataTransferObjects
         public Guid floorId { get; set; }
         public string Title { get; set; }
 
-        public string seatMap_url { get; set; }
+        public bool isDeleted { get; set; }
+        public string? seatMap_url { get; set; }
         public int DisplayOrder { get; set; }
 
         public KeyItemsDto<SeatInfo> SeatsInfo { get; set; }
@@ -109,4 +114,39 @@ namespace Entities.DataTransferObjects
 
         public List<T> Items { get; set; }
     }
+
+
+    public class GlbCreationHallDto
+    {
+        public Guid id { get; set; }
+        public string Title { get; set; }
+
+        public Guid PlaceId { get; set; }
+
+        public string? Description { get; set; }
+
+        public string? ImgUrl { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public Decimal lng { get; set; }
+        public Decimal lat { get; set; }
+
+        public List<FloorInfoDto> FloorInfoDtos { get; set; }
+
+    }
+
+    public class FileDto{
+        public string Key { get; set; }
+        public IFormFile File { get; set; }
+       
+     }
+    public class FilesDto
+    {
+
+        public List<FileDto> Files { get; set; }
+
+    }
+
+
 }

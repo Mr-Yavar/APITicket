@@ -13,5 +13,8 @@ namespace Contracts.IService
         Task<PlaceDto> GetById(Guid id);
         Task<bool> ProcessCreationPlace(PlaceDto dto);
         Task<bool> ProcessUpdatePlace(PlaceDto dto);
+
+
+
     }
 }

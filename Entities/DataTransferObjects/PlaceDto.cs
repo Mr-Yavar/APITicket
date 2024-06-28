@@ -12,7 +12,7 @@ namespace Entities.DataTransferObjects
         public string Title { get; set; } = null!;
 
         public string? Address { get; set; }
-
+        public string? img_Url { get; set; }
         public string? Description { get; set; }
 
         public DateTime? CreatedDate { get; set; }

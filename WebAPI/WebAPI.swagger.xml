@@ -16,18 +16,40 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WebAPI.Controllers.PlaceController.CreatePlace(Entities.DataTransferObjects.PlaceDto)">
+        <member name="M:WebAPI.Controllers.PlaceController.CreatePlace(Entities.DataTransferObjects.FileDto,System.String)">
             <summary>
             ساختن مکان برگزاری
             </summary>
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:WebAPI.Controllers.PlaceController.UpdatePlace(Entities.DataTransferObjects.PlaceDto)">
+        <member name="M:WebAPI.Controllers.PlaceController.UpdatePlace(Entities.DataTransferObjects.FileDto,System.String)">
             <summary>
             ویرایش اطلاعات یک مکان برگزاری
             </summary>
             <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.PlaceController.GetHallsByPlaceId(System.Guid)">
+            <summary>
+            گرفتن تمامی سالن های یک مکان برگزاری
+            </summary>
+            <param name="placeId">ایدی مکان برگزاری</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.PlaceController.GetHallById(System.Guid)">
+            <summary>
+            گرفتن جزئیات یک سالن 
+            </summary>
+            <param name="Id">آیدی سالن</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.PlaceController.CreateHall(Entities.DataTransferObjects.FilesDto,System.String)">
+            <summary>
+            ایجاد یک سالن
+            </summary>
+            <param name="Files">عنصر شاخص ترتیب طبقات است</param>
+            <param name="Hall"></param>
             <returns></returns>
         </member>
         <member name="T:WebAPI.Migrations.Ticketium_DB4">
@@ -184,6 +206,18 @@
             <inheritdoc />
         </member>
         <member name="M:WebAPI.Migrations.lnglat.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.newPlace">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.newPlace.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.newPlace.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.newPlace.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

@@ -13,6 +13,7 @@ public partial class Place : ModelBase
 
     public string? Description { get; set; }
 
+    public string? img_Url { get; set; }
     [DefaultValue(false)]
     public bool IsDeleted { get; set; }
     public virtual ICollection<Concert> Concerts { get; } = new List<Concert>();

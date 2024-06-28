@@ -35,6 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Media\Maps\" />
+    <Folder Include="Media\Halls\" />
+    <Folder Include="Media\Places\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
