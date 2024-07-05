@@ -49,16 +49,17 @@ namespace Services.Services
                 FloorInfoDtos = new()
             };
 
-            foreach (var floor in hall.Floors)
+            foreach (var floor in hall.Floors.OrderBy(x => x.DisplayOrder))
             {
                 var floorInfo = new FloorInfoDto()
                 {
                     DisplayOrder = floor.DisplayOrder,
                     Title = floor.Title,
                     floorId = floor.Id,
-                    SeatsInfo = new(),
+                   
                     seatMap_url = floor.seatMap_url,
                     isDeleted = floor.IsDeleted,
+                    SeatsInfo = new() { ItemDescription = "", ItemTitle = "seats", Items=new() { } } 
                 };
 
                 foreach (var floorSeat in floor.FloorSeats)
@@ -71,6 +72,8 @@ namespace Services.Services
 
                     });
                 }
+
+                res.FloorInfoDtos.Add(floorInfo);
             }
 
 
@@ -80,7 +83,7 @@ namespace Services.Services
         public async Task<bool> ProcessCreationHall(GlbCreationHallDto dto)
         {
 
-            Guid HallId = new Guid();
+            Guid HallId = Guid.NewGuid();
             Hall hall = new Hall()
             {
                 Id = HallId,
@@ -100,7 +103,7 @@ namespace Services.Services
 
             foreach (var floor in dto.FloorInfoDtos)
             {
-                Guid floorId = new Guid();
+                Guid floorId = Guid.NewGuid();
                 Floor newfloor = new Floor()
                 {
                     Id = floorId,
@@ -143,7 +146,7 @@ namespace Services.Services
             }
 
 
-
+            _repositoryManager.IHallRepository.Create(hall);
             _repositoryManager.Save();
             return true;
         }
@@ -151,7 +154,7 @@ namespace Services.Services
         {
             var hall = _context.Halls.Where(x => x.Id == dto.id).Include(x => x.Floors).FirstOrDefault();
 
-            if (hall != null)
+            if (hall == null)
                 throw new Exception("hall was not found");
 
             hall.Title = dto.Title;
@@ -169,6 +172,38 @@ namespace Services.Services
                 floor.seatMap_url = (data.seatMap_url is null || data.seatMap_url == "") ? floor.seatMap_url : data.seatMap_url;
                 floor.Title = data.Title;
                 floor.DisplayOrder = data.DisplayOrder;
+
+                var newSeats =  data.SeatsInfo.Items.Where(x => x.FloorSeatId == Guid.Empty || x.FloorSeatId == null).ToList();
+
+
+                if (newSeats != null && newSeats.Count !=0)
+                {
+                    foreach (var seat in newSeats)
+                {
+                    int[] FRC = seat.Name.Replace("f", "").Replace("r", "").Replace("c", "").Split("_").Select(x => Convert.ToInt32(x)).ToArray();
+                    if (FRC.Length != 3)
+                        continue;
+
+                    floorSeat[floor.Id].Add(FRC);
+
+
+                }
+                var RCs = floorSeat[floor.Id].Select(RC => RC[1].ToString() + RC[2].ToString()).ToList();
+                
+                    var Seats = _repositoryManager.ISeatRepository.FindByCondition(x => RCs.Contains(x.Row.ToString() + x.Column.ToString()), false).ToList();
+
+                    foreach (var Seat in Seats)
+                    {
+                        floor.FloorSeats.Add(new()
+                        {
+                            Id = Guid.NewGuid(),
+                            CreatedDate = DateTime.Now,
+                            FloorId = floor.Id,
+                            SeatId = Seat.Id,
+                        });
+                    }
+                }
+
 
 
             }
@@ -232,5 +267,16 @@ namespace Services.Services
         }
 
 
+        public async Task<bool> ToggleHall(Guid id)
+        {
+           var Hall= _repositoryManager.IHallRepository.FindByCondition(x => x.Id == id,false).FirstOrDefault();
+            if (Hall is null)
+                throw new Exception();
+
+            Hall.IsDeleted = Hall.IsDeleted ? false : true;
+            _repositoryManager.IHallRepository.Update(Hall);
+            _repositoryManager.Save();
+            return true;
+        }
     }
 }

@@ -120,7 +120,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var res = _hallService.GetHallById(Id);
+                var res = await _hallService.GetHallById(Id);
                 if (res == null)
                     return NotFound();
                 else
@@ -164,7 +164,7 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPost("[action]")]
+        [HttpPatch("[action]")]
         public async Task<IActionResult> UpdateHall([FromForm] FilesDto Files, [FromForm] String Hall)
         {
             GlbCreationHallDto glbCreationHallDto = System.Text.Json.JsonSerializer.Deserialize<GlbCreationHallDto>(Hall);
@@ -183,8 +183,7 @@ namespace WebAPI.Controllers
                 }
             }
 
-            if (glbCreationHallDto.FloorInfoDtos.Any(x => x.seatMap_url == null || x.seatMap_url == "" || x.seatMap_url == string.Empty))
-                return BadRequest(new SeatMapDoesNotSpciefied());
+        
 
             _hallService.ProcessUpdateHall(glbCreationHallDto);
 
@@ -228,6 +227,20 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Get([FromBody] GlbCreationHallDto d)
            {
             return Ok();
+        }
+
+        [HttpGet("[action]/{PlaceId}")]
+        public async Task<IActionResult> TogglePlace(Guid PlaceId)
+        {
+            await _placeService.TogglePlace(PlaceId);
+            return Ok(new { status= 200});
+        }
+
+        [HttpGet("[action]/{PlaceId}")]
+        public async Task<IActionResult> ToggleHall(Guid PlaceId)
+        {
+            await _hallService.ToggleHall(PlaceId);
+            return Ok(new { status = 200 });
         }
     }
 }

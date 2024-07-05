@@ -77,7 +77,7 @@ namespace Entities.DataTransferObjects
 
     public class FloorInfoDto
     {
-        public Guid floorId { get; set; }
+        public Guid? floorId { get; set; }
         public string Title { get; set; }
 
         public bool isDeleted { get; set; }

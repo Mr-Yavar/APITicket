@@ -59,5 +59,18 @@ namespace Services.Services
             _repositoryManager.IPlaceRepository.SaveChanges();
             return true;
         }
+
+
+        public async Task<bool> TogglePlace(Guid id)
+        {
+            var Place = _repositoryManager.IPlaceRepository.FindByCondition(x => x.Id == id, false).FirstOrDefault();
+            if (Place is null)
+                throw new Exception();
+
+            Place.IsDeleted = Place.IsDeleted ? false : true;
+            _repositoryManager.IPlaceRepository.Update(Place);
+            _repositoryManager.Save();
+            return true;
+        }
     }
 }

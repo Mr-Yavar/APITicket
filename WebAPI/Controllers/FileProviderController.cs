@@ -25,12 +25,24 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetFile(string fileName)
         {
             
-                var content = await System.IO.File.ReadAllBytesAsync(Directory.GetCurrentDirectory()+"/"+MediaFolder+"/"+fileName);
+                var content = await System.IO.File.ReadAllBytesAsync(Directory.GetCurrentDirectory()+ Path.DirectorySeparatorChar + MediaFolder + Path.DirectorySeparatorChar + fileName);
                 new FileExtensionContentTypeProvider().TryGetContentType(fileName, out string contentType);
                 return File(content, contentType, fileName);
                 
             
         }
+
+        [HttpGet("File")]
+        public async Task<IActionResult> GetFile2(string fileName)
+        {
+
+            var content = await System.IO.File.ReadAllBytesAsync(Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + MediaFolder + Path.DirectorySeparatorChar + fileName);
+            new FileExtensionContentTypeProvider().TryGetContentType(fileName, out string contentType);
+            return File(content, contentType, fileName);
+
+
+        }
+
 
     }
 }

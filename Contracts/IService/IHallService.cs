@@ -13,5 +13,6 @@ namespace Contracts.IService
         Task<GlbCreationHallDto> GetHallById(Guid Id);
         Task<bool> ProcessCreationHall(GlbCreationHallDto dto);
         Task<bool> ProcessUpdateHall(GlbCreationHallDto dto);
+        Task<bool> ToggleHall(Guid id);
     }
 }
