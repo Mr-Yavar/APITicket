@@ -12,7 +12,7 @@ public partial class Place : ModelBase
     public string? Address { get; set; }
 
     public string? Description { get; set; }
-
+    public string City { get; set; }
     public string? img_Url { get; set; }
     [DefaultValue(false)]
     public bool IsDeleted { get; set; }

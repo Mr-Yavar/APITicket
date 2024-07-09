@@ -18,14 +18,54 @@ namespace Services.Services
     public class ConcertService : ServiceBase, IConcertService
     {
         private DBContextProvider _context;
-        public ConcertService(IRepositoryManager repositoryManager, IMapper mapper, DBContextProvider context) : base(repositoryManager, mapper)
+        public ConcertService(IRepositoryManager repositoryManager,
+                              IMapper mapper,
+                              DBContextProvider context) : base(repositoryManager, mapper)
         {
             _context = context;
         }
 
+        public glbConcertsDto GetAllConcerts(int pageSize, int currentPage)
+        {
+            if (currentPage <= 0)
+                throw new Exception();
 
 
-        public glbConcertsDto GetAllConcerts()
+            var concerts = new glbConcertsDto()
+            {
+                currentPage = currentPage,
+                TotalCount = _repositoryManager.IConcertRepository.FindAll(false).Count(),
+                PageSize = pageSize,
+                Concerts = new(),
+            };
+
+            
+
+            _repositoryManager.IConcertRepository.FindAll(false).Skip(((currentPage-1)*pageSize)).Take(currentPage).Include(x=>x.Category).Include(x=>x.Place).ToList().ForEach(concert =>
+            {
+
+                concerts.Concerts.Add(new()
+                {
+                    Title = concert.Title,
+                    EndDate = concert.EndDate,
+                    StartDate = concert.StartDate,
+                    Category = concert.Category.Title,
+                    img_Url = concert.img_url,
+                    Concertid = concert.Id,
+                    Place = new()
+                    {
+                        Name = concert.Place.Title,
+                    },
+                    isEnded = concert.EndDate >= DateTime.Now
+
+                });
+
+            });
+
+            return concerts;
+        }
+
+        public glbConcertsDto GetAllPublicConcerts()
         {
 
             var concerts = new glbConcertsDto();

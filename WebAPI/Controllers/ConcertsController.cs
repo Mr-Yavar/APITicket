@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetAllConcerts()
         {
             
-            var result = concertService.GetAllConcerts();
+            var result = concertService.GetAllPublicConcerts();
 
             return Ok(result);
         }

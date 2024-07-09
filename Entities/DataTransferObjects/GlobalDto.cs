@@ -19,7 +19,9 @@ namespace Entities.DataTransferObjects
 
     public class glbConcertsDto
     {
-
+        public int TotalCount { get; set; }
+        public  int PageSize { get; set; }
+        public int currentPage { get; set; }
         public List<ConcertInfoDto> Concerts { get; set; }
 
 
@@ -41,6 +43,7 @@ namespace Entities.DataTransferObjects
         public Decimal lat { get; set; }
         public Decimal lng { get; set; }
 
+        public bool? isEnded { get; set; }
         public KeyItemsDto<EventInfoDto> Events { get; set; }
 
     }

@@ -220,5 +220,17 @@
         <member name="M:WebAPI.Migrations.newPlace.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:WebAPI.Migrations.place_city">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.place_city.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.place_city.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.place_city.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

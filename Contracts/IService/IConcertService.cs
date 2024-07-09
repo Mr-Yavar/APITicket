@@ -10,10 +10,16 @@ namespace Contracts.IService
 {
     public interface IConcertService : IService
     {
-        glbConcertsDto GetAllConcerts();
-
-
+        glbConcertsDto GetAllPublicConcerts();
         glbConcertsDto GetSpecificConcert(Guid ConcertId);
         glbEventDto GetSpecificEvent(Guid EventId);
+
+        /// <summary>
+        /// برای قسمت مدیریت
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="currentPage"></param>
+        /// <returns></returns>
+        glbConcertsDto GetAllConcerts(int pageSize, int currentPage);
     }
 }
