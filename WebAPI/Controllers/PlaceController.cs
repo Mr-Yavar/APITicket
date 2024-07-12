@@ -6,6 +6,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services;
+using WebAPI.Utils;
 
 namespace WebAPI.Controllers
 {
@@ -57,7 +58,7 @@ namespace WebAPI.Controllers
             try
             {
                 if (Files != null && Files.File != null)
-                    dto.img_Url = await SaveFileAsync(Files.File, FileType.FileTypes[FileTypeEnum.Place]);
+                    dto.img_Url = await FileHelper.SaveFileAsync(Files.File, FileType.FileTypes[FileTypeEnum.Place]);
 
             }
             catch (Exception ex)
@@ -84,7 +85,7 @@ namespace WebAPI.Controllers
             try
             {
                 if (Files != null && Files.File != null)
-                    dto.img_Url = await SaveFileAsync(Files.File, FileType.FileTypes[FileTypeEnum.Place]);
+                    dto.img_Url = await FileHelper.SaveFileAsync(Files.File, FileType.FileTypes[FileTypeEnum.Place]);
 
             }
             catch (Exception ex)
@@ -146,12 +147,12 @@ namespace WebAPI.Controllers
             foreach (var file in Files.Files)
             {
                 if (file.Key.ToLower() == "hall")
-                    glbCreationHallDto.ImgUrl = await SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Hall]);
+                    glbCreationHallDto.ImgUrl = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Hall]);
                 else {
                     var floor= glbCreationHallDto.FloorInfoDtos.FirstOrDefault(x => x.DisplayOrder.ToString() == file.Key);
                     if (floor is null)
                         continue;
-                    floor.seatMap_url = await SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.SeatMap]);
+                    floor.seatMap_url = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.SeatMap]);
 
                 } 
             }
@@ -172,13 +173,13 @@ namespace WebAPI.Controllers
             foreach (var file in Files.Files)
             {
                 if (file.Key.ToLower() == "hall")
-                    glbCreationHallDto.ImgUrl = await SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Hall]);
+                    glbCreationHallDto.ImgUrl = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Hall]);
                 else
                 {
                     var floor = glbCreationHallDto.FloorInfoDtos.FirstOrDefault(x => x.DisplayOrder.ToString() == file.Key);
                     if (floor is null)
                         continue;
-                    floor.seatMap_url = await SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.SeatMap]);
+                    floor.seatMap_url = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.SeatMap]);
 
                 }
             }
@@ -187,45 +188,6 @@ namespace WebAPI.Controllers
 
             _hallService.ProcessUpdateHall(glbCreationHallDto);
 
-            return Ok();
-        }
-        private async Task<string> SaveFileAsync(IFormFile file, string Type)
-        {
-            if (file == null || file.Length == 0)
-            {
-                return null;
-            }
-
-
-
-            var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Media");
-
-            if (!Directory.Exists(uploadsFolderPath))
-            {
-                Directory.CreateDirectory(uploadsFolderPath);
-            }
-
-            uploadsFolderPath = Path.Combine(uploadsFolderPath, Type);
-
-            if (!Directory.Exists(uploadsFolderPath))
-            {
-                Directory.CreateDirectory(uploadsFolderPath);
-            }
-
-            var uniqueFileName = (Guid.NewGuid().ToString().Substring(0, 7)) + DateTime.Now.Ticks.ToString() + "_" + file.FileName;
-            var filePath = Path.Combine(uploadsFolderPath, uniqueFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            return Type + Path.DirectorySeparatorChar + uniqueFileName;
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Get([FromBody] GlbCreationHallDto d)
-           {
             return Ok();
         }
 

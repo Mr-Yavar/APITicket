@@ -56,6 +56,8 @@ namespace Services.Services
             place.Address = dto.Address;
             place.City = dto.City;
             place.img_Url = dto.img_Url ?? place.img_Url;
+            place.lng = dto.lng;
+            place.lat = dto.lat;
             _repositoryManager.IPlaceRepository.Update(place);
             _repositoryManager.IPlaceRepository.SaveChanges();
             return true;

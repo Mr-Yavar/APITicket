@@ -43,8 +43,6 @@ namespace Services.Services
                 id = hall.Id,
                 ImgUrl = hall.ImgUrl,
                 IsDeleted = hall.IsDeleted,
-                lat = hall.lat,
-                lng = hall.lng,
                 Title = hall.Title,
                 FloorInfoDtos = new()
             };
@@ -91,8 +89,6 @@ namespace Services.Services
                 Description = dto.Description,
                 ImgUrl = dto.ImgUrl,
                 IsDeleted = false,
-                lat = dto.lat,
-                lng = dto.lng,
                 PlaceId = dto.PlaceId,
                 Title = dto.Title,
 
@@ -160,8 +156,6 @@ namespace Services.Services
             hall.Title = dto.Title;
             hall.Description = dto.Description;
             hall.ImgUrl = dto.ImgUrl;
-            hall.lng = dto.lng;
-            hall.lat = dto.lat;
 
             Dictionary<Guid, List<int[]>> floorSeat = new();
 

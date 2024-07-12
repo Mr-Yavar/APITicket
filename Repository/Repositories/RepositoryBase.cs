@@ -9,6 +9,7 @@ using Entities;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Repositories.Repositories
 {
@@ -70,5 +71,9 @@ namespace Repositories.Repositories
             _dbContextProvider.SaveChanges();
         }
 
+        public IIncludableQueryable<T,TProperty> GetByWithIncludes<TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TProperty>> include)
+        {
+           return _dbContextProvider.Set<T>().Where(expression).Include(include);
+        }
     }
 }

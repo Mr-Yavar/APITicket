@@ -15,6 +15,8 @@ namespace Entities.DataTransferObjects
         public string? img_Url { get; set; }
         public string? Description { get; set; }
         public string City { get; set; }
+        public Decimal lng { get; set; }
+        public Decimal lat { get; set; }
         public DateTime? CreatedDate { get; set; }
 
         public bool IsDeleted { get; set; }

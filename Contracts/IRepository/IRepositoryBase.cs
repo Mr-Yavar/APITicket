@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Entities;
+using Microsoft.EntityFrameworkCore.Query;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -14,6 +16,8 @@ namespace Contracts.IRepository
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
+        IIncludableQueryable<T, TProperty> GetByWithIncludes<TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TProperty>> include);
+       
         void SaveChanges();
     }
 

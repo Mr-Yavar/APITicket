@@ -217,12 +217,6 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("lat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("lng")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PlaceId");
@@ -259,6 +253,12 @@ namespace WebAPI.Migrations
                     b.Property<string>("img_Url")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("lat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("lng")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Places");
@@ -283,6 +283,10 @@ namespace WebAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("img_url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

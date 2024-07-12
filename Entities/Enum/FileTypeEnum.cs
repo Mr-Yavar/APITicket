@@ -15,6 +15,7 @@ namespace Entities.Enum
         Hall = 3,
         Event = 4,
         Slider = 5,
+        Promoter = 6,
     }
 
 
@@ -30,6 +31,7 @@ namespace Entities.Enum
             [FileTypeEnum.Hall] = "Halls",
             [FileTypeEnum.Event] = "Events",
             [FileTypeEnum.Slider] = "Sliders",
+            [FileTypeEnum.Promoter] = "Promoters",
         };
 
     }

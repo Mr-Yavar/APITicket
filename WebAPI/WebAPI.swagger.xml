@@ -52,6 +52,18 @@
             <param name="Hall"></param>
             <returns></returns>
         </member>
+        <member name="M:WebAPI.Controllers.PromotersController.GetAllPromoters">
+            <summary>
+            شطح ادمین
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.PromotersController.GetPromoter(System.Guid)">
+            <summary>
+            گرفتن  مکان  برگزاری
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:WebAPI.Migrations.Ticketium_DB4">
             <inheritdoc />
         </member>
@@ -230,6 +242,30 @@
             <inheritdoc />
         </member>
         <member name="M:WebAPI.Migrations.place_city.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.im_utlpromoters">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.im_utlpromoters.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.im_utlpromoters.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.im_utlpromoters.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.latlngplaces">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.latlngplaces.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.latlngplaces.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.latlngplaces.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

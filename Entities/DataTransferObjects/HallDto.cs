@@ -22,8 +22,7 @@ namespace Entities.DataTransferObjects
         public bool IsDeleted { get; set; }
 
 
-        public Decimal lng { get; set; }
-        public Decimal lat { get; set; }
+
 
       
     }

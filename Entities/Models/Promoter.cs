@@ -15,6 +15,6 @@ public partial class Promoter  :  ModelBase
     [DefaultValue(false)]
     public bool IsDeleted { get; set; }
     public virtual Category Category { get; set; } = null!;
-
+    public string img_url { get; set; }
     public virtual ICollection<Concert> Concerts { get; } = new List<Concert>();
 }

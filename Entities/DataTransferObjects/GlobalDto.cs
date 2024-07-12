@@ -132,8 +132,6 @@ namespace Entities.DataTransferObjects
 
         public bool IsDeleted { get; set; }
 
-        public Decimal lng { get; set; }
-        public Decimal lat { get; set; }
 
         public List<FloorInfoDto> FloorInfoDtos { get; set; }
 
@@ -141,7 +139,7 @@ namespace Entities.DataTransferObjects
 
     public class FileDto{
         public string Key { get; set; }
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
        
      }
     public class FilesDto

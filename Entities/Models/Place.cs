@@ -16,6 +16,8 @@ public partial class Place : ModelBase
     public string? img_Url { get; set; }
     [DefaultValue(false)]
     public bool IsDeleted { get; set; }
+    public Decimal lng { get; set; }
+    public Decimal lat { get; set; }
     public virtual ICollection<Concert> Concerts { get; } = new List<Concert>();
 
     public virtual ICollection<Hall> Halls { get; } = new List<Hall>();
