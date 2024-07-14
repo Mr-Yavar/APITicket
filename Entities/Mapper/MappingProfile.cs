@@ -22,7 +22,8 @@ namespace Entities.Mapper
             
             CreateMap<PlaceDto,Place>().ReverseMap();
             CreateMap<HallDto, Hall>().ReverseMap();
-            CreateMap<PromoterDto, Promoter>().ReverseMap();
+            CreateMap<PromoterDto, Promoter>();
+            CreateMap<Promoter, PromoterDto>().ForMember(dest=>dest.CategoryName,opt=>opt.MapFrom(src=>src.Category.Title));
             CreateMap<Category, CategoryDto>().ReverseMap();
         }
 

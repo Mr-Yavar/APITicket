@@ -9,6 +9,7 @@ namespace Contracts.IService
 {
     public interface IPlaceService : IService
     {
+        Task<List<PlaceDto>> GetPlaces();
         Task<List<PlaceDto>> GetAllPlaces();
         Task<PlaceDto> GetById(Guid id);
         Task<bool> ProcessCreationPlace(PlaceDto dto);

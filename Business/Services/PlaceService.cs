@@ -23,7 +23,10 @@ namespace Services.Services
          
         }
 
-
+        public async Task<List<PlaceDto>> GetPlaces()
+        {
+            return _mapper.Map<List<PlaceDto>>(_repositoryManager.IPlaceRepository.FindByCondition(x=>x.IsDeleted==false,false).ToList());
+        }
         public async Task<List<PlaceDto>> GetAllPlaces()
         {
            return _mapper.Map< List<PlaceDto>>(_repositoryManager.IPlaceRepository.FindAll(false).ToList());

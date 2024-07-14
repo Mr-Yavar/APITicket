@@ -35,7 +35,7 @@ namespace Services.Services
 
         public async Task<List<PromoterDto>> GetPromoters()
         {
-            return _mapper.Map<List<PromoterDto>>(_repositoryManager.IPromoterRepository.FindByCondition(x=>x.IsDeleted==false,false).ToList());
+            return _mapper.Map<List<PromoterDto>>(_repositoryManager.IPromoterRepository.GetByWithIncludes(x=>x.IsDeleted==false,x=>x.Category).ToList());
         }
 
         public async Task<PromoterDto> GetPromoter(Guid id)

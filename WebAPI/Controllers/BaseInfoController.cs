@@ -10,10 +10,18 @@ namespace WebAPI.Controllers
     {
 
         private ICategoryService _categoryService;
-
-        public BaseInfoController(ICategoryService categoryService) : base(){
+        private IPromoterService _promoterService;
+        private IPlaceService _placeService;
+        private IHallService _hallService;
+        public BaseInfoController(ICategoryService categoryService,
+                                  IPromoterService promoterService,
+                                  IPlaceService placeService,
+                                  IHallService hallService) : base(){
            
             _categoryService = categoryService;
+            _promoterService = promoterService;
+            _placeService = placeService;   
+            _hallService = hallService;
         }
 
 
@@ -24,7 +32,25 @@ namespace WebAPI.Controllers
             return Ok(res);
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetPlaces()
+        {
+            var res = await _placeService.GetPlaces();
+            return Ok(res);
+        }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetHallsByPlaceId(Guid Id)
+        {
+            var res = await _hallService.GetHallsByPlaceId(Id);
+            return Ok(res);
+        }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetPromoters()
+        {
+            var res = await _promoterService.GetPromoters();
+            return Ok(res);
+        }
     }
 }

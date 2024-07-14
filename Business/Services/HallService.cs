@@ -26,8 +26,13 @@ namespace Services.Services
         }
 
 
-
         public async Task<List<HallDto>> GetHallsByPlaceId(Guid placeId)
+        {
+
+            return _mapper.Map<List<HallDto>>(_repositoryManager.IHallRepository.FindByCondition(x => x.PlaceId == placeId && x.IsDeleted==false, false).ToList());
+        }
+
+        public async Task<List<HallDto>> GetAllHallsByPlaceId(Guid placeId)
         {
 
             return _mapper.Map<List<HallDto>>(_repositoryManager.IHallRepository.FindByCondition(x => x.PlaceId == placeId, false).ToList());

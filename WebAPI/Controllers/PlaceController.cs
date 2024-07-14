@@ -108,7 +108,7 @@ namespace WebAPI.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetHallsByPlaceId(Guid placeId)
         {
-            return Ok(await _hallService.GetHallsByPlaceId(placeId));
+            return Ok(await _hallService.GetAllHallsByPlaceId(placeId));
         }
 
         /// <summary>
