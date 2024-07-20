@@ -47,6 +47,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("[action]")]
+        public async Task<IActionResult> GetHallsAndFloorsByPlaceId(Guid Id)
+        {
+            var res = await _hallService.GetHallsWithSeatsByPlaceId(Id);
+            return Ok(res);
+        }
+
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetPromoters()
         {
             var res = await _promoterService.GetPromoters();

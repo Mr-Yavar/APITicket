@@ -6,6 +6,7 @@ using Entities.DataTransferObjects;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
+using NLog.LayoutRenderers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -29,7 +30,7 @@ namespace Services.Services
         public async Task<List<HallDto>> GetHallsByPlaceId(Guid placeId)
         {
 
-            return _mapper.Map<List<HallDto>>(_repositoryManager.IHallRepository.FindByCondition(x => x.PlaceId == placeId && x.IsDeleted==false, false).ToList());
+            return _mapper.Map<List<HallDto>>(_repositoryManager.IHallRepository.FindByCondition(x => x.PlaceId == placeId && x.IsDeleted == false, false).ToList());
         }
 
         public async Task<List<HallDto>> GetAllHallsByPlaceId(Guid placeId)
@@ -38,9 +39,62 @@ namespace Services.Services
             return _mapper.Map<List<HallDto>>(_repositoryManager.IHallRepository.FindByCondition(x => x.PlaceId == placeId, false).ToList());
         }
 
+        public async Task<List<GlbCreationHallDto>> GetHallsWithSeatsByPlaceId(Guid placeId)
+        {
+
+            var halls = _context.Halls.AsNoTracking().Where(x => x.PlaceId == placeId && x.IsDeleted==false).Include(x => x.Floors).ThenInclude(x => x.FloorSeats).ThenInclude(x => x.Seat).ToList();
+           List<GlbCreationHallDto> result = new List<GlbCreationHallDto>();
+            foreach (var hall in halls)
+            {
+
+
+
+                GlbCreationHallDto res = new()
+                {
+                    Description = hall.Description,
+                    PlaceId = hall.PlaceId,
+                    id = hall.Id,
+                    ImgUrl = hall.ImgUrl,
+                    IsDeleted = hall.IsDeleted,
+                    Title = hall.Title,
+                    FloorInfoDtos = new()
+                };
+
+                foreach (var floor in hall.Floors.OrderBy(x => x.DisplayOrder))
+                {
+                    var floorInfo = new FloorInfoDto()
+                    {
+                        DisplayOrder = floor.DisplayOrder,
+                        Title = floor.Title,
+                        floorId = floor.Id,
+
+                        seatMap_url = floor.seatMap_url,
+                        isDeleted = floor.IsDeleted,
+                        SeatsInfo = new() { ItemDescription = "", ItemTitle = "seats", Items = new() { } }
+                    };
+
+                    foreach (var floorSeat in floor.FloorSeats)
+                    {
+                        floorInfo.SeatsInfo.Items.Add(new()
+                        {
+                            Id = floorSeat.SeatId,
+                            FloorSeatId = floorSeat.Id,
+                            Name = $"f{floorInfo.DisplayOrder}_r{floorSeat.Seat.Row}_c{floorSeat.Seat.Column}",
+
+                        });
+                    }
+
+                    res.FloorInfoDtos.Add(floorInfo);
+                }
+                result.Add(res);
+            }
+            return result;
+
+        }
+
         public async Task<GlbCreationHallDto> GetHallById(Guid Id)
         {
-            var hall = _context.Halls.Where(x => x.Id == Id).Include(x => x.Floors).ThenInclude(x => x.FloorSeats).ThenInclude(x => x.Seat).FirstOrDefault();
+            var hall = _context.Halls.AsNoTracking().Where(x => x.Id == Id).Include(x => x.Floors).ThenInclude(x => x.FloorSeats).ThenInclude(x => x.Seat).FirstOrDefault();
             GlbCreationHallDto res = new()
             {
                 Description = hall.Description,
@@ -59,10 +113,10 @@ namespace Services.Services
                     DisplayOrder = floor.DisplayOrder,
                     Title = floor.Title,
                     floorId = floor.Id,
-                   
+
                     seatMap_url = floor.seatMap_url,
                     isDeleted = floor.IsDeleted,
-                    SeatsInfo = new() { ItemDescription = "", ItemTitle = "seats", Items=new() { } } 
+                    SeatsInfo = new() { ItemDescription = "", ItemTitle = "seats", Items = new() { } }
                 };
 
                 foreach (var floorSeat in floor.FloorSeats)
@@ -172,25 +226,33 @@ namespace Services.Services
                 floor.Title = data.Title;
                 floor.DisplayOrder = data.DisplayOrder;
 
-                var newSeats =  data.SeatsInfo.Items.Where(x => x.FloorSeatId == Guid.Empty || x.FloorSeatId == null).ToList();
+                var newSeats = data.SeatsInfo.Items.Where(x => x.FloorSeatId == Guid.Empty || x.FloorSeatId == null).ToList();
 
 
-                if (newSeats != null && newSeats.Count !=0)
+                if (newSeats != null && newSeats.Count != 0)
                 {
                     foreach (var seat in newSeats)
-                {
-                    int[] FRC = seat.Name.Replace("f", "").Replace("r", "").Replace("c", "").Split("_").Select(x => Convert.ToInt32(x)).ToArray();
-                    if (FRC.Length != 3)
-                        continue;
+                    {
+                        int[] FRC = seat.Name.Replace("f", "").Replace("r", "").Replace("c", "").Split("_").Select(x => Convert.ToInt32(x)).ToArray();
+                        if (FRC.Length != 3)
+                            continue;
 
-                    floorSeat[floor.Id].Add(FRC);
+                        if (floorSeat.TryGetValue(floor.Id, out List<int[]> temp))
+                        {
+                            temp.Add(FRC);
+                        }
+                        else
+                        {
+                            floorSeat.Add(floor.Id, new List<int[]>() { FRC });
+                        }
 
 
-                }
-                var RCs = floorSeat[floor.Id].Select(RC => RC[1].ToString() + RC[2].ToString()).ToList();
-                
+
+                    }
+                    var RCs = floorSeat[floor.Id].Select(RC => RC[1].ToString() + RC[2].ToString()).ToList();
+
                     var Seats = _repositoryManager.ISeatRepository.FindByCondition(x => RCs.Contains(x.Row.ToString() + x.Column.ToString()), false).ToList();
-
+                    var t  = Seats.Select(x => x.Row.ToString() + x.Column.ToString()).GroupBy(x=>x).Select(x => new {key=x.Key,count=x.Count()}).ToList();
                     foreach (var Seat in Seats)
                     {
                         floor.FloorSeats.Add(new()
@@ -255,11 +317,11 @@ namespace Services.Services
 
 
 
-                _repositoryManager.IFloorRepository.Update(newfloor);
+                _repositoryManager.IFloorRepository.Create(newfloor);
 
             }
-
-
+            _repositoryManager.IFloorRepository.SaveChanges();
+            //hall.Floors.Clear();
             _context.Halls.Update(hall);
             _context.SaveChanges();
             return true;
@@ -268,7 +330,7 @@ namespace Services.Services
 
         public async Task<bool> ToggleHall(Guid id)
         {
-           var Hall= _repositoryManager.IHallRepository.FindByCondition(x => x.Id == id,false).FirstOrDefault();
+            var Hall = _repositoryManager.IHallRepository.FindByCondition(x => x.Id == id, false).FirstOrDefault();
             if (Hall is null)
                 throw new Exception();
 

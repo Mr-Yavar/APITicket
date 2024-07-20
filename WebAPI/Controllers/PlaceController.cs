@@ -160,9 +160,10 @@ namespace WebAPI.Controllers
             if (glbCreationHallDto.FloorInfoDtos.Any(x => x.seatMap_url == null || x.seatMap_url == "" || x.seatMap_url == string.Empty))
                 return BadRequest(new SeatMapDoesNotSpciefied());
 
-            _hallService.ProcessCreationHall(glbCreationHallDto);
-
-            return Ok();
+            bool res = await _hallService.ProcessCreationHall(glbCreationHallDto);
+            if(res)
+            return Ok(res);
+            return StatusCode(500, res);
         }
 
         [HttpPatch("[action]")]
@@ -186,9 +187,11 @@ namespace WebAPI.Controllers
 
         
 
-            _hallService.ProcessUpdateHall(glbCreationHallDto);
-
-            return Ok();
+            bool res = await _hallService.ProcessUpdateHall(glbCreationHallDto);
+            if (res)
+                return Ok(res);
+            return StatusCode(500, res);
+            
         }
 
         [HttpGet("[action]/{PlaceId}")]
