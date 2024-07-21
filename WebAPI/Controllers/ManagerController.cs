@@ -1,5 +1,9 @@
 ﻿using Contracts.IService;
+using Entities.DataTransferObjects;
+using Entities.Enum;
+using Entities.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Utils;
 
 namespace WebAPI.Controllers
 {
@@ -33,9 +37,39 @@ namespace WebAPI.Controllers
             return Ok(_concertService.GetAllConcerts(pageSize, currentPage));
         }
 
-        [HttpGet("[action]")]
-        public async Task<IActionResult> CreateConcert()
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateConcert([FromForm] FilesDto Files, [FromForm] String Concert)
         {
+
+            glbCreationConcertDto dto = System.Text.Json.JsonSerializer.Deserialize<glbCreationConcertDto>(Concert,new System.Text.Json.JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            }) ?? new();
+
+            try
+            {
+
+                var file = Files.Files.FirstOrDefault(x => x.Key.ToLower() == "img_url");
+
+                if (file != null && file.File != null)
+                    dto.img_Url = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                else
+                   throw new NoImageAndPoster();
+
+                 file = Files.Files.FirstOrDefault(x => x.Key.ToLower() == "poster");
+
+                if (file != null && file.File != null)
+                    dto.poster = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                else
+                    throw new NoImageAndPoster();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            await _concertService.CreateConcert(dto);
 
             return BadRequest();
         }

@@ -21,5 +21,10 @@ namespace Contracts.IService
         /// <param name="currentPage"></param>
         /// <returns></returns>
         glbConcertsDto GetAllConcerts(int pageSize, int currentPage);
+
+
+         Task<glbCreationConcertDto> GetConcert(Guid ConcertId);
+         Task<glbCreationConcertDto> CreateConcert(glbCreationConcertDto dto);
+
     }
 }

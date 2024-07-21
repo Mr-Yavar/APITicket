@@ -20,7 +20,7 @@ namespace Entities.DataTransferObjects
     public class glbConcertsDto
     {
         public int TotalCount { get; set; }
-        public  int PageSize { get; set; }
+        public int PageSize { get; set; }
         public int currentPage { get; set; }
         public List<ConcertInfoDto> Concerts { get; set; }
 
@@ -40,6 +40,9 @@ namespace Entities.DataTransferObjects
         public PlaceInfoDto Place { get; set; }
 
         public DateTime EndDate { get; set; }
+        public string Note { get; set; }
+        public Guid CategoryId { get; set; }
+        public Guid PlaceId { get; set; }
         public Decimal lat { get; set; }
         public Decimal lng { get; set; }
 
@@ -137,11 +140,11 @@ namespace Entities.DataTransferObjects
 
     }
 
-    public class FileDto{
+    public class FileDto {
         public string Key { get; set; }
         public IFormFile? File { get; set; }
-       
-     }
+
+    }
     public class FilesDto
     {
 
@@ -149,5 +152,39 @@ namespace Entities.DataTransferObjects
 
     }
 
+    public class glbCreationConcertDto{
+
+        public Guid? ConcertId { get; set; }
+        public string Category { get; set; }
+        public string img_Url { get; set; }
+        public string? poster { get; set; }
+        public string Title { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Note { get; set; }
+        public Guid CategoryId { get; set; }
+        public Guid PlaceId { get; set; }
+        public Guid PromoterId { get; set; }
+
+        public bool? isEnded { get; set; }
+        public KeyItemsDto<glbCreationEventDto> Events { get; set; }
+
+
+    }
+
+    public class glbCreationEventDto
+    {
+        public Guid? EventId { get; set; }
+        public Guid HallId { get; set; }
+
+        public DateTime StartSaleDate { get; set; }
+
+        public DateTime EndSaleDate { get; set; }
+
+        public DateTime ExecutionDate { get; set; }
+
+        public KeyItemsDto<SeatInfo> SeatsInfo { get; set; }
+
+    }
 
 }

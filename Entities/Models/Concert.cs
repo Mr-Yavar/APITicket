@@ -27,10 +27,6 @@ public partial class Concert :ModelBase
     [MaxLength(72)]
     public string? Note { get; set; }
 
- 
-    public Decimal lat { get; set; }
-    public Decimal lng { get; set; }
-
     public virtual Category Category { get; set; } = null!;
 
     public virtual ICollection<Event> Events { get; } = new List<Event>();

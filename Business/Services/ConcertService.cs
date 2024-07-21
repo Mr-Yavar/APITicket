@@ -3,6 +3,7 @@ using Contracts.IRepository;
 using Contracts.IService;
 using Entities;
 using Entities.DataTransferObjects;
+using Entities.Exceptions;
 using Entities.Models;
 using LoggerService;
 using Microsoft.EntityFrameworkCore;
@@ -199,6 +200,85 @@ namespace Services.Services
             return concerts;
 
 
+
+        }
+
+
+
+
+
+        public async Task<glbCreationConcertDto> GetConcert(Guid ConcertId)
+        {
+            return default;
+        }
+        public async Task<glbCreationConcertDto> CreateConcert(glbCreationConcertDto dto)
+        {
+
+            if (dto.img_Url == null || dto.poster == null)
+                throw new NoImageAndPoster();
+
+            Concert concert = new()
+            {
+                CategoryId = dto.CategoryId,
+                PlaceId = dto.PlaceId,
+                CreatedDate = DateTime.Now,
+                EndDate = dto.EndDate,
+                StartDate = dto.StartDate,
+                Id = Guid.NewGuid(),
+                img_url = dto.img_Url,
+                poster = dto.poster,
+                PromoterId = dto.PromoterId,
+                Title = dto.Title,
+                Note = dto.Note,
+
+            };
+
+
+            foreach (var eventItem in dto.Events.Items) {
+
+                Event eventModel = new()
+                {
+                    EndSaleDate = eventItem.EndSaleDate,
+                    StartSaleDate = eventItem.StartSaleDate,
+                    ExecutionDate = eventItem.ExecutionDate,
+                    ConcertId = concert.Id,
+                    CreatedDate = DateTime.Now,
+                    HallId = eventItem.HallId,
+                    Id = Guid.NewGuid(),
+                };
+
+              
+
+
+                foreach(var seat in eventItem.SeatsInfo.Items)
+                {
+                    if (seat.Price != null && seat.Price > 0)
+                    {
+                        eventModel.Tickets.Add(new Ticket()
+                        {
+                            CreatedDate = DateTime.Now,
+                            EventId = eventModel.Id,
+                            FloorSeatId = seat.FloorSeatId,
+                            Id = Guid.NewGuid(),
+                            ReservedGroupId = null,
+                            Price = seat.Price,
+                        });
+                    }
+                    else
+                    {
+
+                    }
+                    
+                    
+                }
+                concert.Events.Add(eventModel);
+
+            }
+
+            _repositoryManager.IConcertRepository.Create(concert);
+            _repositoryManager.Save();
+
+            return default;
 
         }
 
