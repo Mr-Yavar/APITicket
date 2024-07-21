@@ -183,7 +183,7 @@ namespace Services.Services
 
                 }
                 var RCs = floorSeat[floorId].Select(RC => RC[1].ToString() + RC[2].ToString()).ToList();
-                var Seats = _repositoryManager.ISeatRepository.FindByCondition(x => RCs.Contains(x.Row.ToString() + x.Column.ToString()), false).ToList();
+                var Seats = _repositoryManager.ISeatRepository.FindByCondition(x => RCs.Contains(x.Row.ToString() + x.Column.ToString()), false).DistinctBy(x=> x.Row.ToString() + x.Column.ToString()).ToList();
 
                 foreach (var Seat in Seats)
                 {
@@ -301,7 +301,7 @@ namespace Services.Services
 
                 }
                 var RCs = floorSeat[floorId].Select(RC => RC[1].ToString() + RC[2].ToString()).ToList();
-                var Seats = _repositoryManager.ISeatRepository.FindByCondition(x => RCs.Contains(x.Row.ToString() + x.Column.ToString()), false).ToList();
+                var Seats = _repositoryManager.ISeatRepository.FindByCondition(x => RCs.Contains(x.Row.ToString() + x.Column.ToString()), false).DistinctBy(x => x.Row.ToString() + x.Column.ToString()).ToList();
 
                 foreach (var Seat in Seats)
                 {
