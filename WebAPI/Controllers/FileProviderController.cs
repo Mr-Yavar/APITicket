@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
         [HttpGet("File")]
         public async Task<IActionResult> GetFile2(string fileName)
         {
-
+            fileName = Uri.UnescapeDataString(fileName);
             var content = await System.IO.File.ReadAllBytesAsync(Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + MediaFolder + Path.DirectorySeparatorChar + fileName);
             new FileExtensionContentTypeProvider().TryGetContentType(fileName, out string contentType);
             return File(content, contentType, fileName);
