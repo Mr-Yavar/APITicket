@@ -42,7 +42,8 @@ namespace Services.Services
 
             
 
-            _repositoryManager.IConcertRepository.FindAll(false).Skip(((currentPage-1)*pageSize)).Take(currentPage).Include(x=>x.Category).Include(x=>x.Place).ToList().ForEach(concert =>
+            _repositoryManager.IConcertRepository.FindAll(false)
+                .Skip(((currentPage-1)*pageSize)).Take(currentPage).Include(x=>x.Category).Include(x=>x.Place).ToList().ForEach(concert =>
             {
 
                 concerts.Concerts.Add(new()
@@ -209,7 +210,83 @@ namespace Services.Services
 
         public async Task<glbCreationConcertDto> GetConcert(Guid ConcertId)
         {
-            return default;
+
+            var concert = await _context.Concerts.Where(x => x.Id == ConcertId)
+                //.Include(x=>x.Promoter)
+              //  .Include(x=>x.Category)
+                .Include(x => x.Events)
+                .ThenInclude(x => x.Hall)
+                .Include(x => x.Events)
+                .ThenInclude(x => x.Tickets)
+                .ThenInclude(x => x.FloorSeat.Seat)
+                .Include(x => x.Events)
+                .ThenInclude(x => x.Tickets)
+                .ThenInclude(x => x.FloorSeat.Floor).FirstOrDefaultAsync();
+
+          
+          
+
+            var result = new glbCreationConcertDto()
+            {
+                CategoryId = concert.CategoryId,
+                ConcertId = concert.Id,
+               // Category = concert.Category.Title,
+                img_Url = concert.img_url,
+                EndDate = concert.EndDate,
+                Note = concert.Note,
+                Title = concert.Title,
+                poster = concert.poster,
+                PromoterId = concert.PromoterId,
+                PlaceId = concert.PlaceId,
+                StartDate = concert.StartDate,
+                isEnded = concert.EndDate <= DateTime.Now,
+                Events = new()
+                {
+                    ItemDescription = "concertInfo",
+                    Items = new(),
+                    ItemTitle = "concert:"+Guid.NewGuid().ToString()
+                }
+            };
+           
+            foreach (var item in concert.Events)
+            {
+                var eventDto = (new glbCreationEventDto()
+                {
+                    EndSaleDate = item.EndSaleDate,
+                    EventId = item.Id,
+                    HallId = item.HallId,
+                    SeatsInfo = new()
+                    {
+                        Items = new()
+                    },
+                    ExecutionDate = item.ExecutionDate,
+                    StartSaleDate = item.StartSaleDate,
+                });
+
+
+                foreach (var ticket in item.Tickets)
+                {
+                    eventDto.SeatsInfo.Items.Add(new() {
+                        EventId = ticket.Id,
+                        Id = ticket.Id,
+                        FloorSeatId = ticket.FloorSeatId,
+                        isReserved = ticket.ReservedGroupId.HasValue,
+                        Name = $"f{ticket.FloorSeat.Floor.DisplayOrder}_r{ticket.FloorSeat.Seat.Row}_c{ticket.FloorSeat.Seat.Column}",
+                        Price = ticket.Price,
+                        ReservedGroupId = ticket.ReservedGroupId,
+                        SeatId = ticket.FloorSeat.SeatId
+
+                    });
+                }
+
+
+                result.Events.Items.Add(eventDto);
+
+            }
+
+
+
+            return result;
         }
         public async Task<glbCreationConcertDto> CreateConcert(glbCreationConcertDto dto)
         {

@@ -4,6 +4,31 @@
         <name>WebAPI</name>
     </assembly>
     <members>
+        <member name="M:WebAPI.Controllers.ManagerController.GetAllRelatedConcerts(System.Int32,System.Int32)">
+            <summary>
+            گرفتن کنتسرهای مرتبط با کاربر
+            کاربر مدیر مکان برگزاری
+            </summary>
+            <param name="pageSize"></param>
+            <param name="currentPage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.ManagerController.CreateConcert(Entities.DataTransferObjects.FilesDto,System.String)">
+            <summary>
+            ایجاد کنسرت
+            </summary>
+            <param name="Files"></param>
+            <param name="Concert"></param>
+            <returns></returns>
+            <exception cref="T:Entities.Exceptions.NoImageAndPoster"></exception>
+        </member>
+        <member name="M:WebAPI.Controllers.ManagerController.GetConcertWithDetails(System.Guid)">
+            <summary>
+            اطلاعات کنسرت برای ویرایش
+            </summary>
+            <param name="ConcertId"></param>
+            <returns></returns>
+        </member>
         <member name="M:WebAPI.Controllers.PlaceController.GetAllPlaces">
             <summary>
             گرفتن تمامی مکان های برگزاری

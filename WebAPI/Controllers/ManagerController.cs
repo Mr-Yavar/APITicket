@@ -29,7 +29,13 @@ namespace WebAPI.Controllers
             return Ok(_concertService.GetAllConcerts(pageSize,currentPage));
         }
 
-
+        /// <summary>
+        /// گرفتن کنتسرهای مرتبط با کاربر
+        /// کاربر مدیر مکان برگزاری
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="currentPage"></param>
+        /// <returns></returns>
         [HttpGet("[action]/{pageSize}/{currentPage}")]
         public async Task<IActionResult> GetAllRelatedConcerts(int pageSize, int currentPage)
         {
@@ -37,6 +43,13 @@ namespace WebAPI.Controllers
             return Ok(_concertService.GetAllConcerts(pageSize, currentPage));
         }
 
+        /// <summary>
+        /// ایجاد کنسرت
+        /// </summary>
+        /// <param name="Files"></param>
+        /// <param name="Concert"></param>
+        /// <returns></returns>
+        /// <exception cref="NoImageAndPoster"></exception>
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateConcert([FromForm] FilesDto Files, [FromForm] String Concert)
         {
@@ -72,6 +85,18 @@ namespace WebAPI.Controllers
             await _concertService.CreateConcert(dto);
 
             return BadRequest();
+        }
+
+
+        /// <summary>
+        /// اطلاعات کنسرت برای ویرایش
+        /// </summary>
+        /// <param name="ConcertId"></param>
+        /// <returns></returns>
+        [HttpGet("[action]/{ConcertId}")]
+        public async Task<IActionResult> GetConcertWithDetails(Guid ConcertId)
+        {
+            return Ok(await _concertService.GetConcert(ConcertId));
         }
     }
 }
