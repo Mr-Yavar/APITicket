@@ -211,7 +211,115 @@ namespace Services.Services
         }
 
 
+        /**
+               public async Task<glbCreationConcertDto> GetConcert(Guid ConcertId)
+        {
 
+            var concert = await _context.Concerts.Where(x => x.Id == ConcertId)
+                //.Include(x=>x.Promoter)
+                //  .Include(x=>x.Category)
+                .Include(x => x.Events)
+                .ThenInclude(x => x.Hall)
+                .Include(x => x.Events)
+                .ThenInclude(x => x.Tickets)
+                .ThenInclude(x => x.FloorSeat.Seat)
+                .Include(x => x.Events)
+                .ThenInclude(x => x.Tickets)
+                .ThenInclude(x => x.FloorSeat.Floor).AsNoTracking().FirstOrDefaultAsync();
+
+            var floorSeats = await _context.Halls.Where(x=>x.PlaceId==concert.PlaceId).Include(x=>x.Floors).ThenInclude(x=>x.FloorSeats).ThenInclude(x=>x.Floor).ThenInclude(x=>x.FloorSeats).ThenInclude(x=>x.Seat).AsNoTracking().ToListAsync();
+
+
+            var result = new glbCreationConcertDto()
+            {
+                CategoryId = concert.CategoryId,
+                ConcertId = concert.Id,
+                // Category = concert.Category.Title,
+                img_Url = concert.img_url,
+                EndDate = concert.EndDate,
+                Note = concert.Note,
+                Title = concert.Title,
+                poster = concert.poster,
+                PromoterId = concert.PromoterId,
+                PlaceId = concert.PlaceId,
+                StartDate = concert.StartDate,
+                isEnded = concert.EndDate <= DateTime.Now,
+                Events = new()
+                {
+                    ItemDescription = "concertInfo",
+                    Items = new(),
+                    ItemTitle = "concert:" + Guid.NewGuid().ToString()
+                }
+            };
+
+            foreach (var item in concert.Events)
+            {
+                var eventDto = (new glbCreationEventDto()
+                {
+                    EndSaleDate = item.EndSaleDate,
+                    EventId = item.Id,
+                    HallId = item.HallId,
+                    SeatsInfo = new()
+                    {
+                        Items = new()
+                    },
+                    ExecutionDate = item.ExecutionDate,
+                    StartSaleDate = item.StartSaleDate,
+                });
+
+
+                foreach (var hall_Floor in floorSeats.First(x => x.Id == eventDto.HallId).Floors)
+                {
+                    foreach(var floorSeat in hall_Floor.FloorSeats)
+                    {
+
+                        var ticket = item.Tickets.FirstOrDefault(x => x.FloorSeatId == floorSeat.Id);
+                    eventDto.SeatsInfo.Items.Add(new()
+                    {
+                        EventId = ticket!=null ? ticket.EventId : Guid.Empty,
+                        Id = ticket != null ?  ticket.Id : Guid.Empty,
+                        FloorSeatId = ticket != null ? ticket.FloorSeatId  : floorSeat.Id,
+                        isReserved = ticket != null ? ticket.ReservedGroupId.HasValue : false,
+                        Name = ticket != null ? $"f{ticket.FloorSeat.Floor.DisplayOrder}_r{ticket.FloorSeat.Seat.Row}_c{ticket.FloorSeat.Seat.Column}" : $"f{floorSeat.Floor.DisplayOrder}_r{floorSeat.Seat.Row}_c{floorSeat.Seat.Column}",
+                        Price = ticket != null ? ticket.Price : 0,
+                        ReservedGroupId = ticket != null ? ticket.ReservedGroupId : null,
+                        SeatId = ticket != null ? ticket.FloorSeat.SeatId :floorSeat.SeatId,
+
+                    });
+
+                    }   
+                  
+                }
+
+                //foreach (var ticket in item.Tickets)
+                //{
+                //    eventDto.SeatsInfo.Items.Add(new()
+                //    {
+                //        EventId = ticket.EventId,
+                //        Id = ticket.Id,
+                //        FloorSeatId = ticket.FloorSeatId,
+                //        isReserved = ticket.ReservedGroupId.HasValue,
+                //        Name = $"f{ticket.FloorSeat.Floor.DisplayOrder}_r{ticket.FloorSeat.Seat.Row}_c{ticket.FloorSeat.Seat.Column}",
+                //        Price = ticket.Price,
+                //        ReservedGroupId = ticket.ReservedGroupId,
+                //        SeatId = ticket.FloorSeat.SeatId
+
+                //    });
+
+
+                //}
+
+
+                result.Events.Items.Add(eventDto);
+
+            }
+
+
+
+            return result;
+        }
+
+         */
 
 
         public async Task<glbCreationConcertDto> GetConcert(Guid ConcertId)
@@ -315,12 +423,11 @@ namespace Services.Services
 
             _repositoryManager.IConcertRepository.Update(Concert);
 
-            var EventsDto = await _repositoryManager.IEventRepository.FindByCondition(x => x.ConcertId == Concert.Id, false).Include(x => x.Tickets).ThenInclude(x => x.FloorSeat.Floor)
+            var EventsDto = await _repositoryManager.IEventRepository.FindByCondition(x => x.ConcertId == Concert.Id, true).Include(x => x.Tickets).ThenInclude(x => x.FloorSeat.Floor)
                  .Include(x => x.Tickets).ThenInclude(x => x.FloorSeat.Seat).ToListAsync();
 
-            var HallSeatItems = await _repositoryManager.IHallRepository.FindByCondition(x => x.PlaceId == Concert.PlaceId, false).Include(x => x.Floors).ThenInclude(x => x.FloorSeats)
-                 .ThenInclude(x => x.Seat).AsNoTracking().ToListAsync();
 
+            var JustEventsDto =  _repositoryManager.IEventRepository.FindByCondition(x => x.ConcertId == Concert.Id, true).ToList();
 
             dto.Events.Items.ForEach(eventItem =>
             {
@@ -328,24 +435,22 @@ namespace Services.Services
 
                 if (eventItem.EventId.HasValue)
                 {
-                    var eventModel = EventsDto.FirstOrDefault(x => x.Id == eventItem.EventId.Value);
-                    eventModel.StartSaleDate = eventModel.StartSaleDate;
-                    eventModel.EndSaleDate = eventModel.EndSaleDate;
-                    eventModel.ExecutionDate = eventModel.ExecutionDate;
+                    var eventModel = JustEventsDto.FirstOrDefault(x => x.Id == eventItem.EventId.Value);
+                    eventModel.StartSaleDate = eventItem.StartSaleDate;
+                    eventModel.EndSaleDate = eventItem.EndSaleDate;
+                    eventModel.ExecutionDate = eventItem.ExecutionDate;
 
-
+             
                     eventItem.SeatsInfo.Items.ForEach(seat =>
                     {
                         if (seat.Price <= 0)
                             return;
 
-
-                        if (Guid.Empty == seat.EventId)
+                        
+                        if (Guid.Empty == seat.Id)
                         {
 
-
-
-                            _repositoryManager.ITicketRepository.Create(new Ticket()
+                            _context.Tickets.Add(new Ticket()
                             {
                                 CreatedDate = DateTime.Now,
                                 EventId = eventModel.Id,
@@ -357,21 +462,22 @@ namespace Services.Services
                         }
                         else
                         {
-                            var ticket = eventModel.Tickets.FirstOrDefault(x => x.Id == seat.Id);
+                            var ticket = EventsDto.FirstOrDefault(x => x.Id == eventItem.EventId.Value).Tickets.FirstOrDefault(x => x.Id == seat.Id);
                             if (ticket != null && !ticket.ReservedGroupId.HasValue)
                             {
                                 ticket.Price = seat.Price;
-                                _repositoryManager.ITicketRepository.Update(ticket);
+                         
                             }
-
+                            _context.Tickets.Update(ticket);
                         }
 
+                        
 
 
                     });
+                    _context.SaveChanges();
 
 
-                    eventModel.Tickets.Clear();
                     _repositoryManager.IEventRepository.Update(eventModel);
                 }
                 else
@@ -418,6 +524,8 @@ namespace Services.Services
 
             });
 
+
+            _repositoryManager.Save();
 
             return default;
 

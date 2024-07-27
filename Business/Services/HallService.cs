@@ -77,7 +77,7 @@ namespace Services.Services
                     {
                         floorInfo.SeatsInfo.Items.Add(new()
                         {
-                            Id = floorSeat.SeatId,
+                            SeatId = floorSeat.SeatId,
                             FloorSeatId = floorSeat.Id,
                             Name = $"f{floorInfo.DisplayOrder}_r{floorSeat.Seat.Row}_c{floorSeat.Seat.Column}",
 

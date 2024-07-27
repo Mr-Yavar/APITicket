@@ -124,7 +124,7 @@ namespace Entities.DataTransferObjects
 
     public class GlbCreationHallDto
     {
-        public Guid id { get; set; }
+        public Guid? id { get; set; }
         public string Title { get; set; }
 
         public Guid PlaceId { get; set; }

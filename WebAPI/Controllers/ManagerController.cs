@@ -97,7 +97,7 @@ namespace WebAPI.Controllers
         /// <param name="Concert"></param>
         /// <returns></returns>
         /// <exception cref="NoImageAndPoster"></exception>
-        [HttpPost("[action]")]
+        [HttpPatch("[action]")]
         public async Task<IActionResult> UpdateConcert([FromForm] FilesDto Files, [FromForm] String Concert)
         {
 
@@ -129,7 +129,7 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
 
-            await _concertService.CreateConcert(dto);
+            await _concertService.UpdateConcert(dto);
 
             return BadRequest();
         }
