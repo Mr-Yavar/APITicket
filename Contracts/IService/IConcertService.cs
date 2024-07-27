@@ -22,7 +22,7 @@ namespace Contracts.IService
         /// <returns></returns>
         glbConcertsDto GetAllConcerts(int pageSize, int currentPage);
 
-
+        Task<glbCreationConcertDto> UpdateConcert(glbCreationConcertDto dto);
          Task<glbCreationConcertDto> GetConcert(Guid ConcertId);
          Task<glbCreationConcertDto> CreateConcert(glbCreationConcertDto dto);
 

@@ -22,6 +22,16 @@
             <returns></returns>
             <exception cref="T:Entities.Exceptions.NoImageAndPoster"></exception>
         </member>
+        <member name="M:WebAPI.Controllers.ManagerController.UpdateConcert(Entities.DataTransferObjects.FilesDto,System.String)">
+            
+            <summary>
+            ایجاد کنسرت
+            </summary>
+            <param name="Files"></param>
+            <param name="Concert"></param>
+            <returns></returns>
+            <exception cref="T:Entities.Exceptions.NoImageAndPoster"></exception>
+        </member>
         <member name="M:WebAPI.Controllers.ManagerController.GetConcertWithDetails(System.Guid)">
             <summary>
             اطلاعات کنسرت برای ویرایش

@@ -87,6 +87,54 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
+        ///
+
+
+        /// <summary>
+        /// ایجاد کنسرت
+        /// </summary>
+        /// <param name="Files"></param>
+        /// <param name="Concert"></param>
+        /// <returns></returns>
+        /// <exception cref="NoImageAndPoster"></exception>
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UpdateConcert([FromForm] FilesDto Files, [FromForm] String Concert)
+        {
+
+            glbCreationConcertDto dto = System.Text.Json.JsonSerializer.Deserialize<glbCreationConcertDto>(Concert, new System.Text.Json.JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            }) ?? new();
+
+            try
+            {
+
+                var file = Files.Files.FirstOrDefault(x => x.Key.ToLower() == "img_url");
+
+                if (file != null && file.File != null)
+                    dto.img_Url = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                else
+                    dto.img_Url = null;
+
+                file = Files.Files.FirstOrDefault(x => x.Key.ToLower() == "poster");
+
+                if (file != null && file.File != null)
+                    dto.poster = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                else
+                    dto.poster = null;
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            await _concertService.CreateConcert(dto);
+
+            return BadRequest();
+        }
+
+
 
         /// <summary>
         /// اطلاعات کنسرت برای ویرایش
