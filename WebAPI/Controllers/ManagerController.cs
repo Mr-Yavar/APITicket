@@ -79,12 +79,12 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
 
             await _concertService.CreateConcert(dto);
-
-            return BadRequest();
+            return Ok(new { message = "successfull" });
+            
         }
 
         ///
@@ -126,12 +126,12 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
 
             await _concertService.UpdateConcert(dto);
 
-            return BadRequest();
+            return Ok(new {message = "successfull"});
         }
 
 

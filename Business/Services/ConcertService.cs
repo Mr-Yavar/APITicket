@@ -44,7 +44,7 @@ namespace Services.Services
 
 
             _repositoryManager.IConcertRepository.FindAll(false)
-                .Skip(((currentPage - 1) * pageSize)).Take(currentPage).Include(x => x.Category).Include(x => x.Place).ToList().ForEach(concert =>
+                .Skip(((currentPage - 1) * pageSize)).Take(pageSize).Include(x => x.Category).Include(x => x.Place).ToList().ForEach(concert =>
             {
 
                 concerts.Concerts.Add(new()
@@ -371,7 +371,7 @@ namespace Services.Services
                     HallId = item.HallId,
                     SeatsInfo = new()
                     {
-                        Items = new()
+
                     },
                     ExecutionDate = item.ExecutionDate,
                     StartSaleDate = item.StartSaleDate,
@@ -380,18 +380,47 @@ namespace Services.Services
 
                 foreach (var ticket in item.Tickets)
                 {
-                    eventDto.SeatsInfo.Items.Add(new()
-                    {
-                        EventId = ticket.EventId,
-                        Id = ticket.Id,
-                        FloorSeatId = ticket.FloorSeatId,
-                        isReserved = ticket.ReservedGroupId.HasValue,
-                        Name = $"f{ticket.FloorSeat.Floor.DisplayOrder}_r{ticket.FloorSeat.Seat.Row}_c{ticket.FloorSeat.Seat.Column}",
-                        Price = ticket.Price,
-                        ReservedGroupId = ticket.ReservedGroupId,
-                        SeatId = ticket.FloorSeat.SeatId
 
-                    });
+                    if (eventDto.SeatsInfo.TryGetValue(ticket.FloorSeat.Floor.DisplayOrder, out var SeatsInfo))
+                    {
+                        SeatsInfo.Add(new()
+                        {
+                            EventId = ticket.EventId,
+                            Id = ticket.Id,
+                            FloorSeatId = ticket.FloorSeatId,
+                            isReserved = ticket.ReservedGroupId.HasValue,
+                            Name = $"f{ticket.FloorSeat.Floor.DisplayOrder}_r{ticket.FloorSeat.Seat.Row}_c{ticket.FloorSeat.Seat.Column}",
+                            Price = ticket.Price,
+                            ReservedGroupId = ticket.ReservedGroupId,
+                            SeatId = ticket.FloorSeat.SeatId
+
+                        });
+                    }
+                    else
+                    {
+                        eventDto.SeatsInfo.Add(ticket.FloorSeat.Floor.DisplayOrder, new()
+                        {
+                             new()
+                            {
+                                EventId = ticket.EventId,
+                                Id = ticket.Id,
+                                FloorSeatId = ticket.FloorSeatId,
+                                isReserved = ticket.ReservedGroupId.HasValue,
+                                Name = $"f{ticket.FloorSeat.Floor.DisplayOrder}_r{ticket.FloorSeat.Seat.Row}_c{ticket.FloorSeat.Seat.Column}",
+                                Price = ticket.Price,
+                                ReservedGroupId = ticket.ReservedGroupId,
+                                SeatId = ticket.FloorSeat.SeatId
+
+                            }
+                        });
+
+                    }
+
+
+
+
+
+
                 }
 
 
@@ -403,6 +432,8 @@ namespace Services.Services
 
             return result;
         }
+
+
 
 
         public async Task<glbCreationConcertDto> UpdateConcert(glbCreationConcertDto dto)
@@ -427,58 +458,76 @@ namespace Services.Services
                  .Include(x => x.Tickets).ThenInclude(x => x.FloorSeat.Seat).ToListAsync();
 
 
-            var JustEventsDto =  _repositoryManager.IEventRepository.FindByCondition(x => x.ConcertId == Concert.Id, true).ToList();
-
-            dto.Events.Items.ForEach(eventItem =>
+            ///    var JustEventsDto = _repositoryManager.IEventRepository.FindByCondition(x => x.ConcertId == Concert.Id, true).ToList();
+            foreach (var eventItem in dto.Events.Items)
             {
-
-
+                
                 if (eventItem.EventId.HasValue)
                 {
-                    var eventModel = JustEventsDto.FirstOrDefault(x => x.Id == eventItem.EventId.Value);
+                    var eventModel = EventsDto.FirstOrDefault(x => x.Id == eventItem.EventId.Value);
                     eventModel.StartSaleDate = eventItem.StartSaleDate;
                     eventModel.EndSaleDate = eventItem.EndSaleDate;
                     eventModel.ExecutionDate = eventItem.ExecutionDate;
 
-             
-                    eventItem.SeatsInfo.Items.ForEach(seat =>
+                    foreach (var FloorIndex in eventItem.SeatsInfo.Keys)
                     {
-                        if (seat.Price <= 0)
-                            return;
-
                         
-                        if (Guid.Empty == seat.Id)
+                   
+
+                        var SeatsInfo = eventItem.SeatsInfo[FloorIndex];
+                        foreach (var seat in SeatsInfo)
                         {
 
-                            _context.Tickets.Add(new Ticket()
+
+                          
+
+
+                            if (Guid.Empty == seat.Id)
                             {
-                                CreatedDate = DateTime.Now,
-                                EventId = eventModel.Id,
-                                FloorSeatId = seat.FloorSeatId,
-                                Id = Guid.NewGuid(),
-                                ReservedGroupId = null,
-                                Price = seat.Price,
-                            });
-                        }
-                        else
-                        {
-                            var ticket = EventsDto.FirstOrDefault(x => x.Id == eventItem.EventId.Value).Tickets.FirstOrDefault(x => x.Id == seat.Id);
-                            if (ticket != null && !ticket.ReservedGroupId.HasValue)
-                            {
-                                ticket.Price = seat.Price;
-                         
+                                if (seat.Price <= 0)
+                                    continue;
+                                _context.Tickets.Add(new Ticket()
+                                {
+                                    CreatedDate = DateTime.Now,
+                                    EventId = eventModel.Id,
+                                    FloorSeatId = seat.FloorSeatId,
+                                    Id = Guid.NewGuid(),
+                                    ReservedGroupId = null,
+                                    Price = seat.Price,
+                                });
                             }
-                            _context.Tickets.Update(ticket);
+                            else
+                            {
+                                var ticket = EventsDto.FirstOrDefault(x => x.Id == eventItem.EventId.Value)?.Tickets.FirstOrDefault(x => x.Id == seat.Id) ?? null;
+                                if (ticket == null)
+                                    continue;
+
+                                if (seat.Price <= 0)
+                                {
+                                    _context.Tickets.Remove(ticket);
+                                    continue;
+                                }
+                                   
+
+                                if (ticket != null && !ticket.ReservedGroupId.HasValue)
+                                {
+                                    ticket.Price = seat.Price;
+
+                                }
+                                
+
+
+
+                            }
+
+
+
                         }
-
-                        
-
-
-                    });
-                    _context.SaveChanges();
+                    }
 
 
-                    _repositoryManager.IEventRepository.Update(eventModel);
+
+                     _context.Events.Update(eventModel);
                 }
                 else
                 {
@@ -495,26 +544,31 @@ namespace Services.Services
                     };
 
 
-
-
-                    foreach (var seat in eventItem.SeatsInfo.Items)
+                    eventItem.SeatsInfo.Keys.ToList().ForEach(FloorIndex =>
                     {
-                        if (seat.Price != null && seat.Price > 0)
+
+                        var SeatsInfo = eventItem.SeatsInfo[FloorIndex];
+                        foreach (var seat in SeatsInfo)
                         {
-                            eventModel.Tickets.Add(new Ticket()
+                            if (seat.Price != null && seat.Price > 0)
                             {
-                                CreatedDate = DateTime.Now,
-                                EventId = eventModel.Id,
-                                FloorSeatId = seat.FloorSeatId,
-                                Id = Guid.NewGuid(),
-                                ReservedGroupId = null,
-                                Price = seat.Price,
-                            });
+                                eventModel.Tickets.Add(new Ticket()
+                                {
+                                    CreatedDate = DateTime.Now,
+                                    EventId = eventModel.Id,
+                                    FloorSeatId = seat.FloorSeatId,
+                                    Id = Guid.NewGuid(),
+                                    ReservedGroupId = null,
+                                    Price = seat.Price,
+                                });
+                            }
+
+
                         }
+                    });
 
 
-                    }
-                    _repositoryManager.IEventRepository.Create(eventModel);
+                   await _context.Events.AddAsync(eventModel);
 
                 }
 
@@ -522,10 +576,10 @@ namespace Services.Services
 
 
 
-            });
+            }
 
 
-            _repositoryManager.Save();
+            _repositoryManager.IEventRepository.SaveChanges();
 
             return default;
 
@@ -569,36 +623,40 @@ namespace Services.Services
 
 
 
-
-                foreach (var seat in eventItem.SeatsInfo.Items)
+                eventItem.SeatsInfo.Keys.ToList().ForEach(FloorIndex =>
                 {
-                    if (seat.Price != null && seat.Price > 0)
+
+                    var SeatsInfo = eventItem.SeatsInfo[FloorIndex];
+
+                    foreach (var seat in SeatsInfo)
                     {
-                        eventModel.Tickets.Add(new Ticket()
+                        if (seat.Price != null && seat.Price > 0)
                         {
-                            CreatedDate = DateTime.Now,
-                            EventId = eventModel.Id,
-                            FloorSeatId = seat.FloorSeatId,
-                            Id = Guid.NewGuid(),
-                            ReservedGroupId = null,
-                            Price = seat.Price,
-                        });
+                            eventModel.Tickets.Add(new Ticket()
+                            {
+                                CreatedDate = DateTime.Now,
+                                EventId = eventModel.Id,
+                                FloorSeatId = seat.FloorSeatId,
+                                Id = Guid.NewGuid(),
+                                ReservedGroupId = null,
+                                Price = seat.Price,
+                            });
+                        }
+
+
                     }
+                    concert.Events.Add(eventModel);
 
+                });
 
-                }
-                concert.Events.Add(eventModel);
+                _repositoryManager.IConcertRepository.Create(concert);
+                _repositoryManager.Save();
+            }
+                return default;
 
             }
 
-            _repositoryManager.IConcertRepository.Create(concert);
-            _repositoryManager.Save();
 
-            return default;
 
         }
-
-
-
     }
-}

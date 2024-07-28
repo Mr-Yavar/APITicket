@@ -183,7 +183,7 @@ namespace Entities.DataTransferObjects
 
         public DateTime ExecutionDate { get; set; }
 
-        public KeyItemsDto<SeatInfo> SeatsInfo { get; set; }
+        public Dictionary<int,List<SeatInfo>> SeatsInfo { get; set; }
 
     }
 
