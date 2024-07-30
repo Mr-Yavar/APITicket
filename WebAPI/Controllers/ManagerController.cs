@@ -15,11 +15,13 @@ namespace WebAPI.Controllers
         public IConcertService _concertService { get; set; }
         private IPlaceService _placeService;
         private IHallService _hallService;
-        public ManagerController(IPlaceService placeService, IHallService hallService, IConcertService concertService)
+        private IAttachmentsService _attachmentsService;
+        public ManagerController(IPlaceService placeService, IHallService hallService, IConcertService concertService,IAttachmentsService attachments)
         {
             _placeService = placeService;
             _concertService = concertService;
             _hallService = hallService;
+            _attachmentsService = attachments;
         }
 
         [HttpGet("[action]/{pageSize}/{currentPage}")]
@@ -58,21 +60,28 @@ namespace WebAPI.Controllers
             {
                 PropertyNameCaseInsensitive = true
             }) ?? new();
-
+            dto.ConcertId = Guid.NewGuid();
             try
             {
 
                 var file = Files.Files.FirstOrDefault(x => x.Key.ToLower() == "img_url");
 
                 if (file != null && file.File != null)
-                    dto.img_Url = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                {
+                    string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                    dto.img_Url = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Event],file.File.ContentType, dto.ConcertId.Value);
+                }
                 else
-                   throw new NoImageAndPoster();
+                    throw new NoImageAndPoster();
 
                  file = Files.Files.FirstOrDefault(x => x.Key.ToLower() == "poster");
 
                 if (file != null && file.File != null)
-                    dto.poster = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                {
+                    string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                    dto.poster = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Event], file.File.ContentType, dto.ConcertId.Value);
+                    
+                }
                 else
                     throw new NoImageAndPoster();
 
@@ -112,14 +121,20 @@ namespace WebAPI.Controllers
                 var file = Files.Files.FirstOrDefault(x => x.Key.ToLower() == "img_url");
 
                 if (file != null && file.File != null)
-                    dto.img_Url = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                {
+                    string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                    dto.img_Url = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Event], file.File.ContentType, dto.ConcertId.Value);
+                }
                 else
                     dto.img_Url = null;
 
                 file = Files.Files.FirstOrDefault(x => x.Key.ToLower() == "poster");
 
                 if (file != null && file.File != null)
-                    dto.poster = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                {
+                    string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Event]);
+                    dto.poster = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Event], file.File.ContentType, dto.ConcertId.Value);
+                }
                 else
                     dto.poster = null;
 

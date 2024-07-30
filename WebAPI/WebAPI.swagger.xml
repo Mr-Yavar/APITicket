@@ -303,5 +303,29 @@
         <member name="M:WebAPI.Migrations.latlngplaces.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:WebAPI.Migrations.Dynparams">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.Dynparams.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.Dynparams.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.Dynparams.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.Attachments">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.Attachments.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.Attachments.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.Attachments.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

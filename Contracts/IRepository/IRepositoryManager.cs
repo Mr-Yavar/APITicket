@@ -19,6 +19,10 @@ namespace Contracts.IRepository
         IPlaceRepository IPlaceRepository { get; }
         IFloorRepository IFloorRepository { get; }
         IFloorSeatRepository IFloorSeatRepository { get; }
+
+
+        IDynParametersRepository IDynParametersRepository { get; }
+        IAttachmentsRepository IAttachmentsRepository { get; }
         void Save();
     }
 }

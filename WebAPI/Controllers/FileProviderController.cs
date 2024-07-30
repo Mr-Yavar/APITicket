@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Contracts.IService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
@@ -13,9 +14,11 @@ namespace WebAPI.Controllers
     {
         string MediaFolder { get; set; }
         IConfiguration _configuration;
-        public FileProviderController( IConfiguration _configuration):base(){
+        private IAttachmentsService attachments;
+        public FileProviderController( IConfiguration _configuration, IAttachmentsService attach) :base(){
 
             MediaFolder = _configuration.GetSection("Configuration:Media").Value;
+            attachments = attach;
         
         }
 
@@ -33,12 +36,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("File")]
-        public async Task<IActionResult> GetFile2(string fileName)
+        public async Task<IActionResult> GetFile2(Guid FileId)
         {
-            fileName = Uri.UnescapeDataString(fileName);
-            var content = await System.IO.File.ReadAllBytesAsync(Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + MediaFolder + Path.DirectorySeparatorChar + fileName);
-            new FileExtensionContentTypeProvider().TryGetContentType(fileName, out string contentType);
-            return File(content, contentType, fileName);
+            var attach =await attachments.GetFromStore(FileId);
+          
+            var content = await System.IO.File.ReadAllBytesAsync(Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + MediaFolder + Path.DirectorySeparatorChar + attach.FileCategory + Path.DirectorySeparatorChar + attach.FileName);
+            new FileExtensionContentTypeProvider().TryGetContentType(attach.FileName, out string contentType);
+            return File(content, contentType, attach.FileName);
 
 
         }

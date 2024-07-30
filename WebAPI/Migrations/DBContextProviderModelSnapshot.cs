@@ -22,6 +22,35 @@ namespace WebAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Entities.Models.Attachments", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileCategory")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ObjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Attachments");
+                });
+
             modelBuilder.Entity("Entities.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -79,12 +108,6 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("lat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("lng")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("poster")
                         .HasColumnType("nvarchar(max)");
 
@@ -97,6 +120,33 @@ namespace WebAPI.Migrations
                     b.HasIndex("PromoterId");
 
                     b.ToTable("Concerts");
+                });
+
+            modelBuilder.Entity("Entities.Models.DynParameters", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("DynParameters");
                 });
 
             modelBuilder.Entity("Entities.Models.Event", b =>
@@ -613,6 +663,15 @@ namespace WebAPI.Migrations
                     b.Navigation("Promoter");
                 });
 
+            modelBuilder.Entity("Entities.Models.DynParameters", b =>
+                {
+                    b.HasOne("Entities.Models.DynParameters", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("Entities.Models.Event", b =>
                 {
                     b.HasOne("Entities.Models.Concert", "Concert")
@@ -764,6 +823,11 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("Entities.Models.Concert", b =>
                 {
                     b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("Entities.Models.DynParameters", b =>
+                {
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("Entities.Models.Event", b =>

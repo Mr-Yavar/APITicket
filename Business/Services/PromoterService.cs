@@ -49,7 +49,7 @@ namespace Services.Services
             return false;
 
            var p =  _mapper.Map< Promoter>(dto);
-            p.Id = Guid.NewGuid();
+          
            
             _repositoryManager.IPromoterRepository.Create(p);
             _repositoryManager.IPromoterRepository.SaveChanges();

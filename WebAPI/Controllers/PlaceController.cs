@@ -3,6 +3,7 @@ using Entities.DataTransferObjects;
 using Entities.Enum;
 using Entities.Exceptions;
 using Entities.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services;
@@ -17,10 +18,13 @@ namespace WebAPI.Controllers
 
         private IPlaceService _placeService;
         private IHallService _hallService;
-        public PlaceController(IPlaceService placeService, IHallService hallService)
+        private IAttachmentsService _attachmentsService;
+        public PlaceController(IPlaceService placeService, IHallService hallService, IAttachmentsService attachments)
         {
             _placeService = placeService;
             _hallService = hallService;
+            _attachmentsService = attachments;
+
         }
 
         /// <summary>
@@ -55,10 +59,14 @@ namespace WebAPI.Controllers
         {
 
             PlaceDto dto = System.Text.Json.JsonSerializer.Deserialize<PlaceDto>(Place);
+            dto.Id = Guid.NewGuid();
             try
             {
                 if (Files != null && Files.File != null)
-                    dto.img_Url = await FileHelper.SaveFileAsync(Files.File, FileType.FileTypes[FileTypeEnum.Place]);
+                {
+                    string tempName = await FileHelper.SaveFileAsync(Files.File, FileType.FileTypes[FileTypeEnum.Place]);
+                    dto.img_Url =await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Place],Files.File.ContentType, dto.Id);
+                }
 
             }
             catch (Exception ex)
@@ -85,7 +93,10 @@ namespace WebAPI.Controllers
             try
             {
                 if (Files != null && Files.File != null)
-                    dto.img_Url = await FileHelper.SaveFileAsync(Files.File, FileType.FileTypes[FileTypeEnum.Place]);
+                {
+                    string tempName = await FileHelper.SaveFileAsync(Files.File, FileType.FileTypes[FileTypeEnum.Place]);
+                    dto.img_Url = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Place], Files.File.ContentType, dto.Id);
+                }
 
             }
             catch (Exception ex)
@@ -143,17 +154,26 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> CreateHall([FromForm] FilesDto Files, [FromForm] String Hall)
         {
             GlbCreationHallDto glbCreationHallDto = System.Text.Json.JsonSerializer.Deserialize<GlbCreationHallDto>(Hall);
-
+            glbCreationHallDto.id = Guid.NewGuid();
             foreach (var file in Files.Files)
             {
                 if (file.Key.ToLower() == "hall")
-                    glbCreationHallDto.ImgUrl = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Hall]);
-                else {
-                    var floor= glbCreationHallDto.FloorInfoDtos.FirstOrDefault(x => x.DisplayOrder.ToString() == file.Key);
+                {
+                  
+                    string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Hall]);
+                    glbCreationHallDto.ImgUrl = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Hall], file.File.ContentType, glbCreationHallDto.id.Value);
+
+                }
+                else
+                {
+                    var floor = glbCreationHallDto.FloorInfoDtos.FirstOrDefault(x => x.DisplayOrder.ToString() == file.Key);
                     if (floor is null)
                         continue;
-                    floor.seatMap_url = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.SeatMap]);
+                    floor.floorId = Guid.NewGuid();
+                    string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.SeatMap]);
+                    floor.seatMap_url = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.SeatMap], file.File.ContentType, floor.floorId.Value);
 
+                 
                 } 
             }
 
@@ -174,13 +194,26 @@ namespace WebAPI.Controllers
             foreach (var file in Files.Files)
             {
                 if (file.Key.ToLower() == "hall")
-                    glbCreationHallDto.ImgUrl = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Hall]);
+                {
+                    string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Hall]);
+
+                    glbCreationHallDto.ImgUrl = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Hall], file.File.ContentType, glbCreationHallDto.id.Value);
+                }
                 else
                 {
                     var floor = glbCreationHallDto.FloorInfoDtos.FirstOrDefault(x => x.DisplayOrder.ToString() == file.Key);
                     if (floor is null)
                         continue;
-                    floor.seatMap_url = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.SeatMap]);
+
+                    floor.isDeleted = !floor.floorId.HasValue ;
+
+                    floor.floorId = floor.floorId.HasValue ? floor.floorId : Guid.NewGuid();
+                   
+                    string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.SeatMap]);
+
+                    floor.seatMap_url = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.SeatMap], file.File.ContentType, floor.floorId.Value);
+
+                  
 
                 }
             }

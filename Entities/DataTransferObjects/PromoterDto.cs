@@ -10,7 +10,7 @@ namespace Entities.DataTransferObjects
 {
     public class PromoterDto
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Title { get; set; } = null!;
 

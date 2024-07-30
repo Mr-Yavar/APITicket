@@ -35,6 +35,8 @@ namespace Entities
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<DynParameters> DynParameters { get; set; }
+        public DbSet<Attachments> Attachments {  get; set; } 
 
 
         

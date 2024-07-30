@@ -42,7 +42,7 @@ namespace Services.Services
             return false;
 
            var place =  _mapper.Map< Place>(dto);
-            place.Id = Guid.NewGuid();
+            
            
             _repositoryManager.IPlaceRepository.Create(place);
             _repositoryManager.IPlaceRepository.SaveChanges();

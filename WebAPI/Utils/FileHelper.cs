@@ -33,7 +33,7 @@
                 await file.CopyToAsync(stream);
             }
 
-            return Type + Path.DirectorySeparatorChar + uniqueFileName;
+            return uniqueFileName;
         }
     }
 }

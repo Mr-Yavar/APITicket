@@ -140,10 +140,10 @@ namespace Services.Services
         public async Task<bool> ProcessCreationHall(GlbCreationHallDto dto)
         {
 
-            Guid HallId = Guid.NewGuid();
+            Guid HallId = dto.id.Value;
             Hall hall = new Hall()
             {
-                Id = HallId,
+                Id = dto.id.Value,
                 CreatedDate = DateTime.Now,
                 Description = dto.Description,
                 ImgUrl = dto.ImgUrl,
@@ -158,7 +158,7 @@ namespace Services.Services
 
             foreach (var floor in dto.FloorInfoDtos)
             {
-                Guid floorId = Guid.NewGuid();
+                Guid floorId = floor.floorId.Value;
                 Floor newfloor = new Floor()
                 {
                     Id = floorId,
@@ -218,7 +218,7 @@ namespace Services.Services
 
             Dictionary<Guid, List<int[]>> floorSeat = new();
 
-            foreach (var floor in hall.Floors)
+            foreach (var floor in hall.Floors.Where(x=>!x.IsDeleted).ToList())
             {
 
                 var data = dto.FloorInfoDtos.FirstOrDefault(x => x.floorId == floor.Id);
@@ -271,12 +271,12 @@ namespace Services.Services
 
             foreach (var floor in dto.FloorInfoDtos)
             {
-                if (floor.floorId != null && floor.floorId != Guid.Empty)
+                if (!floor.isDeleted)
                     continue;
 
 
 
-                Guid floorId = new Guid();
+                Guid floorId = floor.floorId.Value;
                 Floor newfloor = new Floor()
                 {
                     Id = floorId,

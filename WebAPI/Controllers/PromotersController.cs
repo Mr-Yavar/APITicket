@@ -15,11 +15,13 @@ namespace WebAPI.Controllers
     {
 
         private IPromoterService _promoterService;
-
-        public PromotersController(IPromoterService promoterService)
+        private IAttachmentsService _attachmentsService;
+        public PromotersController(IPromoterService promoterService,IAttachmentsService attachmentsService)
         {
             _promoterService = promoterService;
-       
+            _attachmentsService = attachmentsService;
+
+
         }
 
         /// <summary>
@@ -55,10 +57,18 @@ namespace WebAPI.Controllers
         {
 
             PromoterDto dto = System.Text.Json.JsonSerializer.Deserialize<PromoterDto>(Promoter);
+            dto.Id = Guid.NewGuid();
             try
             {
                 if (File != null && File.File != null)
-                    dto.img_url = await FileHelper.SaveFileAsync(File.File, FileType.FileTypes[FileTypeEnum.Promoter]);
+                {
+
+                    string tempName = await FileHelper.SaveFileAsync(File.File, FileType.FileTypes[FileTypeEnum.Promoter]);
+
+                    dto.img_url = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Promoter], File.File.ContentType, dto.Id.Value);
+
+                
+                }
 
             }
             catch (Exception ex)
@@ -82,8 +92,12 @@ namespace WebAPI.Controllers
             try
             {
                 if (file != null && file.File != null)
-                    dto.img_url = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Promoter]);
+                {
+                    string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.Promoter]);
 
+                    dto.img_url = await _attachmentsService.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.Promoter], file.File.ContentType, dto.Id.Value);
+                   
+                }
             }
             catch (Exception ex)
             {

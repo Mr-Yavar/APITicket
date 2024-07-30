@@ -1,6 +1,7 @@
 ﻿using Contracts.IRepository;
 using Contracts.IRepository;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Repositories;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ namespace Repositories
         private readonly Lazy<IPlaceRepository> _IPlaceRepository;
         private readonly Lazy<IFloorRepository> _IFloorRepository;
         private readonly Lazy<IFloorSeatRepository> _IFloorSeatRepository;
+        private readonly Lazy<IAttachmentsRepository> _IAttachmentsRepository;
+        private readonly Lazy<IDynParametersRepository> _IDynParametersRepository;
 
         public RepositoryManager(DBContextProvider Context)
         {
@@ -41,7 +44,8 @@ namespace Repositories
             _IPlaceRepository = new Lazy<IPlaceRepository>(() => new PlaceRepository(_context));
             _IFloorRepository = new Lazy<IFloorRepository>(() => new FloorRepository(_context));
             _IFloorSeatRepository = new Lazy<IFloorSeatRepository>(() => new FloorSeatRepository(_context));
-
+            _IAttachmentsRepository = new Lazy<IAttachmentsRepository>(() => new AttachmentsRepository(_context));
+            _IDynParametersRepository = new Lazy<IDynParametersRepository>(() => new DynParametersRepository(_context));
         }
 
 
@@ -67,6 +71,8 @@ namespace Repositories
 
         public IFloorSeatRepository IFloorSeatRepository => _IFloorSeatRepository.Value;
 
+          public IDynParametersRepository IDynParametersRepository => _IDynParametersRepository.Value;
+          public IAttachmentsRepository IAttachmentsRepository => _IAttachmentsRepository.Value;
         public void Save()
         {
             _context.SaveChanges();

@@ -597,7 +597,7 @@ namespace Services.Services
                 CreatedDate = DateTime.Now,
                 EndDate = dto.EndDate,
                 StartDate = dto.StartDate,
-                Id = Guid.NewGuid(),
+                Id =dto.ConcertId.Value,
                 img_url = dto.img_Url,
                 poster = dto.poster,
                 PromoterId = dto.PromoterId,
