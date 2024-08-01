@@ -26,5 +26,8 @@ namespace Contracts.IService
          Task<glbCreationConcertDto> GetConcert(Guid ConcertId);
          Task<glbCreationConcertDto> CreateConcert(glbCreationConcertDto dto);
 
+
+        Task<glbCreationConcertDto> GetConcertByConcertId(Guid ConcertId);
+        Task UpdateConcertInfo(glbCreationConcertDto dto);
     }
 }

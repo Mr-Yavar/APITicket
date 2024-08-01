@@ -10,4 +10,10 @@ public partial class Reservation : ModelBase
 
     public Guid GroupId { get; set; }
 
+    public Guid? DiscountId { get; set; }
+    public Decimal Paid { get; set; }
+
+    public Guid TransactionId { get; set; }
+
+
 }

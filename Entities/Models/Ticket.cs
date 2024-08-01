@@ -14,6 +14,9 @@ public partial class Ticket : ModelBase
 
     public Guid? ReservedGroupId { get; set; }
 
+    public Guid? UserId { get; set; }
+    public DateTime? Expire { get; set; }
+
     public virtual Event Event { get; set; } = null!;
 
     public virtual FloorSeat FloorSeat { get; set; } = null!;

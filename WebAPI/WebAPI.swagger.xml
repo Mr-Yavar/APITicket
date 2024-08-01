@@ -39,6 +39,22 @@
             <param name="ConcertId"></param>
             <returns></returns>
         </member>
+        <member name="M:WebAPI.Controllers.ManagerController.GetConcertInfo(System.Guid)">
+            <summary>
+            اطلاعات کلی کنسرت
+            </summary>
+            <param name="ConcertId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.ManagerController.UpdateConcertInfo(System.String)">
+            <summary>
+             ویرایش اطلاعات کلی کنسرت
+            </summary>
+            <param name="Files"></param>
+            <param name="Concert"></param>
+            <returns></returns>
+            <exception cref="T:Entities.Exceptions.NoImageAndPoster"></exception>
+        </member>
         <member name="M:WebAPI.Controllers.PlaceController.GetAllPlaces">
             <summary>
             گرفتن تمامی مکان های برگزاری

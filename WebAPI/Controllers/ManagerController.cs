@@ -149,8 +149,6 @@ namespace WebAPI.Controllers
             return Ok(new {message = "successfull"});
         }
 
-
-
         /// <summary>
         /// اطلاعات کنسرت برای ویرایش
         /// </summary>
@@ -161,5 +159,42 @@ namespace WebAPI.Controllers
         {
             return Ok(await _concertService.GetConcert(ConcertId));
         }
+
+
+
+        /// <summary>
+        /// اطلاعات کلی کنسرت
+        /// </summary>
+        /// <param name="ConcertId"></param>
+        /// <returns></returns>
+        [HttpGet("[action]/{ConcertId}")]
+        public async Task<IActionResult> GetConcertInfo(Guid ConcertId)
+        {
+            return Ok(await _concertService.GetConcertByConcertId(ConcertId));
+        }
+
+        /// <summary>
+        ///  ویرایش اطلاعات کلی کنسرت
+        /// </summary>
+        /// <param name="Files"></param>
+        /// <param name="Concert"></param>
+        /// <returns></returns>
+        /// <exception cref="NoImageAndPoster"></exception>
+        [HttpPatch("[action]")]
+        public async Task<IActionResult> UpdateConcertInfo( [FromForm] String Concert)
+        {
+
+            glbCreationConcertDto dto = System.Text.Json.JsonSerializer.Deserialize<glbCreationConcertDto>(Concert, new System.Text.Json.JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            }) ?? new();
+
+         
+
+            await _concertService.UpdateConcertInfo(dto);
+
+            return Ok(new { message = "successfull" });
+        }
+
     }
 }

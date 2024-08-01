@@ -1,4 +1,5 @@
 ﻿using Contracts.IService;
+using Entities.DataTransferObjects;
 using Entities.Models;
 using Entities.PolicyTypes;
 using Microsoft.AspNetCore.Authorization;
@@ -46,6 +47,17 @@ namespace WebAPI.Controllers
             var result = concertService.GetSpecificEvent(eventId);
 
             return Ok(result);
+        }
+
+
+        public async Task<IActionResult> AddToResevation([FromBody] TempReservation dto)
+        {
+
+        }
+
+        public async Task<IActionResult> RemoveFromResevation([FromBody] TempReservation dto)
+        {
+
         }
     }
 }

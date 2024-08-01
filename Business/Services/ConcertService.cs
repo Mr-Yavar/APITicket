@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -210,117 +211,53 @@ namespace Services.Services
 
         }
 
-
-        /**
-               public async Task<glbCreationConcertDto> GetConcert(Guid ConcertId)
+        /// <summary>
+        /// صرفا اطلاعات کنسرت
+        /// </summary>
+        /// <returns></returns>
+        public async Task<glbCreationConcertDto> GetConcertByConcertId(Guid ConcertId)
         {
-
-            var concert = await _context.Concerts.Where(x => x.Id == ConcertId)
-                //.Include(x=>x.Promoter)
-                //  .Include(x=>x.Category)
-                .Include(x => x.Events)
-                .ThenInclude(x => x.Hall)
-                .Include(x => x.Events)
-                .ThenInclude(x => x.Tickets)
-                .ThenInclude(x => x.FloorSeat.Seat)
-                .Include(x => x.Events)
-                .ThenInclude(x => x.Tickets)
-                .ThenInclude(x => x.FloorSeat.Floor).AsNoTracking().FirstOrDefaultAsync();
-
-            var floorSeats = await _context.Halls.Where(x=>x.PlaceId==concert.PlaceId).Include(x=>x.Floors).ThenInclude(x=>x.FloorSeats).ThenInclude(x=>x.Floor).ThenInclude(x=>x.FloorSeats).ThenInclude(x=>x.Seat).AsNoTracking().ToListAsync();
-
-
+            var res = await _repositoryManager.IConcertRepository.FindByCondition(x=>x.Id == ConcertId,false).FirstOrDefaultAsync();
             var result = new glbCreationConcertDto()
             {
-                CategoryId = concert.CategoryId,
-                ConcertId = concert.Id,
-                // Category = concert.Category.Title,
-                img_Url = concert.img_url,
-                EndDate = concert.EndDate,
-                Note = concert.Note,
-                Title = concert.Title,
-                poster = concert.poster,
-                PromoterId = concert.PromoterId,
-                PlaceId = concert.PlaceId,
-                StartDate = concert.StartDate,
-                isEnded = concert.EndDate <= DateTime.Now,
-                Events = new()
-                {
-                    ItemDescription = "concertInfo",
-                    Items = new(),
-                    ItemTitle = "concert:" + Guid.NewGuid().ToString()
-                }
+                CategoryId = res.CategoryId,
+                ConcertId = res.Id,
+                img_Url = res.img_url,
+                EndDate = res.EndDate,
+                Note = res.Note,
+                Title = res.Title,
+                poster = res.poster,
+                PromoterId = res.PromoterId,
+                PlaceId = res.PlaceId,
+                StartDate = res.StartDate,
+                isEnded = res.EndDate <= DateTime.Now,
             };
-
-            foreach (var item in concert.Events)
-            {
-                var eventDto = (new glbCreationEventDto()
-                {
-                    EndSaleDate = item.EndSaleDate,
-                    EventId = item.Id,
-                    HallId = item.HallId,
-                    SeatsInfo = new()
-                    {
-                        Items = new()
-                    },
-                    ExecutionDate = item.ExecutionDate,
-                    StartSaleDate = item.StartSaleDate,
-                });
-
-
-                foreach (var hall_Floor in floorSeats.First(x => x.Id == eventDto.HallId).Floors)
-                {
-                    foreach(var floorSeat in hall_Floor.FloorSeats)
-                    {
-
-                        var ticket = item.Tickets.FirstOrDefault(x => x.FloorSeatId == floorSeat.Id);
-                    eventDto.SeatsInfo.Items.Add(new()
-                    {
-                        EventId = ticket!=null ? ticket.EventId : Guid.Empty,
-                        Id = ticket != null ?  ticket.Id : Guid.Empty,
-                        FloorSeatId = ticket != null ? ticket.FloorSeatId  : floorSeat.Id,
-                        isReserved = ticket != null ? ticket.ReservedGroupId.HasValue : false,
-                        Name = ticket != null ? $"f{ticket.FloorSeat.Floor.DisplayOrder}_r{ticket.FloorSeat.Seat.Row}_c{ticket.FloorSeat.Seat.Column}" : $"f{floorSeat.Floor.DisplayOrder}_r{floorSeat.Seat.Row}_c{floorSeat.Seat.Column}",
-                        Price = ticket != null ? ticket.Price : 0,
-                        ReservedGroupId = ticket != null ? ticket.ReservedGroupId : null,
-                        SeatId = ticket != null ? ticket.FloorSeat.SeatId :floorSeat.SeatId,
-
-                    });
-
-                    }   
-                  
-                }
-
-                //foreach (var ticket in item.Tickets)
-                //{
-                //    eventDto.SeatsInfo.Items.Add(new()
-                //    {
-                //        EventId = ticket.EventId,
-                //        Id = ticket.Id,
-                //        FloorSeatId = ticket.FloorSeatId,
-                //        isReserved = ticket.ReservedGroupId.HasValue,
-                //        Name = $"f{ticket.FloorSeat.Floor.DisplayOrder}_r{ticket.FloorSeat.Seat.Row}_c{ticket.FloorSeat.Seat.Column}",
-                //        Price = ticket.Price,
-                //        ReservedGroupId = ticket.ReservedGroupId,
-                //        SeatId = ticket.FloorSeat.SeatId
-
-                //    });
-
-
-                //}
-
-
-                result.Events.Items.Add(eventDto);
-
-            }
-
-
 
             return result;
         }
 
-         */
 
+        public async Task UpdateConcertInfo(glbCreationConcertDto dto)
+        {
+            var Concert = await _repositoryManager.IConcertRepository.FindByCondition(x => x.Id == dto.ConcertId,true).FirstOrDefaultAsync();
+
+            if (Concert == null)
+                return;
+
+
+            Concert.StartDate = dto.StartDate;
+            Concert.EndDate = dto.EndDate;
+           //Concert.CategoryId = dto.CategoryId;
+            //Concert.PromoterId = dto.PromoterId;
+           // Concert.Title = dto.Title;
+           // Concert.Note = dto.Note;
+           // Concert.img_url = dto.img_Url ?? Concert.img_url;
+            //Concert.poster = dto.poster ?? Concert.poster;
+
+
+            _repositoryManager.IConcertRepository.Update(Concert);
+            _repositoryManager.Save();
+        }
 
         public async Task<glbCreationConcertDto> GetConcert(Guid ConcertId)
         {

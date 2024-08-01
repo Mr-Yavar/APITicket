@@ -10,6 +10,18 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
+    public class TempReservation
+    {
+        public Guid ConcertId { get; set; }
+        public List<Guid> TicketIds { get; set; }
+
+            }
+    public class Response
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public List<string > Errors { get; set; }
+    }
     public class glbEventDto
     {
         public List<EventInfoDto> Events { get; set; }
