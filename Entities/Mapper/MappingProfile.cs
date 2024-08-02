@@ -25,6 +25,9 @@ namespace Entities.Mapper
             CreateMap<PromoterDto, Promoter>();
             CreateMap<Promoter, PromoterDto>().ForMember(dest=>dest.CategoryName,opt=>opt.MapFrom(src=>src.Category.Title));
             CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<TransactionDto, Transactions>().ReverseMap();
+            CreateMap<Discount, DiscountDto>().ReverseMap();
+
         }
 
         public void ConfigureCompany()

@@ -1,0 +1,20 @@
+﻿using Entities.DataTransferObjects;
+using Entities.Models;
+using Features.RequestFeatures;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Contracts.IService
+{
+    public interface IDiscountService : IService
+    {
+        Task Add(DiscountDto dto);
+        Task Update(DiscountDto dto);
+        Task<DiscountDto> GetByCode(string Code);
+        Task<DiscountDto> GetById(Guid Id);
+        Task<DiscountDto> ToggleDiscount(Guid Id);
+    }
+}

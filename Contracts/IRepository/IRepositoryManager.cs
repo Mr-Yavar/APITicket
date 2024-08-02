@@ -23,6 +23,10 @@ namespace Contracts.IRepository
 
         IDynParametersRepository IDynParametersRepository { get; }
         IAttachmentsRepository IAttachmentsRepository { get; }
+
+        IDiscountRepository IDiscountRepository { get; }
+        ITransactionRepository ITransactionRepository { get; }
+
         void Save();
     }
 }

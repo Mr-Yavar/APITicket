@@ -23,5 +23,7 @@ namespace Entities.Models
         public override string PhoneNumber { get => base.PhoneNumber; set => base.PhoneNumber = value; }
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
+
+        public ICollection<Reservation> Reservations {  get; set; } 
     }
 }

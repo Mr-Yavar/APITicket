@@ -15,7 +15,19 @@ namespace Entities.DataTransferObjects
         public Guid ConcertId { get; set; }
         public List<Guid> TicketIds { get; set; }
 
-            }
+        public Guid? DiscountId { get; set; }
+
+    }
+
+    public class TempReservationInfo{
+        public Guid ConcertId { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ExpirationDate { get; set; }
+        public List<SeatInfo> Tickets { get; set; }
+        public Decimal Amount { get; set; }
+        
+    }
+
     public class Response
     {
         public string Status { get; set; }
@@ -121,7 +133,7 @@ namespace Entities.DataTransferObjects
         public Guid? ReservedGroupId { get; set; }
 
         public bool isReserved { get; set; }
-
+       
     }
 
 

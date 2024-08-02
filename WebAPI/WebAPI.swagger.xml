@@ -4,6 +4,60 @@
         <name>WebAPI</name>
     </assembly>
     <members>
+        <member name="M:WebAPI.Controllers.AccountController.GetAllUsers">
+            <summary>
+            گرفتن همه کابران
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.AccountController.UpdateUser(Entities.DataTransferObjects.UserUpdateDto)">
+            <summary>
+            بروزرسانی کاربران
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.AccountController.CreateRole(Entities.DataTransferObjects.RoleDto)">
+            <summary>
+            ایجاد نقش جدید
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.AccountController.ListRoles">
+            <summary>
+            گرفتن همه نقش های
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.ConcertsController.GetConcertInfo(System.Guid)">
+            <summary>
+            اطلاعات کلی کنسرت
+            </summary>
+            <param name="ConcertId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.ConcertsController.AddToResevation(Entities.DataTransferObjects.TempReservation)">
+            <summary>
+            زمانی که کاربر به مرحله سوم رفت باید اضافه شود
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.ConcertsController.RemoveFromResevation(Entities.DataTransferObjects.TempReservation)">
+            <summary>
+            زمانی که کاربر از مرحله سوم برمیگردد
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.ConcertsController.GetReservation">
+            <summary>
+            رزرو موقت کاربر
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:WebAPI.Controllers.ManagerController.GetAllRelatedConcerts(System.Int32,System.Int32)">
             <summary>
             گرفتن کنتسرهای مرتبط با کاربر
@@ -341,6 +395,18 @@
             <inheritdoc />
         </member>
         <member name="M:WebAPI.Migrations.Attachments.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.discounttransaction">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.discounttransaction.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.discounttransaction.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.discounttransaction.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

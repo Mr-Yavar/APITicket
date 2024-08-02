@@ -14,7 +14,7 @@ namespace Repositories
     public class RepositoryManager : IRepositoryManager
     {
         private DBContextProvider _context;
-     
+
 
         private readonly Lazy<ICategoryRepository> _ICategoryRepository;
         private readonly Lazy<IEventRepository> _IEventRepository;
@@ -29,6 +29,8 @@ namespace Repositories
         private readonly Lazy<IFloorSeatRepository> _IFloorSeatRepository;
         private readonly Lazy<IAttachmentsRepository> _IAttachmentsRepository;
         private readonly Lazy<IDynParametersRepository> _IDynParametersRepository;
+        private readonly Lazy<IDiscountRepository> _IDiscountRepository;
+        private readonly Lazy<ITransactionRepository> _ITransactionRepository;
 
         public RepositoryManager(DBContextProvider Context)
         {
@@ -46,6 +48,11 @@ namespace Repositories
             _IFloorSeatRepository = new Lazy<IFloorSeatRepository>(() => new FloorSeatRepository(_context));
             _IAttachmentsRepository = new Lazy<IAttachmentsRepository>(() => new AttachmentsRepository(_context));
             _IDynParametersRepository = new Lazy<IDynParametersRepository>(() => new DynParametersRepository(_context));
+
+
+            _IDiscountRepository = new Lazy<IDiscountRepository>(() => new DiscountRepository(_context));
+            _ITransactionRepository = new Lazy<ITransactionRepository>(() => new TransactionRepository(_context));
+
         }
 
 
@@ -71,8 +78,13 @@ namespace Repositories
 
         public IFloorSeatRepository IFloorSeatRepository => _IFloorSeatRepository.Value;
 
-          public IDynParametersRepository IDynParametersRepository => _IDynParametersRepository.Value;
-          public IAttachmentsRepository IAttachmentsRepository => _IAttachmentsRepository.Value;
+        public IDynParametersRepository IDynParametersRepository => _IDynParametersRepository.Value;
+        public IAttachmentsRepository IAttachmentsRepository => _IAttachmentsRepository.Value;
+
+
+        public ITransactionRepository ITransactionRepository => _ITransactionRepository.Value;
+        public IDiscountRepository IDiscountRepository => _IDiscountRepository.Value;
+
         public void Save()
         {
             _context.SaveChanges();

@@ -11,6 +11,10 @@ namespace Contracts.IService
 {
     public interface IReservationService : IService
     {
-        Task<void> 
+        Task<bool> AddTemporaryReservation(Guid UserId, TempReservation dto);
+
+        Task<bool> RemoveTemporaryReservation(Guid UserId, TempReservation dto);
+
+        Task<TempReservationInfo> GetUserReservation(Guid UserId);
     }
 }

@@ -4,6 +4,8 @@ using Entities.Models;
 using Entities.PolicyTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Services;
+using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
@@ -13,10 +15,13 @@ namespace WebAPI.Controllers
     {
 
         public IConcertService concertService { get; set; }
+        private IReservationService _reservationService { get; set; }
 
-        public ConcertsController(IConcertService _concertServic)
+        public ConcertsController(IConcertService _concertServic,IReservationService reservationService)
         { 
         concertService = _concertServic;
+            _reservationService = reservationService;
+
         }
 
         [AllowAnonymous]
@@ -50,14 +55,56 @@ namespace WebAPI.Controllers
         }
 
 
-        public async Task<IActionResult> AddToResevation([FromBody] TempReservation dto)
+        /// <summary>
+        /// اطلاعات کلی کنسرت
+        /// </summary>
+        /// <param name="ConcertId"></param>
+        /// <returns></returns>
+        [HttpGet("[action]/{ConcertId}")]
+        public async Task<IActionResult> GetConcertInfo(Guid ConcertId)
         {
-
+            return Ok(await concertService.GetConcertByConcertId(ConcertId));
         }
 
+
+        /// <summary>
+        /// زمانی که کاربر به مرحله سوم رفت باید اضافه شود
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddToResevation([FromBody] TempReservation dto)
+        {
+            Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
+           return Ok(await _reservationService.AddTemporaryReservation(UserId, dto));
+        }
+
+        /// <summary>
+        /// زمانی که کاربر از مرحله سوم برمیگردد
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("[action]")]
         public async Task<IActionResult> RemoveFromResevation([FromBody] TempReservation dto)
         {
+            Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return Ok(await _reservationService.RemoveTemporaryReservation(UserId, dto));
+        }
 
+
+        /// <summary>
+        /// رزرو موقت کاربر
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("[action]")]
+        public async Task<IActionResult>  GetReservation()
+        {
+            Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return Ok(await _reservationService.GetUserReservation(UserId));
         }
     }
 }

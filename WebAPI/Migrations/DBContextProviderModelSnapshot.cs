@@ -122,6 +122,46 @@ namespace WebAPI.Migrations
                     b.ToTable("Concerts");
                 });
 
+            modelBuilder.Entity("Entities.Models.Discount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("DiscountType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("MaxDiscount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ObjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Percentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discounts");
+                });
+
             modelBuilder.Entity("Entities.Models.DynParameters", b =>
                 {
                     b.Property<Guid>("Id")
@@ -356,13 +396,29 @@ namespace WebAPI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("DiscountId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("GroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Paid")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("TransactionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("DiscountId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Reservations");
                 });
@@ -399,6 +455,9 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("FloorSeatId")
                         .HasColumnType("uniqueidentifier");
 
@@ -408,13 +467,52 @@ namespace WebAPI.Migrations
                     b.Property<Guid?>("ReservedGroupId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
 
                     b.HasIndex("FloorSeatId");
 
+                    b.HasIndex("ReservedGroupId")
+                        .IsUnique()
+                        .HasFilter("[ReservedGroupId] IS NOT NULL");
+
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("Entities.Models.Transactions", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ReservationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte>("ServiceType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.Property<decimal>("amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("refId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReservationId");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
@@ -743,6 +841,19 @@ namespace WebAPI.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Entities.Models.Reservation", b =>
+                {
+                    b.HasOne("Entities.Models.Discount", "Discount")
+                        .WithMany("Reservations")
+                        .HasForeignKey("DiscountId");
+
+                    b.HasOne("Entities.Models.User", null)
+                        .WithMany("Reservations")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Discount");
+                });
+
             modelBuilder.Entity("Entities.Models.Ticket", b =>
                 {
                     b.HasOne("Entities.Models.Event", "Event")
@@ -757,9 +868,26 @@ namespace WebAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Entities.Models.Reservation", "Reservation")
+                        .WithOne("Ticket")
+                        .HasForeignKey("Entities.Models.Ticket", "ReservedGroupId");
+
                     b.Navigation("Event");
 
                     b.Navigation("FloorSeat");
+
+                    b.Navigation("Reservation");
+                });
+
+            modelBuilder.Entity("Entities.Models.Transactions", b =>
+                {
+                    b.HasOne("Entities.Models.Reservation", "Reservation")
+                        .WithMany()
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -825,6 +953,11 @@ namespace WebAPI.Migrations
                     b.Navigation("Events");
                 });
 
+            modelBuilder.Entity("Entities.Models.Discount", b =>
+                {
+                    b.Navigation("Reservations");
+                });
+
             modelBuilder.Entity("Entities.Models.DynParameters", b =>
                 {
                     b.Navigation("Children");
@@ -864,9 +997,20 @@ namespace WebAPI.Migrations
                     b.Navigation("Concerts");
                 });
 
+            modelBuilder.Entity("Entities.Models.Reservation", b =>
+                {
+                    b.Navigation("Ticket")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Entities.Models.Seat", b =>
                 {
                     b.Navigation("FloorSeats");
+                });
+
+            modelBuilder.Entity("Entities.Models.User", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

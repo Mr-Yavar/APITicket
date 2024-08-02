@@ -16,12 +16,14 @@ namespace WebAPI.Controllers
         private IPlaceService _placeService;
         private IHallService _hallService;
         private IAttachmentsService _attachmentsService;
-        public ManagerController(IPlaceService placeService, IHallService hallService, IConcertService concertService,IAttachmentsService attachments)
+        private IDiscountService _discount;
+        public ManagerController(IPlaceService placeService, IHallService hallService, IConcertService concertService,IAttachmentsService attachments,IDiscountService discount)
         {
             _placeService = placeService;
             _concertService = concertService;
             _hallService = hallService;
             _attachmentsService = attachments;
+            _discount= discount;
         }
 
         [HttpGet("[action]/{pageSize}/{currentPage}")]
@@ -194,6 +196,38 @@ namespace WebAPI.Controllers
             await _concertService.UpdateConcertInfo(dto);
 
             return Ok(new { message = "successfull" });
+        }
+
+
+
+
+
+        [HttpGet("[action]/{Id}")]
+        public async Task<IActionResult> GetDiscountById(Guid Id)
+        {
+            var res = await _discount.GetById(Id);
+            return Ok(res);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddDiscount([FromBody] DiscountDto dto)
+        {
+           await _discount.Add(dto);
+            return Ok(new {Message = "OK"});
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UpdateDiscount([FromBody] DiscountDto dto)
+        {
+            await _discount.Update(dto);
+            return Ok(new { Message = "OK" });
+        }
+
+        [HttpGet("[action]/{Id}")]
+        public async Task<IActionResult> ToggleDiscount(Guid Id)
+        {
+            var res = await _discount.ToggleDiscount(Id);
+            return Ok(res);
         }
 
     }
