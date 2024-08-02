@@ -399,26 +399,21 @@ namespace WebAPI.Migrations
                     b.Property<Guid?>("DiscountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime?>("ExpirationDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Paid")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
 
-                    b.Property<Guid>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DiscountId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
                 });
@@ -455,9 +450,6 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("ExpirationDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("FloorSeatId")
                         .HasColumnType("uniqueidentifier");
 
@@ -467,7 +459,7 @@ namespace WebAPI.Migrations
                     b.Property<Guid?>("ReservedGroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("TempReservedId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -476,9 +468,9 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("FloorSeatId");
 
-                    b.HasIndex("ReservedGroupId")
-                        .IsUnique()
-                        .HasFilter("[ReservedGroupId] IS NOT NULL");
+                    b.HasIndex("ReservedGroupId");
+
+                    b.HasIndex("TempReservedId");
 
                     b.ToTable("Tickets");
                 });
@@ -488,6 +480,16 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("BillAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -500,9 +502,6 @@ namespace WebAPI.Migrations
 
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
-
-                    b.Property<decimal>("amount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("refId")
                         .IsRequired()
@@ -849,7 +848,9 @@ namespace WebAPI.Migrations
 
                     b.HasOne("Entities.Models.User", null)
                         .WithMany("Reservations")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Discount");
                 });
@@ -869,14 +870,20 @@ namespace WebAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("Entities.Models.Reservation", "Reservation")
-                        .WithOne("Ticket")
-                        .HasForeignKey("Entities.Models.Ticket", "ReservedGroupId");
+                        .WithMany("Tickets")
+                        .HasForeignKey("ReservedGroupId");
+
+                    b.HasOne("Entities.Models.Reservation", "TempReservation")
+                        .WithMany("TempTickets")
+                        .HasForeignKey("TempReservedId");
 
                     b.Navigation("Event");
 
                     b.Navigation("FloorSeat");
 
                     b.Navigation("Reservation");
+
+                    b.Navigation("TempReservation");
                 });
 
             modelBuilder.Entity("Entities.Models.Transactions", b =>
@@ -999,8 +1006,9 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("Entities.Models.Reservation", b =>
                 {
-                    b.Navigation("Ticket")
-                        .IsRequired();
+                    b.Navigation("TempTickets");
+
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("Entities.Models.Seat", b =>

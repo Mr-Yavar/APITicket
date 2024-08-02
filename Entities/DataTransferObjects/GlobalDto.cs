@@ -10,6 +10,17 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
+    public class BillingDto
+    {
+        public string FullName { get; set; }
+        public Guid? DiscountId { get; set; }
+        public Guid UserId { get; set; }
+        public Decimal Amount { get; set; }
+        public Decimal BillingAmount { get; set; }
+        public string ReturnUrl { get; set; }
+        public Guid TransactionId { get; set; }
+
+    }
     public class TempReservation
     {
         public Guid ConcertId { get; set; }

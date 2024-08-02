@@ -15,11 +15,13 @@ public partial class Ticket : ModelBase
 
     [ForeignKey(nameof(Reservation))]
     public Guid? ReservedGroupId { get; set; }
+    public Reservation? Reservation { get; set; }
 
-    public Guid? UserId { get; set; }
-    public DateTime? ExpirationDate { get; set; }
+    [ForeignKey(nameof(TempReservation))]
+    public Guid? TempReservedId { get; set; }
+    public Reservation? TempReservation { get; set; }
 
-    public Reservation Reservation { get; set; }
+
     public virtual Event Event { get; set; } = null!;
 
     public virtual FloorSeat FloorSeat { get; set; } = null!;
