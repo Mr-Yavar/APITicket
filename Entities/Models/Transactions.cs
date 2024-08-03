@@ -14,6 +14,10 @@ public partial class Transactions : ModelBase
     public Decimal Amount { get; set; }
     public Decimal BillAmount { get; set; }
 
-    public Reservation Reservation { get; set; }
+    public Guid? ReservedGroupId { get; set; }
+    public Reservation? Reservation { get; set; }
+
+    public Guid? TempReservedId { get; set; }
+    public TempReservation? TempReservation { get; set; }
 
 }

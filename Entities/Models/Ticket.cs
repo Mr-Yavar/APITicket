@@ -19,7 +19,7 @@ public partial class Ticket : ModelBase
 
     [ForeignKey(nameof(TempReservation))]
     public Guid? TempReservedId { get; set; }
-    public Reservation? TempReservation { get; set; }
+    public TempReservation? TempReservation { get; set; }
 
 
     public virtual Event Event { get; set; } = null!;

@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Repositories.Repositories
 {
-    public class ReservationRepository : RepositoryBase<Reservation>, IReservationRepository
+    public class PromoterRepository : RepositoryBase<Promoter>, IPromoterRepository
     {
-        public ReservationRepository(DBContextProvider dBContextProvider) : base(dBContextProvider) { }
+        public PromoterRepository(DBContextProvider dBContextProvider) : base(dBContextProvider) { }
 
 
      

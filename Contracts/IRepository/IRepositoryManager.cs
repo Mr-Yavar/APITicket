@@ -26,7 +26,7 @@ namespace Contracts.IRepository
 
         IDiscountRepository IDiscountRepository { get; }
         ITransactionRepository ITransactionRepository { get; }
-
+        ITempReservationRepository ITempReservationRepository { get; }
         void Save();
     }
 }

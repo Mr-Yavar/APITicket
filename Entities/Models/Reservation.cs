@@ -13,8 +13,6 @@ public partial class Reservation : ModelBase
     public string UserId { get; set; }
     public ReservationStatusType Status { get; set; }
 
-    public DateTime? ExpirationDate { get; set; }
-
     [ForeignKey(nameof(Discount))]
     public Guid? DiscountId { get; set; }
 
@@ -22,10 +20,7 @@ public partial class Reservation : ModelBase
     [InverseProperty("Reservation")]
     public ICollection<Ticket> Tickets { get; set; }
 
-    [InverseProperty("TempReservation")]
-    public ICollection<Ticket> TempTickets { get; set; }
 
-    
-   
 
+    public ICollection<Transactions> Transactions { get; set; }
 }

@@ -31,7 +31,7 @@ namespace Repositories
         private readonly Lazy<IDynParametersRepository> _IDynParametersRepository;
         private readonly Lazy<IDiscountRepository> _IDiscountRepository;
         private readonly Lazy<ITransactionRepository> _ITransactionRepository;
-
+        private readonly Lazy<ITempReservationRepository> _ITempReservationRepository;
         public RepositoryManager(DBContextProvider Context)
         {
             _context = Context;
@@ -48,6 +48,7 @@ namespace Repositories
             _IFloorSeatRepository = new Lazy<IFloorSeatRepository>(() => new FloorSeatRepository(_context));
             _IAttachmentsRepository = new Lazy<IAttachmentsRepository>(() => new AttachmentsRepository(_context));
             _IDynParametersRepository = new Lazy<IDynParametersRepository>(() => new DynParametersRepository(_context));
+            _ITempReservationRepository = new Lazy<ITempReservationRepository>(() => new TempReservationRepository(_context));
 
 
             _IDiscountRepository = new Lazy<IDiscountRepository>(() => new DiscountRepository(_context));
@@ -84,6 +85,7 @@ namespace Repositories
 
         public ITransactionRepository ITransactionRepository => _ITransactionRepository.Value;
         public IDiscountRepository IDiscountRepository => _IDiscountRepository.Value;
+        public ITempReservationRepository ITempReservationRepository => _ITempReservationRepository.Value;
 
         public void Save()
         {

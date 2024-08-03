@@ -1,4 +1,5 @@
 ﻿using Entities.Enum;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,8 @@ using System.Xml.Serialization;
 
 namespace Entities.Models;
 
-public partial class Reservation : ModelBase
+[PrimaryKey(nameof(Id))]
+public partial class TempReservation : ModelBase
 {
     [ForeignKey(nameof(User))]
     public string UserId { get; set; }
@@ -19,13 +21,10 @@ public partial class Reservation : ModelBase
     public Guid? DiscountId { get; set; }
 
     public Discount? Discount { get; set; }
-    [InverseProperty("Reservation")]
+    
     public ICollection<Ticket> Tickets { get; set; }
 
-    [InverseProperty("TempReservation")]
-    public ICollection<Ticket> TempTickets { get; set; }
 
-    
-   
+    public ICollection<Transactions> Transactions { get; set; }
 
 }

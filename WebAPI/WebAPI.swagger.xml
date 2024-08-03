@@ -37,7 +37,7 @@
             <param name="ConcertId"></param>
             <returns></returns>
         </member>
-        <member name="M:WebAPI.Controllers.ConcertsController.AddToResevation(Entities.DataTransferObjects.TempReservation)">
+        <member name="M:WebAPI.Controllers.ConcertsController.AddToResevation(Entities.DataTransferObjects.TempReservationDto)">
             <summary>
             زمانی که کاربر به مرحله سوم رفت باید اضافه شود
             </summary>
@@ -467,6 +467,42 @@
             <inheritdoc />
         </member>
         <member name="M:WebAPI.Migrations.temp6.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.tempREservation">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.tempREservation.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.tempREservation.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.tempREservation.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.transactionsreserver">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.transactionsreserver.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.transactionsreserver.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.transactionsreserver.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.transactionsreserver2">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.transactionsreserver2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.transactionsreserver2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.transactionsreserver2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

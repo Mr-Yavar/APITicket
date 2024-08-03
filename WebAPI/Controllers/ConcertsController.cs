@@ -74,7 +74,7 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddToResevation([FromBody] TempReservation dto)
+        public async Task<IActionResult> AddToResevation([FromBody] TempReservationDto dto)
         {
             Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
            return Ok(new { tempReservationId = await _reservationService.AddTemporaryReservation(UserId, dto) });
