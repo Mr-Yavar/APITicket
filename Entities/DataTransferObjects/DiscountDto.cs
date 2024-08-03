@@ -15,7 +15,7 @@ namespace Entities.DataTransferObjects
         public Guid ObjectId { get; set; }
         public DiscountType DiscountType { get; set; }
         public Decimal? MaxDiscount { get; set; }
-        public Decimal Percentage { get; set; }
+        public Decimal? Percentage { get; set; }
 
     }
 }

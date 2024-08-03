@@ -16,5 +16,6 @@ namespace Contracts.IService
         Task<DiscountDto> GetByCode(string Code);
         Task<DiscountDto> GetById(Guid Id);
         Task<DiscountDto> ToggleDiscount(Guid Id);
+        Task<Decimal> CalculateDiscount(Decimal Amount, Guid DiscountId, Guid ConcertId, Guid PromoterId, Guid PlaceId);
     }
 }

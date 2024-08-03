@@ -42,7 +42,7 @@ namespace Services.Services
             oldModel.MaxDiscount = dto.MaxDiscount;
             oldModel.ObjectId = dto.ObjectId;
             oldModel.DiscountType = dto.DiscountType;
-            oldModel.Percentage = dto.Percentage;
+            oldModel.Percentage = dto.Percentage.Value;
             oldModel.Code = dto.Code;
             _repositoryManager.IDiscountRepository.Update(oldModel);
             _repositoryManager.Save();
@@ -81,6 +81,43 @@ namespace Services.Services
             _repositoryManager.Save();
             var res = _mapper.Map<DiscountDto>(oldModel);
             return res;
+        }
+
+
+        public async Task<Decimal> CalculateDiscount(Decimal Amount,Guid DiscountId,Guid ConcertId,Guid PromoterId,Guid PlaceId)
+        {
+            var discount = await this.GetById(DiscountId);
+            if (discount == null)
+                return Amount;
+
+            if(discount.IsActive==true && discount.ExpirationDate <= DateTime.Now)
+            {
+                Decimal res = Amount;
+                if(discount.MaxDiscount.HasValue && !discount.Percentage.HasValue)
+                {
+                    res = Amount - discount.MaxDiscount.Value;
+
+                    res = res < 0 ? 0 : res;
+
+                }else if (!discount.MaxDiscount.HasValue && discount.Percentage.HasValue)
+                {
+                    res = Amount * discount.Percentage.Value /100;
+                    res = Amount - res;
+                    res = res < 0 ? 0 : res;
+                }
+                else if (discount.MaxDiscount.HasValue && discount.Percentage.HasValue)
+                {
+                    res = Amount * discount.Percentage.Value / 100;
+                    res = res < discount.MaxDiscount.Value ? res : discount.MaxDiscount.Value;
+                    res = Amount - res;
+                    res = res < 0 ? 0 : res;
+                }
+                return res;
+            }
+
+
+            return Amount;
+
         }
 
     }

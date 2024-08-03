@@ -2,8 +2,10 @@
 using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.PayingDto;
 using Entities.Enum;
 using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -20,13 +22,15 @@ namespace Services.Services
 
 
         private int _TimeOutExpirationDate = 0;
+        private IDiscountService _discountService;
+        private UserManager<User> _userManager;
 
-        public ReservationService(IMapper mapper, IRepositoryManager repositoryManager, IConfiguration configuration) : base(repositoryManager, mapper)
+        public ReservationService(IMapper mapper, IRepositoryManager repositoryManager, IConfiguration configuration, IDiscountService discountService,UserManager<User> userManager) : base(repositoryManager, mapper)
         {
 
             _TimeOutExpirationDate = Convert.ToInt32(configuration.GetSection("Configuration:TicketTimeout").Value ?? "0");
-
-
+            _discountService = discountService;
+            _userManager = userManager;
         }
 
 
@@ -149,8 +153,27 @@ namespace Services.Services
         }
 
 
-        public async Task<bool> ReservationToPay(Guid UserId, Guid TempReservedId)
+        public async Task<bool> ReservationToPay(Guid UserId, toPayDto dto)
         {
+            var userTcikets = await _repositoryManager.ITempReservationRepository.GetByWithIncludes(x => x.ExpirationDate > DateTime.Now && x.UserId == UserId.ToString() && x.Id==TempReservedId && x.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.Tickets).FirstOrDefaultAsync();
+
+            if(userTcikets == null) { return false; }
+
+            var User =await _userManager.FindByIdAsync(UserId.ToString());
+
+            BillingDto billingDto = new BillingDto()
+            {
+                Amount = userTcikets.Tickets.Sum(x=>x.Price),
+                DiscountId = dto.DiscountId,
+                BillingAmount = dto.DiscountId.HasValue && await _discountService.CalculateDiscount(userTcikets.Tickets.Sum(x => x.Price),dto.DiscountId.Value,Guid.Empty,Guid.Empty,Guid.Empty),
+                FullName = User.FirstName + " " + User.LastName,
+                ReturnUrl = "",
+                TransactionId = Guid.NewGuid(),
+                UserId = UserId
+            };
+
+
+
             return true;
         }
 
