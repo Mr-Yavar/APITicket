@@ -34,6 +34,7 @@ namespace Entities.DataTransferObjects
         public Guid ConcertId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ExpirationDate { get; set; }
+        public Guid TempReservationId { get; set; }
         public List<SeatInfo> Tickets { get; set; }
         public Decimal Amount { get; set; }
         

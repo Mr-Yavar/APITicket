@@ -11,9 +11,9 @@ namespace Contracts.IService
 {
     public interface IReservationService : IService
     {
-        Task<bool> AddTemporaryReservation(Guid UserId, TempReservation dto);
+        Task<Guid> AddTemporaryReservation(Guid UserId, TempReservation dto);
 
-        Task<bool> RemoveTemporaryReservation(Guid UserId, TempReservation dto);
+        Task<bool> RemoveTemporaryReservation(Guid UserId, Guid TempId);
 
         Task<TempReservationInfo> GetUserReservation(Guid UserId);
     }

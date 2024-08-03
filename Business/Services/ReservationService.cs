@@ -38,6 +38,13 @@ namespace Services.Services
                 .ThenInclude(x => x.FloorSeat.Floor).AsNoTracking()
                 .FirstOrDefaultAsync();
 
+            if (userTcikets == null)
+                return new()
+                {
+                    Amount = -1,
+                    Tickets = new()
+                };
+
             TempReservationInfo res = new()
             {
                 Amount = userTcikets.TempTickets.Sum(x => x.Price),
@@ -52,7 +59,8 @@ namespace Services.Services
                     Price = ticket.Price,
                     SeatId = ticket.FloorSeat.Seat.Id,
                     isReserved = ticket.ReservedGroupId != null
-                }).ToList() : new()
+                }).ToList() : new(),
+                TempReservationId = userTcikets.Id
 
             };
 
@@ -60,7 +68,7 @@ namespace Services.Services
 
         }
 
-        public async Task<bool> AddTemporaryReservation(Guid UserId, TempReservation dto)
+        public async Task<Guid> AddTemporaryReservation(Guid UserId, TempReservation dto)
         {
 
 
@@ -82,7 +90,7 @@ namespace Services.Services
                 ), x => x.TempReservation ).ToListAsync();
 
             if (tickets.GroupBy(x => x.Id).Count() != dto.TicketIds.Count())
-                return false;
+                return Guid.Empty;
 
             Guid TempReservedId = Guid.NewGuid();
             DateTime ExpirationDate = DateTime.Now.AddSeconds(_TimeOutExpirationDate);
@@ -105,19 +113,22 @@ namespace Services.Services
 
 
             _repositoryManager.ITicketRepository.SaveChanges();
-            return true;
+            return TempReservedId;
 
 
         }
 
 
 
-        public async Task<bool> RemoveTemporaryReservation(Guid UserId, TempReservation dto)
+        public async Task<bool> RemoveTemporaryReservation(Guid UserId, Guid TempReservedId)
         {
 
 
 
-            var tickets = await _repositoryManager.ITicketRepository.FindByCondition(x => dto.TicketIds.Contains(x.Id) && x.TempReservedId != null, true).ToListAsync();
+            var tickets = await _repositoryManager.ITicketRepository.GetByWithIncludes(x => x.TempReservedId == TempReservedId , x=>x.TempReservation).ToListAsync();
+
+            if (tickets.Count() == 0)
+                return true;
 
             Guid tempID = tickets.First().TempReservedId.Value;
             DateTime ExpirationDate = DateTime.Now.AddSeconds(_TimeOutExpirationDate);
@@ -134,6 +145,12 @@ namespace Services.Services
             _repositoryManager.ITicketRepository.SaveChanges();
             return true;
 
+
+        }
+
+
+        public async Task<bool> ReservationToPay(Guid UserId, Guid TempReservedId)
+        {
 
         }
 

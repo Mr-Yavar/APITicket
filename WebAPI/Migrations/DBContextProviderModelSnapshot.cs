@@ -135,8 +135,8 @@ namespace WebAPI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte>("DiscountType")
-                        .HasColumnType("tinyint");
+                    b.Property<short>("DiscountType")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime2");

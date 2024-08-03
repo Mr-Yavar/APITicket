@@ -1,6 +1,7 @@
 ﻿using Contracts.IService;
 using Entities.DataTransferObjects;
 using Entities.DataTransferObjects.PayService.PayPing;
+using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,15 @@ namespace WebAPI.Controllers
         [HttpGet("[action]/{Code}")]
         public async Task<IActionResult> GetDiscount(string Code)
         {
-           var res = await  _discountService.GetByCode(Code);
+            DiscountDto res = await  _discountService.GetByCode(Code);
+            if (res == null)
+            {
+                res = new DiscountDto()
+                {
+                    IsActive = false,
+                    DiscountType=Entities.Enum.DiscountType.INVALIAD 
+                };
+            }else
             res.DiscountType = -0;
             res.ObjectId = Guid.Empty;
 

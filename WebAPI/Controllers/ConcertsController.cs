@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> AddToResevation([FromBody] TempReservation dto)
         {
             Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
-           return Ok(await _reservationService.AddTemporaryReservation(UserId, dto));
+           return Ok(new { tempReservationId = await _reservationService.AddTemporaryReservation(UserId, dto) });
         }
 
         /// <summary>
@@ -87,10 +87,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("[action]")]
-        public async Task<IActionResult> RemoveFromResevation([FromBody] TempReservation dto)
+        public async Task<IActionResult> RemoveFromResevation([FromBody] Guid tempReservationId)
         {
             Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return Ok(await _reservationService.RemoveTemporaryReservation(UserId, dto));
+            return Ok(await _reservationService.RemoveTemporaryReservation(UserId, tempReservationId));
         }
 
 
