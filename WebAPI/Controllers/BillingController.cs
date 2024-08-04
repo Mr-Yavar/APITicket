@@ -1,10 +1,12 @@
 ﻿using Contracts.IService;
 using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.PayingDto;
 using Entities.DataTransferObjects.PayService.PayPing;
 using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebAPI.Utils;
 
 namespace WebAPI.Controllers
@@ -47,20 +49,29 @@ namespace WebAPI.Controllers
 
         [Authorize]
         [HttpPost("[action]")]
-        public async Task<IActionResult> Pay([FromBody] TempReservation dto )
+        public async Task<IActionResult> Pay([FromBody] toPayDto dto )
         {
+            Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-
-            // ساخت کد پرداخت به منظور هدایت به درگاه بانکی
-           // var payCode = await RequestHelper.CallApi<PayPing_PaymentResult>(_PAYPING_API["PAYMENT_URL"], , _PAYPING_API["Key"]);
-
-            //هدایت کاربر به درگاه بانک
-          //  return Redirect(config.AppSettings["GOTOIPG_URL"] + payCode.Code);
+           var res =await  _reservationService.ReservationToPay(UserId,dto);
 
 
 
 
-            return Ok(dto);
+            return Ok(res);
+        }
+
+
+
+        [Authorize]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Verify([FromBody] toVerifyDto dto)
+        {
+            Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var res = await _reservationService.VerifyPaidBilling(UserId, dto);
+
+            return Ok(res);
         }
 
     }

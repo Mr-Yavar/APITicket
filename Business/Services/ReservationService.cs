@@ -8,6 +8,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +25,15 @@ namespace Services.Services
         private int _TimeOutExpirationDate = 0;
         private IDiscountService _discountService;
         private UserManager<User> _userManager;
-
-        public ReservationService(IMapper mapper, IRepositoryManager repositoryManager, IConfiguration configuration, IDiscountService discountService,UserManager<User> userManager) : base(repositoryManager, mapper)
+        private ITransactionService _transactionService;
+        public ReservationService(IMapper mapper, IRepositoryManager repositoryManager, IConfiguration configuration, IDiscountService discountService, UserManager<User> userManager, ITransactionService transactionService) : base(repositoryManager, mapper)
         {
 
             _TimeOutExpirationDate = Convert.ToInt32(configuration.GetSection("Configuration:TicketTimeout").Value ?? "0");
             _discountService = discountService;
             _userManager = userManager;
+            _transactionService = transactionService;
+            var t =  userManager.FindByNameAsync("mr_yavar").Result;
         }
 
 
@@ -91,7 +94,7 @@ namespace Services.Services
                 x.TempReservedId == null ||
                 x.TempReservation.Status == ReservationStatusType.Cancelled ||
                 x.TempReservation.Status == ReservationStatusType.InProgress && x.TempReservation.ExpirationDate < DateTime.Now
-                ), x => x.TempReservation ).ToListAsync();
+                ), x => x.TempReservation).ToListAsync();
 
             if (tickets.GroupBy(x => x.Id).Count() != dto.TicketIds.Count())
                 return null;
@@ -124,12 +127,18 @@ namespace Services.Services
 
 
 
-        public async Task<bool> RemoveTemporaryReservation(Guid UserId, Guid TempReservedId)
+        public async Task<bool> RemoveTemporaryReservation(Guid UserId)
         {
 
 
+            var tempReserve = await _repositoryManager.ITempReservationRepository.FindByCondition(x => (x.UserId == UserId.ToString() && x.Status == Entities.Enum.ReservationStatusType.InProgress),false).FirstOrDefaultAsync();
+            if (tempReserve == null)
+                return true;
 
-            var tickets = await _repositoryManager.ITicketRepository.GetByWithIncludes(x => x.TempReservedId == TempReservedId , x=>x.TempReservation).ToListAsync();
+            Guid TempReservedId = tempReserve.Id;
+            var tickets = await _repositoryManager.ITicketRepository.GetByWithIncludes(x => x.TempReservedId == TempReservedId, x => x.TempReservation).ThenInclude(x=>x.Transactions).ToListAsync();
+
+            await _transactionService.CancelTransactionsByTempReservation(TempReservedId);
 
             if (tickets.Count() == 0)
                 return true;
@@ -147,35 +156,182 @@ namespace Services.Services
             _repositoryManager.ITempReservationRepository.Update(Reservation);
             _repositoryManager.ITempReservationRepository.SaveChanges();
             _repositoryManager.ITicketRepository.SaveChanges();
+
+            
             return true;
 
 
         }
 
 
-        public async Task<bool> ReservationToPay(Guid UserId, toPayDto dto)
+        public async Task<toPayResponse> ReservationToPay(Guid UserId, toPayDto dto)
         {
-            var userTcikets = await _repositoryManager.ITempReservationRepository.GetByWithIncludes(x => x.ExpirationDate > DateTime.Now && x.UserId == UserId.ToString() && x.Id==TempReservedId && x.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.Tickets).FirstOrDefaultAsync();
+            var userTcikets = await _repositoryManager.ITempReservationRepository.GetByWithIncludes(x => x.ExpirationDate > DateTime.Now && x.UserId == UserId.ToString() && x.Id == dto.ReservationId && x.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.Tickets).FirstOrDefaultAsync();
 
-            if(userTcikets == null) { return false; }
+            if (userTcikets == null)
+                return new()
+                {
+                    Amount = -1,
+                    PayUrl = null,
 
-            var User =await _userManager.FindByIdAsync(UserId.ToString());
+                };
+
+            var User = await _userManager.FindByIdAsync(UserId.ToString());
+
+            var Amount = userTcikets.Tickets.Sum(x => x.Price);
 
             BillingDto billingDto = new BillingDto()
             {
-                Amount = userTcikets.Tickets.Sum(x=>x.Price),
+                Amount = Amount,
                 DiscountId = dto.DiscountId,
-                BillingAmount = dto.DiscountId.HasValue && await _discountService.CalculateDiscount(userTcikets.Tickets.Sum(x => x.Price),dto.DiscountId.Value,Guid.Empty,Guid.Empty,Guid.Empty),
+                BillingAmount = dto.DiscountId.HasValue ? await _discountService.CalculateDiscount(Amount, dto.DiscountId.Value, Guid.Empty, Guid.Empty, Guid.Empty, true) : Amount,
                 FullName = User.FirstName + " " + User.LastName,
-                ReturnUrl = "",
+                ReturnUrl = "https://localhost:5173"+dto.url,
                 TransactionId = Guid.NewGuid(),
-                UserId = UserId
+                UserId = UserId,
+                TempReservationId = dto.ReservationId,
             };
 
+            string payUrl = await _transactionService.CreatePayment(billingDto); // کد درگاه پرداخت
 
 
-            return true;
+            return new()
+            {
+                Amount = Amount,
+                PayUrl = payUrl,
+                PayService = PayServiceType.PayPing.ToString(),
+            };
         }
+
+        /// <summary>
+        /// اعتبار سنجی پرداخت صورتحساب برای رزرو
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<toVerifyResponse> VerifyPaidBilling(Guid UserId, toVerifyDto dto)
+        {
+            var userTcikets = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid && x.TempReservation.ExpirationDate > DateTime.Now && x.TempReservation.UserId == UserId.ToString() && x.TempReservation.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.TempReservation).ThenInclude(x => x.Tickets).FirstOrDefaultAsync();
+          
+            //رزرو فاقد اعتبار بوده است
+            if (userTcikets == null)
+            {
+
+                var tempTranactions = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid && x.TempReservation.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.TempReservation).ThenInclude(x => x.Tickets).FirstOrDefaultAsync();
+
+                tempTranactions.Status = PayStatusType.Refuted;
+                _repositoryManager.ITransactionRepository.Update(tempTranactions);
+
+                tempTranactions.TempReservation.Status = ReservationStatusType.Cancelled;
+                _repositoryManager.ITempReservationRepository.Update(tempTranactions.TempReservation);
+                _repositoryManager.ITempReservationRepository.SaveChanges();
+
+
+                return new()
+                {
+                    Success = false,
+                    Reservation = null,
+                    Seats = null,
+                    Message = EnumHelper.GetEnumDescription<ReservationResultMessage>(ReservationResultMessage.ReservationCancelled),
+                };
+
+
+
+            }
+
+            dto.BillAmount = userTcikets.BillAmount;
+
+
+            ResponseVerifyDto res = await _transactionService.VerifyPayment(dto);
+
+
+            if (res.Message == string.Empty)
+            {
+
+                var tempTranactions = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid && x.TempReservation.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.TempReservation).ThenInclude(x => x.Tickets).FirstOrDefaultAsync();
+
+                Reservation model = new()
+                {
+                    CreatedDate = DateTime.Now,
+                    DiscountId = tempTranactions.TempReservation.DiscountId,
+                    Id = tempTranactions.TempReservation.Id,
+                    Status = ReservationStatusType.Completed,
+                    UserId = UserId.ToString(),
+
+                };
+
+
+                _repositoryManager.IReservationRepository.Create(model);
+                _repositoryManager.IReservationRepository.SaveChanges();
+
+                foreach (var item in tempTranactions.TempReservation.Transactions)
+                {
+                    item.ReservedGroupId = tempTranactions.TempReservation.Id;
+                    item.TempReservedId = null;
+                    _repositoryManager.ITransactionRepository.Update(item);
+                }
+
+
+                foreach (var item in userTcikets.TempReservation.Tickets)
+                {
+                    item.ReservedGroupId = item.TempReservedId;
+                    item.TempReservedId = null;
+                    _repositoryManager.ITicketRepository.Update(item);
+                }
+
+
+
+                _repositoryManager.ITicketRepository.SaveChanges();
+                _repositoryManager.ITransactionRepository.SaveChanges();
+
+                _repositoryManager.ITempReservationRepository.Delete(tempTranactions.TempReservation);
+                _repositoryManager.ITempReservationRepository.SaveChanges();
+                return new()
+                {
+                    Message = EnumHelper.GetEnumDescription<ReservationResultMessage>(ReservationResultMessage.Success),
+                    Success = true,
+                    Seats = _repositoryManager.ITicketRepository
+                    .FindByCondition(x => x.TempReservedId == dto.clientrefid, false)
+                    .Include(x => x.FloorSeat.Floor).Include(x => x.FloorSeat.Seat)
+                    .Select(ticket => new SeatInfo()
+                    {
+                        Id = ticket.Id,
+                        EventId = ticket.EventId,
+                        FloorSeatId = ticket.FloorSeatId,
+                        Name = "f" + ticket.FloorSeat.Floor.DisplayOrder + "_r" + ticket.FloorSeat.Seat.Row.ToString() + "_c" + ticket.FloorSeat.Seat.Column.ToString(),
+                        Price = ticket.Price,
+                        SeatId = ticket.FloorSeat.Seat.Id,
+                        isReserved = ticket.ReservedGroupId != null
+                    }).ToList()
+
+                };
+            }
+            else
+            {
+
+                var tempTranactions = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid && x.TempReservation.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.TempReservation).ThenInclude(x => x.Tickets).FirstOrDefaultAsync();
+
+                tempTranactions.Status = PayStatusType.Refuted;
+                _repositoryManager.ITransactionRepository.Update(tempTranactions);
+
+                //tempTranactions.TempReservation.Status = ReservationStatusType.Cancelled;
+                //_repositoryManager.ITempReservationRepository.Update(tempTranactions.TempReservation);
+                //_repositoryManager.ITempReservationRepository.SaveChanges();
+
+
+                return new()
+                {
+                    Message = EnumHelper.GetEnumDescription<ReservationResultMessage>(ReservationResultMessage.NotVerified),
+                    Success = false,
+                    Seats = null
+
+                };
+            }
+
+
+
+        }
+
+
 
 
         //public async Task<bool> AddReservation(Guid UserId, TempReservation dto)

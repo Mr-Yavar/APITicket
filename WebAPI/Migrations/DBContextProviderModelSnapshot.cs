@@ -514,7 +514,6 @@ namespace WebAPI.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CardNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")

@@ -16,7 +16,7 @@ namespace Services.Services
 
         public IPlaceRepository _placeRepository {  get; set; }
         public IFloorRepository _floorRepository { get; set; }
-             public  IHallRepository _hallRepository { get; set; }
+        public  IHallRepository _hallRepository { get; set; }
         private IMapper _mapper;
 
         public FloorService(IMapper mapper,IPlaceRepository placeRepository,IFloorRepository floorRepository,IHallRepository hallRepository) {

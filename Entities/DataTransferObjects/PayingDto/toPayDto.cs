@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects.PayingDto
 {
+    /// <summary>
+    /// درخواست برای پرداخت
+    /// </summary>
     public class toPayDto
     {
         /// <summary>
@@ -13,6 +16,10 @@ namespace Entities.DataTransferObjects.PayingDto
         /// </summary>
         public Guid ReservationId { get; set; }
         public Guid? DiscountId { get; set; }
+        /// <summary>
+        /// مسیر بازگشتی
+        /// </summary>
+        public string url { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.PayingDto;
 using Entities.Models;
 using Features.RequestFeatures;
 using System;
@@ -13,8 +14,10 @@ namespace Contracts.IService
     {
         Task<Guid?> AddTemporaryReservation(Guid UserId, TempReservationDto dto);
 
-        Task<bool> RemoveTemporaryReservation(Guid UserId, Guid TempId);
+        Task<bool> RemoveTemporaryReservation(Guid UserId);
 
         Task<TempReservationInfo> GetUserReservation(Guid UserId);
+        Task<toVerifyResponse> VerifyPaidBilling(Guid UserId, toVerifyDto dto);
+        Task<toPayResponse> ReservationToPay(Guid UserId, toPayDto dto);
     }
 }

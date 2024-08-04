@@ -18,8 +18,11 @@ namespace Entities.DataTransferObjects.PayingDto
         public Decimal BillingAmount { get; set; }
         public string ReturnUrl { get; set; }
         public Guid TransactionId { get; set; }
-
+        public Guid TempReservationId { get; set; }
     }
+
+
+
 
 
 }

@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.PayingDto;
 using Entities.Models;
 using Features.RequestFeatures;
 using System;
@@ -11,6 +12,8 @@ namespace Contracts.IService
 {
     public interface ITransactionService : IService
     {
-        //Task<void> 
+        Task<string> CreatePayment(BillingDto dto);
+        Task<ResponseVerifyDto> VerifyPayment(toVerifyDto dto);
+        Task CancelTransactionsByTempReservation(Guid TempReservationId);
     }
 }

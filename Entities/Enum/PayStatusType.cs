@@ -12,8 +12,8 @@ namespace Entities.Enum
         [Description("در حال انجام")]
         InProgress = 0,
         [Description("تایید شده")]
-        Verified = 0,
+        Verified = 1,
         [Description("باطل شده")]
-        Refuted = 0,
+        Refuted = 2,
     }
 }

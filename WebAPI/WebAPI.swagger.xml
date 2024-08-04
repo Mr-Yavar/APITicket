@@ -44,7 +44,7 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:WebAPI.Controllers.ConcertsController.RemoveFromResevation(System.Guid)">
+        <member name="M:WebAPI.Controllers.ConcertsController.RemoveFromResevation">
             <summary>
             زمانی که کاربر از مرحله سوم برمیگردد
             </summary>
@@ -503,6 +503,18 @@
             <inheritdoc />
         </member>
         <member name="M:WebAPI.Migrations.transactionsreserver2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.cardnumberbenull">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.cardnumberbenull.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.cardnumberbenull.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.cardnumberbenull.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

@@ -84,13 +84,13 @@ namespace Services.Services
         }
 
 
-        public async Task<Decimal> CalculateDiscount(Decimal Amount,Guid DiscountId,Guid ConcertId,Guid PromoterId,Guid PlaceId)
+        public async Task<Decimal> CalculateDiscount(Decimal Amount,Guid DiscountId,Guid ConcertId,Guid PromoterId,Guid PlaceId, bool checking = true)
         {
             var discount = await this.GetById(DiscountId);
             if (discount == null)
                 return Amount;
 
-            if(discount.IsActive==true && discount.ExpirationDate <= DateTime.Now)
+            if(!checking || (discount.IsActive==true && discount.ExpirationDate <= DateTime.Now))
             {
                 Decimal res = Amount;
                 if(discount.MaxDiscount.HasValue && !discount.Percentage.HasValue)

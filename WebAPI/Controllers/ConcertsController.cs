@@ -87,10 +87,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("[action]")]
-        public async Task<IActionResult> RemoveFromResevation([FromBody] Guid tempReservationId)
+        public async Task<IActionResult> RemoveFromResevation()
         {
             Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return Ok(await _reservationService.RemoveTemporaryReservation(UserId, tempReservationId));
+            return Ok(await _reservationService.RemoveTemporaryReservation(UserId));
         }
 
 
