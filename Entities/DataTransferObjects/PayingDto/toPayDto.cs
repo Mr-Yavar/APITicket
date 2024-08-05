@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,10 @@ namespace Entities.DataTransferObjects.PayingDto
         /// </summary>
         public Guid ReservationId { get; set; }
         public Guid? DiscountId { get; set; }
+
+
+        public PayServiceType PayService { get; set; }
+
         /// <summary>
         /// مسیر بازگشتی
         /// </summary>

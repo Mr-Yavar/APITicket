@@ -78,7 +78,7 @@ public class Program
         builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
         builder.Services.AddScoped<IDapperRepositoryManager, DapperRepositoryManager>();
         builder.Services.RegisterServices();
-
+        builder.Services.RegisterPaymentGateway();
 
 
         //ActionFilter on level of controller and actions

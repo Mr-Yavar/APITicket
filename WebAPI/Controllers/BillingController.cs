@@ -51,7 +51,9 @@ namespace WebAPI.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Pay([FromBody] toPayDto dto )
         {
-            Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? Guid.Empty.ToString());
+            if(UserId == Guid.Empty) 
+                return Unauthorized();
 
            var res =await  _reservationService.ReservationToPay(UserId,dto);
 

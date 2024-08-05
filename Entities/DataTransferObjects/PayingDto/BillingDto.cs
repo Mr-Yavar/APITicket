@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Entities.DataTransferObjects.PayingDto
     public class BillingDto
     {
         public string FullName { get; set; }
+        public string PhoneNumber { get; set; }
         public Guid? DiscountId { get; set; }
         public Guid UserId { get; set; }
         public Decimal Amount { get; set; }
@@ -19,6 +21,8 @@ namespace Entities.DataTransferObjects.PayingDto
         public string ReturnUrl { get; set; }
         public Guid TransactionId { get; set; }
         public Guid TempReservationId { get; set; }
+
+        public PayServiceType PayService {  get; set; }  
     }
 
 

@@ -163,7 +163,13 @@ namespace Services.Services
 
         }
 
-
+        /// <summary>
+        /// رزرو به پرداخت
+        /// به انتهای آدرس وب آیدی تراکنش اضافه میشود ، دقت شود
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public async Task<toPayResponse> ReservationToPay(Guid UserId, toPayDto dto)
         {
             var userTcikets = await _repositoryManager.ITempReservationRepository.GetByWithIncludes(x => x.ExpirationDate > DateTime.Now && x.UserId == UserId.ToString() && x.Id == dto.ReservationId && x.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.Tickets).FirstOrDefaultAsync();
@@ -180,16 +186,20 @@ namespace Services.Services
 
             var Amount = userTcikets.Tickets.Sum(x => x.Price);
 
+
+            dto.url = dto.url.TrimEnd('/');
+            Guid TransactionId = Guid.NewGuid();
             BillingDto billingDto = new BillingDto()
             {
                 Amount = Amount,
                 DiscountId = dto.DiscountId,
                 BillingAmount = dto.DiscountId.HasValue ? await _discountService.CalculateDiscount(Amount, dto.DiscountId.Value, Guid.Empty, Guid.Empty, Guid.Empty, true) : Amount,
                 FullName = User.FirstName + " " + User.LastName,
-                ReturnUrl = "https://localhost:5173"+dto.url,
-                TransactionId = Guid.NewGuid(),
+                ReturnUrl = "https://localhost:5173"+dto.url + "/"+TransactionId.ToString(),
+                TransactionId = TransactionId,
                 UserId = UserId,
                 TempReservationId = dto.ReservationId,
+                PayService = dto.PayService,
             };
 
             string payUrl = await _transactionService.CreatePayment(billingDto); // کد درگاه پرداخت
@@ -239,12 +249,12 @@ namespace Services.Services
             }
 
             dto.BillAmount = userTcikets.BillAmount;
+            dto.PayService = userTcikets.ServiceType;
+
+            PayStatusType res = await _transactionService.VerifyPayment(dto);
 
 
-            ResponseVerifyDto res = await _transactionService.VerifyPayment(dto);
-
-
-            if (res.Message == string.Empty)
+            if (res == PayStatusType.Verified)
             {
 
                 var tempTranactions = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid && x.TempReservation.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.TempReservation).ThenInclude(x => x.Tickets).FirstOrDefaultAsync();

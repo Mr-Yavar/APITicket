@@ -16,6 +16,7 @@ namespace Entities.DataTransferObjects.PayingDto
         /// مقدار کل پرداخت
         /// </summary>
         public Decimal Amount {  get; set; }
+        public string? payCode { get; set; }
         public string PayUrl { get; set; }
 
         public string PayService { get; set; }

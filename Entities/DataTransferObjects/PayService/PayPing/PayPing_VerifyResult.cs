@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Entities.DataTransferObjects.PayingDto
 {
-    public class ResponseVerifyDto
+    public class PayPing_VerifyResult
     {
         public string Message { get; set; }
     }
