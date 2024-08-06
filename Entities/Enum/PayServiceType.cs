@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Entities.Enum
 {
-    public enum PayServiceType : byte
+    public enum PayServiceType : sbyte
     {
+        [Description("رایگان")]
+        NoService = -1,
         [Description("پی پینگ")]
         PayPing = 0,
         [Description("زرین پال ")]

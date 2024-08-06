@@ -519,20 +519,14 @@ namespace WebAPI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("ReservationId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("ReservedGroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte>("ServiceType")
-                        .HasColumnType("tinyint");
+                    b.Property<short>("ServiceType")
+                        .HasColumnType("smallint");
 
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
-
-                    b.Property<Guid?>("TempReservationId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TempReservedId")
                         .HasColumnType("uniqueidentifier");
@@ -543,9 +537,9 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReservationId");
+                    b.HasIndex("ReservedGroupId");
 
-                    b.HasIndex("TempReservationId");
+                    b.HasIndex("TempReservedId");
 
                     b.ToTable("Transactions");
                 });
@@ -935,11 +929,11 @@ namespace WebAPI.Migrations
                 {
                     b.HasOne("Entities.Models.Reservation", "Reservation")
                         .WithMany("Transactions")
-                        .HasForeignKey("ReservationId");
+                        .HasForeignKey("ReservedGroupId");
 
                     b.HasOne("Entities.Models.TempReservation", "TempReservation")
                         .WithMany("Transactions")
-                        .HasForeignKey("TempReservationId");
+                        .HasForeignKey("TempReservedId");
 
                     b.Navigation("Reservation");
 

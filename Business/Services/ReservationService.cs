@@ -5,6 +5,7 @@ using Entities.DataTransferObjects;
 using Entities.DataTransferObjects.PayingDto;
 using Entities.Enum;
 using Entities.Models;
+using Entities.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,7 @@ namespace Services.Services
         private IDiscountService _discountService;
         private UserManager<User> _userManager;
         private ITransactionService _transactionService;
+        private string _frontEnd;
         public ReservationService(IMapper mapper, IRepositoryManager repositoryManager, IConfiguration configuration, IDiscountService discountService, UserManager<User> userManager, ITransactionService transactionService) : base(repositoryManager, mapper)
         {
 
@@ -34,6 +36,7 @@ namespace Services.Services
             _userManager = userManager;
             _transactionService = transactionService;
             var t =  userManager.FindByNameAsync("mr_yavar").Result;
+            _frontEnd = configuration.GetSection("Configuration:FrontEnd").Value;
         }
 
 
@@ -166,13 +169,15 @@ namespace Services.Services
         /// <summary>
         /// رزرو به پرداخت
         /// به انتهای آدرس وب آیدی تراکنش اضافه میشود ، دقت شود
+        /// نوع سرویس دهنده
         /// </summary>
         /// <param name="UserId"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
         public async Task<toPayResponse> ReservationToPay(Guid UserId, toPayDto dto)
         {
-            var userTcikets = await _repositoryManager.ITempReservationRepository.GetByWithIncludes(x => x.ExpirationDate > DateTime.Now && x.UserId == UserId.ToString() && x.Id == dto.ReservationId && x.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.Tickets).FirstOrDefaultAsync();
+            var userTcikets = await _repositoryManager.ITempReservationRepository
+                .GetByWithIncludes(x => x.ExpirationDate > DateTime.Now && x.UserId == UserId.ToString() && x.Id == dto.ReservationId && x.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.Tickets).FirstOrDefaultAsync();
 
             if (userTcikets == null)
                 return new()
@@ -195,12 +200,15 @@ namespace Services.Services
                 DiscountId = dto.DiscountId,
                 BillingAmount = dto.DiscountId.HasValue ? await _discountService.CalculateDiscount(Amount, dto.DiscountId.Value, Guid.Empty, Guid.Empty, Guid.Empty, true) : Amount,
                 FullName = User.FirstName + " " + User.LastName,
-                ReturnUrl = "https://localhost:5173"+dto.url + "/"+TransactionId.ToString(),
+              //  ReturnUrl = _frontEnd + dto.url + "/"+dto.PayService +"/" + TransactionId.ToIfcGuid(),
                 TransactionId = TransactionId,
                 UserId = UserId,
                 TempReservationId = dto.ReservationId,
-                PayService = dto.PayService,
+              //  PayService = dto.PayService,
             };
+
+            billingDto.PayService = billingDto.BillingAmount < 10 ? PayServiceType.NoService : billingDto.PayService;
+            billingDto.ReturnUrl = _frontEnd + dto.url + "/" + billingDto.PayService + "/" + TransactionId.ToIfcGuid();
 
             string payUrl = await _transactionService.CreatePayment(billingDto); // کد درگاه پرداخت
 
@@ -208,8 +216,8 @@ namespace Services.Services
             return new()
             {
                 Amount = Amount,
-                PayUrl = payUrl,
-                PayService = PayServiceType.PayPing.ToString(),
+                PayUrl =  (billingDto.PayService== PayServiceType.NoService) ? billingDto.ReturnUrl : payUrl,
+                PayService = billingDto.PayService.ToString(),
             };
         }
 
@@ -226,15 +234,18 @@ namespace Services.Services
             if (userTcikets == null)
             {
 
-                var tempTranactions = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid && x.TempReservation.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.TempReservation).ThenInclude(x => x.Tickets).FirstOrDefaultAsync();
+                var tempTranactions = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid && x.TempReservation.Status == ReservationStatusType.InProgress, x => x.TempReservation).ThenInclude(x => x.Tickets).FirstOrDefaultAsync();
+                
+                //ممکن است کاربر دوباره به آدرسی برا پردازش یک مورد قدیمی اقدام کند
+                if (tempTranactions != null)
+                {
+                    tempTranactions.Status = PayStatusType.Refuted;
+                    _repositoryManager.ITransactionRepository.Update(tempTranactions);
 
-                tempTranactions.Status = PayStatusType.Refuted;
-                _repositoryManager.ITransactionRepository.Update(tempTranactions);
-
-                tempTranactions.TempReservation.Status = ReservationStatusType.Cancelled;
-                _repositoryManager.ITempReservationRepository.Update(tempTranactions.TempReservation);
-                _repositoryManager.ITempReservationRepository.SaveChanges();
-
+                    tempTranactions.TempReservation.Status = ReservationStatusType.Cancelled;
+                    _repositoryManager.ITempReservationRepository.Update(tempTranactions.TempReservation);
+                    _repositoryManager.ITempReservationRepository.SaveChanges();
+                }
 
                 return new()
                 {

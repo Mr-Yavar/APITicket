@@ -23,9 +23,11 @@ public partial class Transactions : ModelBase
     /// </summary>
     public Decimal BillAmount { get; set; }
 
+    [ForeignKey(nameof(Reservation))]
     public Guid? ReservedGroupId { get; set; }
     public Reservation? Reservation { get; set; }
 
+    [ForeignKey(nameof(TempReservation))]
     public Guid? TempReservedId { get; set; }
     public TempReservation? TempReservation { get; set; }
 

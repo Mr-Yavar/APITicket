@@ -43,9 +43,19 @@ namespace Services.Services
             }
             _repositoryManager.ITransactionRepository.SaveChanges();
 
+            
+            toPayResponse NewPaymentResponse = new()
+            {
+                payCode = "-",
+                PayUrl = "",
+                Amount = dto.BillingAmount,
+            };
 
-            IPaymentGateway paymentService =  _paymentFactory.GetInstanceByType(dto.PayService);
-            var NewPaymentResponse = await paymentService.InitilizePayment(dto);
+            if (dto.PayService != PayServiceType.NoService)
+            {
+                IPaymentGateway paymentService = _paymentFactory.GetInstanceByType(dto.PayService);
+                NewPaymentResponse = await paymentService.InitilizePayment(dto);
+            }
 
             if (NewPaymentResponse == null)
                 return "";
@@ -56,7 +66,7 @@ namespace Services.Services
                 Id = dto.TransactionId,
                 CreatedDate = DateTime.Now,
                 refId = NewPaymentResponse.payCode,
-                ServiceType = Entities.Enum.PayServiceType.PayPing,
+                ServiceType = dto.PayService,
                 Status = Entities.Enum.PayStatusType.InProgress ,
                 TempReservedId = dto.TempReservationId
             });
@@ -75,10 +85,12 @@ namespace Services.Services
 
             var transaction  = await _repositoryManager.ITransactionRepository.FindByCondition(x => x.Id == dto.clientrefid, true).FirstOrDefaultAsync();
 
-
-            IPaymentGateway paymentService = _paymentFactory.GetInstanceByType(dto.PayService);
-            var verifyResponse = await paymentService.VerifyPayment(dto);
-
+            bool verifyResponse = true;
+            if (dto.PayService != PayServiceType.NoService)
+            {
+                IPaymentGateway paymentService = _paymentFactory.GetInstanceByType(dto.PayService);
+                 verifyResponse = await paymentService.VerifyPayment(dto);
+            }
 
 
             if (verifyResponse)

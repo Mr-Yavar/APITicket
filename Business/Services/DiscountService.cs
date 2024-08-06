@@ -90,7 +90,7 @@ namespace Services.Services
             if (discount == null)
                 return Amount;
 
-            if(!checking || (discount.IsActive==true && discount.ExpirationDate <= DateTime.Now))
+            if(!checking || (discount.IsActive==true && discount.ExpirationDate >= DateTime.Now))
             {
                 Decimal res = Amount;
                 if(discount.MaxDiscount.HasValue && !discount.Percentage.HasValue)

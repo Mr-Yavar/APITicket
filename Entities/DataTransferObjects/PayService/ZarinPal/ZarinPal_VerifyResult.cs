@@ -10,7 +10,7 @@ namespace Entities.DataTransferObjects.PayService.ZarinPal
     public class ZarinPal_VerifyResult
     {
         public DataVerify data { get; set; }
-        public List<string> errors { get; set; }
+        public ZarinPall_errors errors { get; set; }
     }
 
     public class DataVerify
@@ -22,5 +22,12 @@ namespace Entities.DataTransferObjects.PayService.ZarinPal
         public int ref_id { get; set; }
         public string fee_type { get; set; }
         public int fee { get; set; }
+    }
+
+    public class ZarinPall_errors
+    {
+        public string message { get; set; }
+        public string code { get; set; }
+
     }
 }

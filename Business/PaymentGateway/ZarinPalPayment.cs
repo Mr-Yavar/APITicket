@@ -23,7 +23,7 @@ namespace Services.PaymentGateway
             ZarinPal_RequestPayment reqBody = new ZarinPal_RequestPayment()
             {
                 description = dto.FullName + " بابت کنسرت " + DateTime.Now.ToString("yyyy/MM/dd HH:mm"),
-                amount = (int)dto.BillingAmount,
+                amount = (int)dto.BillingAmount*10,
                 callback_url = dto.ReturnUrl ,
                 merchant_id = _ZARINPAL_API["Key"],
                 metadata = new()
@@ -46,7 +46,7 @@ namespace Services.PaymentGateway
                 return null;
 
             return new() { 
-            Amount = dto.BillingAmount,
+            Amount = dto.BillingAmount*10,
             payCode = res.Data.data.authority,
             PayUrl = _ZARINPAL_API["GOTOIPG_URL"] + res.Data.data.authority
             };
@@ -58,7 +58,7 @@ namespace Services.PaymentGateway
         {
             ZarinPal_RequestVerify model = new ZarinPal_RequestVerify()
             {
-                amount = (int)dto.BillAmount,
+                amount = (int)dto.BillAmount*10,
                 authority = dto.refId,
                 merchant_id = _ZARINPAL_API["Key"],
             };
@@ -66,9 +66,9 @@ namespace Services.PaymentGateway
             // ساخت کد پرداخت به منظور هدایت به درگاه بانکی
             var res = await RequestHelper.CallApi<ZarinPal_VerifyResult>(_ZARINPAL_API["VERIFY_URL"], model, Headers: new Dictionary<string, string>());
 
-            var code = res.Data.data.code;
+            var code = res.Data?.data.code;
 
-            if (code == 100)
+            if (code != null && code == 100 )
             {
                 return true;
             }
