@@ -26,6 +26,11 @@ namespace Services.PaymentGateway
                 amount = (int)dto.BillingAmount,
                 callback_url = dto.ReturnUrl ,
                 merchant_id = _ZARINPAL_API["Key"],
+                metadata = new()
+                {
+                    mobile ="09138332018",
+                    email = null
+                }
 
             };
             Dictionary<string, string> headers = new()
@@ -37,6 +42,8 @@ namespace Services.PaymentGateway
             var res = await RequestHelper.CallApi<ZarinPal_PaymentResult>(_ZARINPAL_API["PAYMENT_URL"], reqBody, headers);
 
             var result = res.Data;
+            if (res.Data == null)
+                return null;
 
             return new() { 
             Amount = dto.BillingAmount,
