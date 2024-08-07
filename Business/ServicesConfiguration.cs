@@ -40,6 +40,8 @@ namespace Services
         {
             services.AddTransient<PayPingPayment>();
             services.AddTransient<ZarinPalPayment>();
+            services.AddTransient<ZibalPayment>();
+
             services.AddTransient<IPaymentFactory,PaymentFactory>();
         }
 

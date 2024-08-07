@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Entities.Enum
 {
-    public enum ReservationResultMessage : byte
+    public enum ReservationResultMessage : sbyte
     {
+        [Description("رزرو بلیت‌ها قبلا انجام شده است!")]
+        AlreadySuccess = -1,
         [Description("رزرو بلیت‌ها با موفقیت انجام شد!")]
         Success = 0,
         [Description("رزرو موقت بلیت‌ها لغو یا مدت زمان مجاز به اتمام رسیده است است!")]

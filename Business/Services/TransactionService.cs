@@ -6,6 +6,7 @@ using Entities.DataTransferObjects;
 using Entities.DataTransferObjects.PayingDto;
 using Entities.DataTransferObjects.PayService.PayPing;
 using Entities.Enum;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -79,11 +80,12 @@ namespace Services.Services
 
         }
 
-        public async Task<PayStatusType> VerifyPayment(toVerifyDto dto)
+        public async Task<PayStatusType> VerifyPayment(toVerifyDto dto, Transactions transaction)
         {
-           
 
-            var transaction  = await _repositoryManager.ITransactionRepository.FindByCondition(x => x.Id == dto.clientrefid, true).FirstOrDefaultAsync();
+            if (transaction.Id != dto.clientrefid)
+                return PayStatusType.Refuted;
+             
 
             bool verifyResponse = true;
             if (dto.PayService != PayServiceType.NoService)

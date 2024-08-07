@@ -14,7 +14,7 @@ namespace Contracts.IService
     public interface ITransactionService : IService
     {
         Task<string> CreatePayment(BillingDto dto);
-        Task<PayStatusType> VerifyPayment(toVerifyDto dto);
+        Task<PayStatusType> VerifyPayment(toVerifyDto dto,Transactions transaction);
         Task CancelTransactionsByTempReservation(Guid TempReservationId);
     }
 }

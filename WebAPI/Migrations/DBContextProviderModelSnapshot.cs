@@ -525,8 +525,8 @@ namespace WebAPI.Migrations
                     b.Property<short>("ServiceType")
                         .HasColumnType("smallint");
 
-                    b.Property<byte>("Status")
-                        .HasColumnType("tinyint");
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
 
                     b.Property<Guid?>("TempReservedId")
                         .HasColumnType("uniqueidentifier");

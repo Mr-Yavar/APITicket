@@ -44,7 +44,7 @@ namespace Services.PaymentGateway
 
             return new() { 
             Amount = dto.BillingAmount*10,
-            payCode = res.Data.trackId,
+            payCode = res.Data.trackId.ToString(),
             PayUrl = _Zibal_API["GOTOIPG_URL"] + res.Data.trackId
             };
 

@@ -9,8 +9,8 @@ namespace Entities.DataTransferObjects.PayService.Zibal
     public class Zibal_PaymentResult
     {
 
-        public string trackId { get; set; }
-        public string result { get; set; }
+        public long trackId { get; set; }
+        public int result { get; set; }
         public string payLink { get; set; }
         public string message { get; set; }
 

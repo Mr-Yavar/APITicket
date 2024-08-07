@@ -15,12 +15,13 @@ namespace Services.PaymentGateway
 
         private Dictionary<PayServiceType, IPaymentGateway> _paymentGatway;
 
-        public PaymentFactory(PayPingPayment payPingPayment, ZarinPalPayment ZarinPalPayment)
+        public PaymentFactory(PayPingPayment payPingPayment, ZarinPalPayment ZarinPalPayment, ZibalPayment ZibalPayment)
         {
             _paymentGatway = new()
             {
                     { PayServiceType.PayPing, payPingPayment },
-                    { PayServiceType.ZarinPall, ZarinPalPayment }
+                    { PayServiceType.ZarinPall, ZarinPalPayment },
+                      { PayServiceType.Zibal, ZibalPayment }
             };
         }
 

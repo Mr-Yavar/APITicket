@@ -205,7 +205,7 @@ namespace Services.Services
                 TransactionId = TransactionId,
                 UserId = UserId,
                 TempReservationId = dto.ReservationId,
-              //  PayService = dto.PayService,
+               PayService = dto.PayService,
             };
 
             billingDto.PayService = billingDto.BillingAmount < 10 ? PayServiceType.NoService : billingDto.PayService;
@@ -229,7 +229,21 @@ namespace Services.Services
         /// <returns></returns>
         public async Task<toVerifyResponse> VerifyPaidBilling(Guid UserId, toVerifyDto dto)
         {
-            var userTcikets = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid && x.TempReservation.ExpirationDate > DateTime.Now && x.TempReservation.UserId == UserId.ToString() && x.TempReservation.Status == Entities.Enum.ReservationStatusType.InProgress, x => x.TempReservation).ThenInclude(x => x.Tickets).FirstOrDefaultAsync();
+            /***
+             *  چند حالت است:
+             *  1- In temporary reservation :
+             *      1-1- InProgress && Not Expired   -> tx should verify
+             *      1-2- InProgress && Expired  -> tx should not verify
+             *      1-3- Cancelled && (Expired || Not Expired) -> tx should not verify
+             *      
+             *  2- In permanent reservation : -> tx should not verify
+             *      2-1- Completed 
+             *      2-2- Cancelled
+             */
+            var userTcikets = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid &&
+            (x.TempReservedId != null && x.TempReservation.UserId == UserId.ToString() || x.ReservedGroupId != null &&  x.Reservation.UserId == UserId.ToString()) &&
+            ((x.TempReservation.ExpirationDate > DateTime.Now && x.TempReservation.Status == ReservationStatusType.InProgress) || x.Reservation.Status==ReservationStatusType.Completed)
+            , x => x.TempReservation).ThenInclude(x => x.Tickets).Include(x=>x.Reservation).FirstOrDefaultAsync();
           
             //رزرو فاقد اعتبار بوده است
             if (userTcikets == null)
@@ -260,10 +274,34 @@ namespace Services.Services
 
             }
 
+            ///اگر وضعیت تراکنش تاییده شده بود از قبل
+            if(userTcikets.Reservation != null &&  userTcikets.Status== PayStatusType.Verified && userTcikets.Reservation.Status==ReservationStatusType.Completed)
+            {
+                return new()
+                {
+                    Message = EnumHelper.GetEnumDescription<ReservationResultMessage>(ReservationResultMessage.AlreadySuccess),
+                    Success = true,
+                    Seats = _repositoryManager.ITicketRepository
+                  .FindByCondition(x => x.TempReservedId == dto.clientrefid, false)
+                  .Include(x => x.FloorSeat.Floor).Include(x => x.FloorSeat.Seat)
+                  .Select(ticket => new SeatInfo()
+                  {
+                      Id = ticket.Id,
+                      EventId = ticket.EventId,
+                      FloorSeatId = ticket.FloorSeatId,
+                      Name = "f" + ticket.FloorSeat.Floor.DisplayOrder + "_r" + ticket.FloorSeat.Seat.Row.ToString() + "_c" + ticket.FloorSeat.Seat.Column.ToString(),
+                      Price = ticket.Price,
+                      SeatId = ticket.FloorSeat.Seat.Id,
+                      isReserved = ticket.ReservedGroupId != null
+                  }).ToList()
+
+                };
+            }
+
             dto.BillAmount = userTcikets.BillAmount;
             dto.PayService = userTcikets.ServiceType;
 
-            PayStatusType res = await _transactionService.VerifyPayment(dto);
+            PayStatusType res = await _transactionService.VerifyPayment(dto,userTcikets);
 
 
             if (res == PayStatusType.Verified)
