@@ -200,6 +200,7 @@ namespace Services.Services
                 DiscountId = dto.DiscountId,
                 BillingAmount = dto.DiscountId.HasValue ? await _discountService.CalculateDiscount(Amount, dto.DiscountId.Value, Guid.Empty, Guid.Empty, Guid.Empty, true) : Amount,
                 FullName = User.FirstName + " " + User.LastName,
+                PhoneNumber = User.PhoneNumber,
               //  ReturnUrl = _frontEnd + dto.url + "/"+dto.PayService +"/" + TransactionId.ToIfcGuid(),
                 TransactionId = TransactionId,
                 UserId = UserId,

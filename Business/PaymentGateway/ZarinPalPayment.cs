@@ -28,7 +28,7 @@ namespace Services.PaymentGateway
                 merchant_id = _ZARINPAL_API["Key"],
                 metadata = new()
                 {
-                    mobile ="09138332018",
+                    mobile = dto.PhoneNumber,
                     email = null
                 }
 

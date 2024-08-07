@@ -15,5 +15,7 @@ namespace Entities.Enum
         PayPing = 0,
         [Description("زرین پال ")]
         ZarinPall = 1,
+        [Description("زیبال")]
+        Zibal = 2,
     }
 }
