@@ -19,5 +19,6 @@ namespace Contracts.IService
         Task<TempReservationInfo> GetUserReservation(Guid UserId);
         Task<toVerifyResponse> VerifyPaidBilling(Guid UserId, toVerifyDto dto);
         Task<toPayResponse> ReservationToPay(Guid UserId, toPayDto dto);
+        Task<ReservationResultDto> GetUserReservationDetailsById(Guid UserId, Guid ReservationId);
     }
 }

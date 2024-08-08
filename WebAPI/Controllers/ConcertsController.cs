@@ -17,9 +17,9 @@ namespace WebAPI.Controllers
         public IConcertService concertService { get; set; }
         private IReservationService _reservationService { get; set; }
 
-        public ConcertsController(IConcertService _concertServic,IReservationService reservationService)
-        { 
-        concertService = _concertServic;
+        public ConcertsController(IConcertService _concertServic, IReservationService reservationService)
+        {
+            concertService = _concertServic;
             _reservationService = reservationService;
 
         }
@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAllConcerts()
         {
-            
+
             var result = concertService.GetAllPublicConcerts();
 
             return Ok(result);
@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> AddToResevation([FromBody] TempReservationDto dto)
         {
             Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
-           return Ok(new { tempReservationId = await _reservationService.AddTemporaryReservation(UserId, dto) });
+            return Ok(new { tempReservationId = await _reservationService.AddTemporaryReservation(UserId, dto) });
         }
 
         /// <summary>
@@ -101,10 +101,23 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet("[action]")]
-        public async Task<IActionResult>  GetReservation()
+        public async Task<IActionResult> GetReservation()
         {
             Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
             return Ok(await _reservationService.GetUserReservation(UserId));
         }
+
+
+
+        [Authorize]
+        [HttpGet("[action]/{ReservationId}")]
+        public async Task<IActionResult> GetUserReservation(Guid ReservationId)
+        {
+            Guid UserId = Guid.Parse(base.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var rs = await _reservationService.GetUserReservationDetailsById(UserId, ReservationId);
+            return Ok(rs);
+
+        }
+
     }
 }

@@ -11,8 +11,22 @@ using System.Threading.Tasks;
 namespace Entities.DataTransferObjects
 {
    
+    /// <summary>
+    /// اطلاعات رزرو و بلیت ها
+    /// </summary>
+    public class ReservationResultDto
+    {
+        public ConcertInfoDto ConcertInfo { get; set; }
+        public EventInfoDto EventInfo { get; set; }
+        public List<SeatInfo> seats { get; set; }
+        public PlaceInfoDto Place { get; set; }
+        public HallInfoDto Hall { get; set; }
+        public Guid ReservationId { get; set; }
+        public Decimal Amount { get; set; }
 
+    }
 
+    
 
     public class TempReservationDto
     {
@@ -87,11 +101,23 @@ namespace Entities.DataTransferObjects
         public Guid placeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string City { get; set; }
+
 
         public string address { get; set; }
 
-    }
+       
 
+    }
+    public class HallInfoDto
+    {
+
+        public Guid placeId { get; set; }
+        public string Name { get; set; }
+        
+
+
+    }
 
     public class EventInfoDto
     {

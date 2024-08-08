@@ -35,7 +35,7 @@ namespace Services.Services
             _discountService = discountService;
             _userManager = userManager;
             _transactionService = transactionService;
-            var t =  userManager.FindByNameAsync("mr_yavar").Result;
+            var t = userManager.FindByNameAsync("mr_yavar").Result;
             _frontEnd = configuration.GetSection("Configuration:FrontEnd").Value;
         }
 
@@ -134,12 +134,12 @@ namespace Services.Services
         {
 
 
-            var tempReserve = await _repositoryManager.ITempReservationRepository.FindByCondition(x => (x.UserId == UserId.ToString() && x.Status == Entities.Enum.ReservationStatusType.InProgress),false).FirstOrDefaultAsync();
+            var tempReserve = await _repositoryManager.ITempReservationRepository.FindByCondition(x => (x.UserId == UserId.ToString() && x.Status == Entities.Enum.ReservationStatusType.InProgress), false).FirstOrDefaultAsync();
             if (tempReserve == null)
                 return true;
 
             Guid TempReservedId = tempReserve.Id;
-            var tickets = await _repositoryManager.ITicketRepository.GetByWithIncludes(x => x.TempReservedId == TempReservedId, x => x.TempReservation).ThenInclude(x=>x.Transactions).ToListAsync();
+            var tickets = await _repositoryManager.ITicketRepository.GetByWithIncludes(x => x.TempReservedId == TempReservedId, x => x.TempReservation).ThenInclude(x => x.Transactions).ToListAsync();
 
             await _transactionService.CancelTransactionsByTempReservation(TempReservedId);
 
@@ -160,7 +160,7 @@ namespace Services.Services
             _repositoryManager.ITempReservationRepository.SaveChanges();
             _repositoryManager.ITicketRepository.SaveChanges();
 
-            
+
             return true;
 
 
@@ -201,11 +201,11 @@ namespace Services.Services
                 BillingAmount = dto.DiscountId.HasValue ? await _discountService.CalculateDiscount(Amount, dto.DiscountId.Value, Guid.Empty, Guid.Empty, Guid.Empty, true) : Amount,
                 FullName = User.FirstName + " " + User.LastName,
                 PhoneNumber = User.PhoneNumber,
-              //  ReturnUrl = _frontEnd + dto.url + "/"+dto.PayService +"/" + TransactionId.ToIfcGuid(),
+                //  ReturnUrl = _frontEnd + dto.url + "/"+dto.PayService +"/" + TransactionId.ToIfcGuid(),
                 TransactionId = TransactionId,
                 UserId = UserId,
                 TempReservationId = dto.ReservationId,
-               PayService = dto.PayService,
+                PayService = dto.PayService,
             };
 
             billingDto.PayService = billingDto.BillingAmount < 10 ? PayServiceType.NoService : billingDto.PayService;
@@ -217,7 +217,7 @@ namespace Services.Services
             return new()
             {
                 Amount = Amount,
-                PayUrl =  (billingDto.PayService== PayServiceType.NoService) ? billingDto.ReturnUrl : payUrl,
+                PayUrl = (billingDto.PayService == PayServiceType.NoService) ? billingDto.ReturnUrl : payUrl,
                 PayService = billingDto.PayService.ToString(),
             };
         }
@@ -241,16 +241,16 @@ namespace Services.Services
              *      2-2- Cancelled
              */
             var userTcikets = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid &&
-            (x.TempReservedId != null && x.TempReservation.UserId == UserId.ToString() || x.ReservedGroupId != null &&  x.Reservation.UserId == UserId.ToString()) &&
-            ((x.TempReservation.ExpirationDate > DateTime.Now && x.TempReservation.Status == ReservationStatusType.InProgress) || x.Reservation.Status==ReservationStatusType.Completed)
-            , x => x.TempReservation).ThenInclude(x => x.Tickets).Include(x=>x.Reservation).FirstOrDefaultAsync();
-          
+            (x.TempReservedId != null && x.TempReservation.UserId == UserId.ToString() || x.ReservedGroupId != null && x.Reservation.UserId == UserId.ToString()) &&
+            ((x.TempReservation.ExpirationDate > DateTime.Now && x.TempReservation.Status == ReservationStatusType.InProgress) || x.Reservation.Status == ReservationStatusType.Completed)
+            , x => x.TempReservation).ThenInclude(x => x.Tickets).Include(x => x.Reservation).FirstOrDefaultAsync();
+
             //رزرو فاقد اعتبار بوده است
             if (userTcikets == null)
             {
 
                 var tempTranactions = await _repositoryManager.ITransactionRepository.GetByWithIncludes(x => x.Id == dto.clientrefid && x.TempReservation.Status == ReservationStatusType.InProgress, x => x.TempReservation).ThenInclude(x => x.Tickets).FirstOrDefaultAsync();
-                
+
                 //ممکن است کاربر دوباره به آدرسی برا پردازش یک مورد قدیمی اقدام کند
                 if (tempTranactions != null)
                 {
@@ -275,25 +275,31 @@ namespace Services.Services
             }
 
             ///اگر وضعیت تراکنش تاییده شده بود از قبل
-            if(userTcikets.Reservation != null &&  userTcikets.Status== PayStatusType.Verified && userTcikets.Reservation.Status==ReservationStatusType.Completed)
+            if (userTcikets.Reservation != null && userTcikets.Status == PayStatusType.Verified && userTcikets.Reservation.Status == ReservationStatusType.Completed)
             {
                 return new()
                 {
                     Message = EnumHelper.GetEnumDescription<ReservationResultMessage>(ReservationResultMessage.AlreadySuccess),
                     Success = true,
-                    Seats = _repositoryManager.ITicketRepository
-                  .FindByCondition(x => x.TempReservedId == dto.clientrefid, false)
-                  .Include(x => x.FloorSeat.Floor).Include(x => x.FloorSeat.Seat)
-                  .Select(ticket => new SeatInfo()
-                  {
-                      Id = ticket.Id,
-                      EventId = ticket.EventId,
-                      FloorSeatId = ticket.FloorSeatId,
-                      Name = "f" + ticket.FloorSeat.Floor.DisplayOrder + "_r" + ticket.FloorSeat.Seat.Row.ToString() + "_c" + ticket.FloorSeat.Seat.Column.ToString(),
-                      Price = ticket.Price,
-                      SeatId = ticket.FloorSeat.Seat.Id,
-                      isReserved = ticket.ReservedGroupId != null
-                  }).ToList()
+                    Seats = new(),
+                    Reservation = new()
+                    {
+
+                    },
+                    ReservationId = userTcikets.ReservedGroupId.Value,
+                    //  Seats = _repositoryManager.ITicketRepository
+                    //.FindByCondition(x => x.TempReservedId == dto.clientrefid, false)
+                    //.Include(x => x.FloorSeat.Floor).Include(x => x.FloorSeat.Seat)
+                    //.Select(ticket => new SeatInfo()
+                    //{
+                    //    Id = ticket.Id,
+                    //    EventId = ticket.EventId,
+                    //    FloorSeatId = ticket.FloorSeatId,
+                    //    Name = "f" + ticket.FloorSeat.Floor.DisplayOrder + "_r" + ticket.FloorSeat.Seat.Row.ToString() + "_c" + ticket.FloorSeat.Seat.Column.ToString(),
+                    //    Price = ticket.Price,
+                    //    SeatId = ticket.FloorSeat.Seat.Id,
+                    //    isReserved = ticket.ReservedGroupId != null
+                    //}).ToList()
 
                 };
             }
@@ -301,7 +307,7 @@ namespace Services.Services
             dto.BillAmount = userTcikets.BillAmount;
             dto.PayService = userTcikets.ServiceType;
 
-            PayStatusType res = await _transactionService.VerifyPayment(dto,userTcikets);
+            PayStatusType res = await _transactionService.VerifyPayment(dto, userTcikets);
 
 
             if (res == PayStatusType.Verified)
@@ -349,20 +355,8 @@ namespace Services.Services
                 {
                     Message = EnumHelper.GetEnumDescription<ReservationResultMessage>(ReservationResultMessage.Success),
                     Success = true,
-                    Seats = _repositoryManager.ITicketRepository
-                    .FindByCondition(x => x.TempReservedId == dto.clientrefid, false)
-                    .Include(x => x.FloorSeat.Floor).Include(x => x.FloorSeat.Seat)
-                    .Select(ticket => new SeatInfo()
-                    {
-                        Id = ticket.Id,
-                        EventId = ticket.EventId,
-                        FloorSeatId = ticket.FloorSeatId,
-                        Name = "f" + ticket.FloorSeat.Floor.DisplayOrder + "_r" + ticket.FloorSeat.Seat.Row.ToString() + "_c" + ticket.FloorSeat.Seat.Column.ToString(),
-                        Price = ticket.Price,
-                        SeatId = ticket.FloorSeat.Seat.Id,
-                        isReserved = ticket.ReservedGroupId != null
-                    }).ToList()
-
+                    Seats = new(),
+                    ReservationId = model.Id,
                 };
             }
             else
@@ -391,8 +385,82 @@ namespace Services.Services
 
         }
 
+        /// <summary>
+        /// اطلاعات رزرو یوزر - موفق بوده است
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="ReservationId"></param>
+        /// <returns></returns>
+        public async Task<ReservationResultDto> GetUserReservationDetailsById(Guid UserId, Guid ReservationId)
+        {
+            // تمامی جزئیات از کنسرت تا صندلی
+            var UserReservation = await _repositoryManager.IReservationRepository.GetByWithIncludes(x => x.Id == ReservationId && x.UserId == UserId.ToString() && x.Status == ReservationStatusType.Completed, x => x.Tickets)
+                .ThenInclude(x => x.Event.Concert)
+                .Include(x => x.Transactions.OrderByDescending(x => x.CreatedDate))
+                .Include(x => x.Tickets).ThenInclude(x => x.Event.Hall.Place)
+                .Include(x => x.Tickets).ThenInclude(x => x.FloorSeat.Floor)
+                .Include(x => x.Tickets).ThenInclude(x => x.FloorSeat.Seat).FirstOrDefaultAsync();
+            if (UserReservation == null)
+                return null;
+
+            var eventInfo = UserReservation.Tickets.FirstOrDefault().Event;
+            var concertInfo = eventInfo.Concert;
 
 
+            ReservationResultDto res = new()
+            {
+                Amount = UserReservation.Transactions.FirstOrDefault().BillAmount,
+                ConcertInfo = new()
+                {
+                    Concertid = concertInfo.Id,
+                    Title = concertInfo.Title,
+                    EndDate = concertInfo.EndDate,
+                    StartDate = concertInfo.StartDate,
+                    Note = concertInfo.Note,
+
+
+                },
+                EventInfo = new()
+                {
+                    EndSaleDate = eventInfo.EndSaleDate,
+                    StartSaleDate = eventInfo.StartSaleDate,
+                    ExecutionDate = eventInfo.ExecutionDate,
+                    Floors = eventInfo.Hall.Floors.Select(x => new FloorInfoDto()
+                    {
+                        DisplayOrder = x.DisplayOrder,
+                        Title = x.Title,
+                        floorId = x.Id
+                    }).ToList(),
+                },
+                Place = new() { 
+                    address  = eventInfo.Hall.Place.Address,
+                    City = eventInfo.Hall.Place.City,
+                    Name = eventInfo.Hall.Place.Title,
+                    placeId = eventInfo.Hall.Place.Id,
+                    Description = eventInfo.Hall.Place.Description,
+                },
+                Hall = new()
+                {
+                    Name = eventInfo.Hall.Title,
+                   
+                },
+                ReservationId = UserReservation.Id,
+                seats = UserReservation.Tickets
+                .Select(ticket => new SeatInfo()
+                {
+                    Id = ticket.Id,
+                    EventId = ticket.EventId,
+                    FloorSeatId = ticket.FloorSeatId,
+                    Name = "f" + ticket.FloorSeat.Floor.DisplayOrder + "_r" + ticket.FloorSeat.Seat.Row.ToString() + "_c" + ticket.FloorSeat.Seat.Column.ToString(),
+                    Price = ticket.Price,
+                    SeatId = ticket.FloorSeat.Seat.Id,
+                    isReserved = ticket.ReservedGroupId != null
+                }).ToList()
+
+            };
+
+            return res;
+        }
 
         //public async Task<bool> AddReservation(Guid UserId, TempReservation dto)
         //{

@@ -17,7 +17,7 @@ namespace Entities.DataTransferObjects.PayingDto
 
         public List<SeatInfo> Seats { get; set; }
         public TempReservationDto Reservation { get; set; }
-        
+        public Guid ReservationId { get; set; }
         public string Message { get; set; }
 
     }
