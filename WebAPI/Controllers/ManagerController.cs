@@ -29,8 +29,8 @@ namespace WebAPI.Controllers
         [HttpGet("[action]/{pageSize}/{currentPage}")]
         public async Task<IActionResult> GetAllConcerts(int pageSize,int currentPage)
         {
-
-            return Ok(_concertService.GetAllConcerts(pageSize,currentPage));
+            var res = await _concertService.GetAllConcerts(new() { PageSize = pageSize, PageNumber = currentPage });
+            return Ok(res);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetAllRelatedConcerts(int pageSize, int currentPage)
         {
 
-            return Ok(_concertService.GetAllConcerts(pageSize, currentPage));
+            return Ok(await _concertService.GetAllConcerts(new() { PageSize = pageSize, PageNumber = currentPage }));
         }
 
         /// <summary>

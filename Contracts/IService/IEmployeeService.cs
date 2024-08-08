@@ -12,7 +12,7 @@ namespace Contracts.IService
     public interface IEmployeeService : IService
     {
         Task<List<EmployeeDto>> GetEmployeesAsync(Guid companyId);
-        Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters);
+       // Task<(IEnumerable<EmployeeDto> employees, MetaData metaData)> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters);
       //  EmployeeModel CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto Emplyee);
       //  EmployeeModel DeleteEmployeeForCompany(Guid companyId, Guid EmplyeeId);
 

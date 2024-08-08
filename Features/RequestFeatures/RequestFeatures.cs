@@ -1,6 +1,6 @@
 ﻿namespace Features.RequestFeatures
 {
-    public abstract class RequestParameters
+    public abstract class RequestFeatures
     {
         const int maxPageSize = 50;
         public int PageNumber { get; set; } = 1;

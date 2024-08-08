@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Features.RequestFeatures;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,10 @@ namespace Contracts.IRepository
         IIncludableQueryable<T, TProperty> GetByWithIncludes<TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TProperty>> include);
        
         void SaveChanges();
+        Task<IIncludableQueryable<T, TProperty>> GetPagedWithByAndInclude<TOrderBy, TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TOrderBy>> order, Expression<Func<T, TProperty>> include, bool isASC, RequestFeatures parameters);
+        Task<IQueryable<T>> GetPagedWithBy<TOrderBy, TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TOrderBy>> order,bool isASC, RequestFeatures parameters);
+
+
     }
 
 }

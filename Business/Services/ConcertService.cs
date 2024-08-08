@@ -5,6 +5,8 @@ using Entities;
 using Entities.DataTransferObjects;
 using Entities.Exceptions;
 using Entities.Models;
+using Features.CustomRequest;
+using Features.RequestFeatures;
 using LoggerService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -28,27 +30,18 @@ namespace Services.Services
             _context = context;
         }
 
-        public glbConcertsDto GetAllConcerts(int pageSize, int currentPage)
+        public async Task<PagedData<List<ConcertInfoDto>>> GetAllConcerts(ConcertTableRequest concertTable)
         {
-            if (currentPage <= 0)
-                throw new Exception();
 
 
-            var concerts = new glbConcertsDto()
-            {
-                currentPage = currentPage,
-                TotalCount = _repositoryManager.IConcertRepository.FindAll(false).Count(),
-                PageSize = pageSize,
-                Concerts = new(),
-            };
+            List<ConcertInfoDto> data = new();
 
+            var query = (await _repositoryManager.IConcertRepository.GetPagedWithByAndInclude(_ => true, x => x.StartDate, x => x.Place, false, concertTable));
 
-
-            _repositoryManager.IConcertRepository.FindAll(false)
-                .Skip(((currentPage - 1) * pageSize)).Take(pageSize).Include(x => x.Category).Include(x => x.Place).ToList().ForEach(concert =>
+            query.Include(x => x.Category).Include(x => x.Place).ToList().ForEach(concert =>
             {
 
-                concerts.Concerts.Add(new()
+                data.Add(new()
                 {
                     Title = concert.Title,
                     EndDate = concert.EndDate,
@@ -65,8 +58,9 @@ namespace Services.Services
                 });
 
             });
+            PagedList<ConcertInfoDto> result = new(data, _repositoryManager.IConcertRepository.FindAll(false).Count(), concertTable.PageNumber, concertTable.PageSize);
 
-            return concerts;
+            return new(result.MetaData, result.ToList());
         }
 
         public glbConcertsDto GetAllPublicConcerts()
@@ -217,7 +211,7 @@ namespace Services.Services
         /// <returns></returns>
         public async Task<glbCreationConcertDto> GetConcertByConcertId(Guid ConcertId)
         {
-            var res = await _repositoryManager.IConcertRepository.FindByCondition(x=>x.Id == ConcertId,false).FirstOrDefaultAsync();
+            var res = await _repositoryManager.IConcertRepository.FindByCondition(x => x.Id == ConcertId, false).FirstOrDefaultAsync();
             var result = new glbCreationConcertDto()
             {
                 CategoryId = res.CategoryId,
@@ -239,7 +233,7 @@ namespace Services.Services
 
         public async Task UpdateConcertInfo(glbCreationConcertDto dto)
         {
-            var Concert = await _repositoryManager.IConcertRepository.FindByCondition(x => x.Id == dto.ConcertId,true).FirstOrDefaultAsync();
+            var Concert = await _repositoryManager.IConcertRepository.FindByCondition(x => x.Id == dto.ConcertId, true).FirstOrDefaultAsync();
 
             if (Concert == null)
                 return;
@@ -247,11 +241,11 @@ namespace Services.Services
 
             Concert.StartDate = dto.StartDate;
             Concert.EndDate = dto.EndDate;
-           //Concert.CategoryId = dto.CategoryId;
+            //Concert.CategoryId = dto.CategoryId;
             //Concert.PromoterId = dto.PromoterId;
-           // Concert.Title = dto.Title;
-           // Concert.Note = dto.Note;
-           // Concert.img_url = dto.img_Url ?? Concert.img_url;
+            // Concert.Title = dto.Title;
+            // Concert.Note = dto.Note;
+            // Concert.img_url = dto.img_Url ?? Concert.img_url;
             //Concert.poster = dto.poster ?? Concert.poster;
 
 
@@ -398,7 +392,7 @@ namespace Services.Services
             ///    var JustEventsDto = _repositoryManager.IEventRepository.FindByCondition(x => x.ConcertId == Concert.Id, true).ToList();
             foreach (var eventItem in dto.Events.Items)
             {
-                
+
                 if (eventItem.EventId.HasValue)
                 {
                     var eventModel = EventsDto.FirstOrDefault(x => x.Id == eventItem.EventId.Value);
@@ -408,15 +402,15 @@ namespace Services.Services
 
                     foreach (var FloorIndex in eventItem.SeatsInfo.Keys)
                     {
-                        
-                   
+
+
 
                         var SeatsInfo = eventItem.SeatsInfo[FloorIndex];
                         foreach (var seat in SeatsInfo)
                         {
 
 
-                          
+
 
 
                             if (Guid.Empty == seat.Id)
@@ -444,14 +438,14 @@ namespace Services.Services
                                     _context.Tickets.Remove(ticket);
                                     continue;
                                 }
-                                   
+
 
                                 if (ticket != null && !ticket.ReservedGroupId.HasValue)
                                 {
                                     ticket.Price = seat.Price;
 
                                 }
-                                
+
 
 
 
@@ -464,7 +458,7 @@ namespace Services.Services
 
 
 
-                     _context.Events.Update(eventModel);
+                    _context.Events.Update(eventModel);
                 }
                 else
                 {
@@ -505,7 +499,7 @@ namespace Services.Services
                     });
 
 
-                   await _context.Events.AddAsync(eventModel);
+                    await _context.Events.AddAsync(eventModel);
 
                 }
 
@@ -534,7 +528,7 @@ namespace Services.Services
                 CreatedDate = DateTime.Now,
                 EndDate = dto.EndDate,
                 StartDate = dto.StartDate,
-                Id =dto.ConcertId.Value,
+                Id = dto.ConcertId.Value,
                 img_url = dto.img_Url,
                 poster = dto.poster,
                 PromoterId = dto.PromoterId,
@@ -589,11 +583,11 @@ namespace Services.Services
                 _repositoryManager.IConcertRepository.Create(concert);
                 _repositoryManager.Save();
             }
-                return default;
-
-            }
-
-
+            return default;
 
         }
+
+
+
     }
+}

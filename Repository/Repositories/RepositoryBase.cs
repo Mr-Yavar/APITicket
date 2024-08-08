@@ -10,6 +10,8 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore.Query;
+using Features.RequestFeatures;
+using System.Collections;
 
 namespace Repositories.Repositories
 {
@@ -71,9 +73,40 @@ namespace Repositories.Repositories
             _dbContextProvider.SaveChanges();
         }
 
-        public IIncludableQueryable<T,TProperty> GetByWithIncludes<TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TProperty>> include)
+        public IIncludableQueryable<T, TProperty> GetByWithIncludes<TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TProperty>> include)
         {
-           return _dbContextProvider.Set<T>().Where(expression).Include(include);
+            return _dbContextProvider.Set<T>().Where(expression).Include(include);
+        }
+
+        public async Task<IIncludableQueryable<T, TProperty>> GetPagedWithByAndInclude<TOrderBy, TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TOrderBy>> order, Expression<Func<T, TProperty>> include, bool isASC, RequestFeatures parameters)
+        {
+            var query = FindByCondition(expression, false);
+            if (isASC)
+            {
+                query = query.OrderBy(order);
+            }
+            else
+            {
+                query = query.OrderByDescending(order);
+            }
+
+            return query.Skip((parameters.PageNumber - 1) * parameters.PageSize).Take(parameters.PageSize).Include(include);
+
+        }
+        public async Task<IQueryable<T>> GetPagedWithBy<TOrderBy, TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TOrderBy>> order, bool isASC, RequestFeatures parameters)
+        {
+            var query = FindByCondition(expression, false);
+            if (isASC)
+            {
+                query = query.OrderBy(order);
+            }
+            else
+            {
+                query = query.OrderByDescending(order);
+            }
+
+            return query.Skip((parameters.PageNumber - 1) * parameters.PageSize).Take(parameters.PageSize);
+
         }
     }
 }

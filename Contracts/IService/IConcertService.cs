@@ -1,5 +1,7 @@
 ﻿using Entities.DataTransferObjects;
 using Entities.Models;
+using Features.CustomRequest;
+using Features.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace Contracts.IService
         /// <param name="pageSize"></param>
         /// <param name="currentPage"></param>
         /// <returns></returns>
-        glbConcertsDto GetAllConcerts(int pageSize, int currentPage);
+        Task<PagedData<List<ConcertInfoDto>>> GetAllConcerts(ConcertTableRequest dto);
 
         Task<glbCreationConcertDto> UpdateConcert(glbCreationConcertDto dto);
          Task<glbCreationConcertDto> GetConcert(Guid ConcertId);
