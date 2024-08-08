@@ -2,8 +2,9 @@
 using Entities.DataTransferObjects;
 using Entities.Enum;
 using Entities.Exceptions;
+using Entities.Utils;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.Utils;
+
 
 namespace WebAPI.Controllers
 {

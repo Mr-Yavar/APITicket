@@ -2,10 +2,11 @@
 using Entities.DataTransferObjects;
 using Entities.Enum;
 using Entities.Models;
+using Entities.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services;
-using WebAPI.Utils;
+
 
 namespace WebAPI.Controllers
 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.Enum;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,12 +17,17 @@ namespace Entities.Models
         public string Title { get; set; }
         public string Value { get; set; }
 
-        [ForeignKey(nameof(DynParameters))]
-        public Guid? ParentId { get; set; }
+        public ValueTypeEnum? ValueType { get; set; }
 
-        [InverseProperty("Parent")]
+
+        [ForeignKey(nameof(Parent))]
+        public Guid? ParentId { get; set; }
+      
+        public DynParameters Parent { get; set; }
+
+        [InverseProperty(nameof(Parent))]
         public ICollection<DynParameters> Children {  get; set; } 
         
-        public DynParameters Parent { get; set; }
+     
     }
 }

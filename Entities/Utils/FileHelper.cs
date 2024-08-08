@@ -1,4 +1,6 @@
-﻿namespace WebAPI.Utils
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Entities.Utils
 {
     public static class FileHelper
     {

@@ -13,15 +13,20 @@ namespace WebAPI.Controllers
         private IPromoterService _promoterService;
         private IPlaceService _placeService;
         private IHallService _hallService;
+        private IDynParameterService _dynParameterService;
+
         public BaseInfoController(ICategoryService categoryService,
                                   IPromoterService promoterService,
                                   IPlaceService placeService,
-                                  IHallService hallService) : base(){
+                                  IHallService hallService
+            , IDynParameterService dynParameterService
+                                  ) : base(){
            
             _categoryService = categoryService;
             _promoterService = promoterService;
             _placeService = placeService;   
             _hallService = hallService;
+            _dynParameterService = dynParameterService;
         }
 
 
@@ -57,6 +62,14 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetPromoters()
         {
             var res = await _promoterService.GetPromoters();
+            return Ok(res);
+        }
+
+
+        [HttpGet("[action]/{Key}")]
+        public async Task<IActionResult> GetParametersByKey(string Key)
+        {
+            var res = await _dynParameterService.GetChildrenByParentKey(Key);
             return Ok(res);
         }
     }

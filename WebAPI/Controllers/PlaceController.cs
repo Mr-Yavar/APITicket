@@ -3,11 +3,12 @@ using Entities.DataTransferObjects;
 using Entities.Enum;
 using Entities.Exceptions;
 using Entities.Models;
+using Entities.Utils;
 using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services;
-using WebAPI.Utils;
+
 
 namespace WebAPI.Controllers
 {

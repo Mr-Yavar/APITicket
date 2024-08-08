@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.DynParameters;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,8 @@ namespace Entities.Mapper
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<TransactionDto, Transactions>().ReverseMap();
             CreateMap<Discount, DiscountDto>().ReverseMap();
-
+            CreateMap<DynParameters, DynParametersDto>().ReverseMap();
+            CreateMap<DynParameters, DynParamterValueDto>().ReverseMap();
         }
 
         public void ConfigureCompany()

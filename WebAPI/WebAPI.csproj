@@ -41,6 +41,7 @@
     <Folder Include="Media\Promoters\" />
     <Folder Include="Media\Places\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
 </Project>

@@ -16,6 +16,7 @@ namespace Entities.Enum
         Event = 4,
         Slider = 5,
         Promoter = 6,
+        DynParam = 7,
     }
 
 
@@ -32,6 +33,8 @@ namespace Entities.Enum
             [FileTypeEnum.Event] = "Events",
             [FileTypeEnum.Slider] = "Sliders",
             [FileTypeEnum.Promoter] = "Promoters",
+            [FileTypeEnum.DynParam] = "DynParams",
+
         };
 
     }

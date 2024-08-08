@@ -553,5 +553,29 @@
         <member name="M:WebAPI.Migrations.fixbugINNewStatus.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:WebAPI.Migrations.valueTypeDynParams">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.valueTypeDynParams.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.valueTypeDynParams.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.valueTypeDynParams.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.valueTypeDynParams2">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.valueTypeDynParams2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.valueTypeDynParams2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.valueTypeDynParams2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>
