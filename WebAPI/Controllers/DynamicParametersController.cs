@@ -32,11 +32,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> ManipulateParameter([FromForm]String DynParam,[FromForm] FilesDto file)
+        public async Task<IActionResult> ManipulateParameter([FromForm]String DynParam,[FromForm] FilesDto Files)
         {
             DynParametersDto dynParametersDto = System.Text.Json.JsonSerializer.Deserialize<DynParametersDto>(DynParam, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-            var result = await _dynParameterService.ManipulateChildren(dynParametersDto,file);
+            var result = await _dynParameterService.ManipulateChildren(dynParametersDto, Files);
             return Ok(result);
 
         }

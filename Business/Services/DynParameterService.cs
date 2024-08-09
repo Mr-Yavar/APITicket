@@ -12,6 +12,7 @@ using Features.CustomRequest;
 using Features.RequestFeatures;
 using LoggerService;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -44,7 +45,7 @@ namespace Services.Services
         }
         public async Task<DynParametersDto> GetChildrenByParentId(Guid Id)
         {
-            var result = await _repositoryManager.IDynParametersRepository.FindByCondition(x => x.ParentId == Id, false).Include(x => x.Children).FirstOrDefaultAsync();
+            var result = await _repositoryManager.IDynParametersRepository.FindByCondition(x => x.Id == Id, false).Include(x => x.Children).FirstOrDefaultAsync();
             var res = result != null ? _mapper.Map<DynParametersDto>(result) : new DynParametersDto() ;
             res.Values = result != null ?  _mapper.Map<List<DynParamterValueDto>>(result.Children ) : new();
             return res;
@@ -59,6 +60,13 @@ namespace Services.Services
 
         public async Task<DynParametersDto> ManipulateChildren(DynParametersDto dto, FilesDto files)
         {
+            var todelte = await _repositoryManager.IDynParametersRepository.FindByCondition(x => dto.Garbage.Contains(x.Id), false).ToListAsync();
+            todelte.ForEach(item =>
+            {
+                _repositoryManager.IDynParametersRepository.Delete(item);
+            });
+            _repositoryManager.IDynParametersRepository.SaveChanges();
+
             var OldDynParameters = _repositoryManager.IDynParametersRepository.FindByCondition(x => x.ParentId == dto.ParentId, true).ToList();
 
             foreach (var item in dto.Values)
@@ -109,8 +117,10 @@ namespace Services.Services
                         if (file == null)
                             continue;
                         string tempName = await FileHelper.SaveFileAsync(file.File, FileType.FileTypes[FileTypeEnum.DynParam]);
-                        item.Value = await _attachments.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.DynParam], file.File.ContentType, item.Id.Value);
+                        model.Value = await _attachments.AddToStore(tempName, FileType.FileTypes[FileTypeEnum.DynParam], file.File.ContentType, model.Id);
+                        model.ValueType = ValueTypeEnum.FILE;
                     }
+
                     _repositoryManager.IDynParametersRepository.Create(model);
                 }
 

@@ -10,9 +10,9 @@ namespace Entities.Enum
     public enum ValueTypeEnum : byte
     {
         [Description("متن")]
-        STRING = 0,
+        STRING = 1,
         [Description("فایل")]
-        FILE = 1,
+        FILE = 0,
 
     }
 }

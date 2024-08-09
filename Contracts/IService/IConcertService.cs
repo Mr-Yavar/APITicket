@@ -23,7 +23,7 @@ namespace Contracts.IService
         /// <param name="currentPage"></param>
         /// <returns></returns>
         Task<PagedData<List<ConcertInfoDto>>> GetAllConcerts(ConcertTableRequest dto);
-
+        Task<PagedData<List<ConcertInfoDto>>> GetAllActiveConcertsPaged(ConcertTableRequest concertTable);
         Task<glbCreationConcertDto> UpdateConcert(glbCreationConcertDto dto);
          Task<glbCreationConcertDto> GetConcert(Guid ConcertId);
          Task<glbCreationConcertDto> CreateConcert(glbCreationConcertDto dto);

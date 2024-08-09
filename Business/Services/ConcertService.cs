@@ -38,7 +38,7 @@ namespace Services.Services
 
             var query = (await _repositoryManager.IConcertRepository.GetPagedWithByAndInclude(_ => true, x => x.StartDate, x => x.Place, false, concertTable));
 
-            query.Include(x => x.Category).Include(x => x.Place).ToList().ForEach(concert =>
+            query.Include(x => x.Category).Include(x => x.Place).Include(x => x.Promoter).ToList().ForEach(concert =>
             {
 
                 data.Add(new()
@@ -53,6 +53,10 @@ namespace Services.Services
                     {
                         Name = concert.Place.Title,
                     },
+                    Promoter = new()
+                    {
+                        Title = concert.Promoter.Title,
+                    },
                     isEnded = concert.EndDate >= DateTime.Now
 
                 });
@@ -62,6 +66,49 @@ namespace Services.Services
 
             return new(result.MetaData, result.ToList());
         }
+
+        /// <summary>
+        /// گرفتن همه کنسرتهای فعال به صورت صفحه بندی
+        /// </summary>
+        /// <param name="concertTable"></param>
+        /// <returns></returns>
+        public async Task<PagedData<List<ConcertInfoDto>>> GetAllActiveConcertsPaged(ConcertTableRequest concertTable)
+        {
+
+
+            List<ConcertInfoDto> data = new();
+
+            var query = (await _repositoryManager.IConcertRepository.GetPagedWithByAndInclude(x => x.EndDate >= DateTime.Now, x => x.StartDate, x => x.Place, false, concertTable));
+
+            query.Include(x => x.Category).Include(x => x.Place).Include(x => x.Promoter).ToList().ForEach(concert =>
+            {
+
+                data.Add(new()
+                {
+                    Title = concert.Title,
+                    EndDate = concert.EndDate,
+                    StartDate = concert.StartDate,
+                    Category = concert.Category.Title,
+                    img_Url = concert.img_url,
+                    Concertid = concert.Id,
+                    Place = new()
+                    {
+                        Name = concert.Place.Title,
+                    },
+                    Promoter = new()
+                    {
+                        Title = concert.Promoter.Title,
+                    },
+                    isEnded = concert.EndDate >= DateTime.Now
+
+                });
+
+            });
+            PagedList<ConcertInfoDto> result = new(data, _repositoryManager.IConcertRepository.FindAll(false).Count(), concertTable.PageNumber, concertTable.PageSize);
+
+            return new(result.MetaData, result.ToList());
+        }
+
 
         public glbConcertsDto GetAllPublicConcerts()
         {

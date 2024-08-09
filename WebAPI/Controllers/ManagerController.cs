@@ -27,6 +27,15 @@ namespace WebAPI.Controllers
             _discount= discount;
         }
 
+
+        [HttpGet("[action]/{pageSize}/{currentPage}")]
+        public async Task<IActionResult> GetAllActiveConcerts(int pageSize, int currentPage)
+        {
+            var res = await _concertService.GetAllConcerts(new() { PageSize = pageSize, PageNumber = currentPage });
+            return Ok(res);
+        }
+
+
         [HttpGet("[action]/{pageSize}/{currentPage}")]
         public async Task<IActionResult> GetAllConcerts(int pageSize,int currentPage)
         {

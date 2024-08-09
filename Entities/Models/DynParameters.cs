@@ -14,7 +14,7 @@ namespace Entities.Models
     {
        
         public Guid Id { get; set; }
-        public string Title { get; set; }
+        public string? Title { get; set; }
         public string Value { get; set; }
 
         public ValueTypeEnum? ValueType { get; set; }
@@ -22,12 +22,14 @@ namespace Entities.Models
 
         [ForeignKey(nameof(Parent))]
         public Guid? ParentId { get; set; }
-      
+
         public DynParameters Parent { get; set; }
 
         [InverseProperty(nameof(Parent))]
-        public ICollection<DynParameters> Children {  get; set; } 
-        
+        public ICollection<DynParameters> Children {  get; set; }
+
      
+ 
+
     }
 }

@@ -81,7 +81,7 @@ namespace Entities.DataTransferObjects
 
         public DateTime StartDate { get; set; }
         public PlaceInfoDto Place { get; set; }
-
+        public PromoterDto? Promoter { get; set; }
         public DateTime EndDate { get; set; }
         public string Note { get; set; }
         public Guid CategoryId { get; set; }
