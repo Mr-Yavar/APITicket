@@ -397,7 +397,7 @@ namespace Services.Services
             var UserReservation = await _repositoryManager.IReservationRepository.GetByWithIncludes(x => x.Id == ReservationId && x.UserId == UserId.ToString() && x.Status == ReservationStatusType.Completed, x => x.Tickets)
                 .ThenInclude(x => x.Event.Concert)
                 .Include(x => x.Transactions.OrderByDescending(x => x.CreatedDate))
-                .Include(x => x.Tickets).ThenInclude(x => x.Event.Hall.Place)
+                .Include(x => x.Tickets).ThenInclude(x => x.Event.Hall.Place.City)
                 .Include(x => x.Tickets).ThenInclude(x => x.FloorSeat.Floor)
                 .Include(x => x.Tickets).ThenInclude(x => x.FloorSeat.Seat).FirstOrDefaultAsync();
             if (UserReservation == null)
@@ -434,7 +434,7 @@ namespace Services.Services
                 },
                 Place = new() { 
                     address  = eventInfo.Hall.Place.Address,
-                    City = eventInfo.Hall.Place.City,
+                    City = eventInfo.Hall.Place.City.Title,
                     Name = eventInfo.Hall.Place.Title,
                     placeId = eventInfo.Hall.Place.Id,
                     Description = eventInfo.Hall.Place.Description,

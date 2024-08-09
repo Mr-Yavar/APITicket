@@ -122,6 +122,29 @@ namespace WebAPI.Migrations
                     b.ToTable("Concerts");
                 });
 
+            modelBuilder.Entity("Entities.Models.Definitions", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Definitions");
+                });
+
             modelBuilder.Entity("Entities.Models.Discount", b =>
                 {
                     b.Property<Guid>("Id")
@@ -145,13 +168,15 @@ namespace WebAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal?>("MaxDiscount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("Decimal(16,2)")
+                        .HasColumnName("MaxDiscount");
 
                     b.Property<Guid>("ObjectId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Percentage")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("Decimal(4,2)")
+                        .HasColumnName("Percentage");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -325,9 +350,8 @@ namespace WebAPI.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("CityId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -346,12 +370,16 @@ namespace WebAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("lat")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("Decimal(9,6)")
+                        .HasColumnName("lat");
 
                     b.Property<decimal>("lng")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("Decimal(9,6)")
+                        .HasColumnName("lng");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.ToTable("Places");
                 });
@@ -482,7 +510,8 @@ namespace WebAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("Decimal(16,2)")
+                        .HasColumnName("Price");
 
                     b.Property<Guid?>("ReservedGroupId")
                         .HasColumnType("uniqueidentifier");
@@ -510,10 +539,12 @@ namespace WebAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("Decimal(16,2)")
+                        .HasColumnName("Amount");
 
                     b.Property<decimal>("BillAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("Decimal(16,2)")
+                        .HasColumnName("BillAmount");
 
                     b.Property<string>("CardNumber")
                         .HasColumnType("nvarchar(max)");
@@ -792,6 +823,15 @@ namespace WebAPI.Migrations
                     b.Navigation("Promoter");
                 });
 
+            modelBuilder.Entity("Entities.Models.Definitions", b =>
+                {
+                    b.HasOne("Entities.Models.Definitions", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("Entities.Models.DynParameters", b =>
                 {
                     b.HasOne("Entities.Models.DynParameters", "Parent")
@@ -859,6 +899,17 @@ namespace WebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Place");
+                });
+
+            modelBuilder.Entity("Entities.Models.Place", b =>
+                {
+                    b.HasOne("Entities.Models.Definitions", "City")
+                        .WithMany("Places")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("Entities.Models.Promoter", b =>
@@ -1003,6 +1054,13 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("Entities.Models.Concert", b =>
                 {
                     b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("Entities.Models.Definitions", b =>
+                {
+                    b.Navigation("Children");
+
+                    b.Navigation("Places");
                 });
 
             modelBuilder.Entity("Entities.Models.Discount", b =>

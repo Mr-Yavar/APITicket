@@ -14,7 +14,8 @@ namespace Entities.DataTransferObjects
         public string? Address { get; set; }
         public string? img_Url { get; set; }
         public string? Description { get; set; }
-        public string City { get; set; }
+        public string? City { get; set; }
+        public Guid CityId { get; set; }
         public Decimal lng { get; set; }
         public Decimal lat { get; set; }
         public DateTime? CreatedDate { get; set; }

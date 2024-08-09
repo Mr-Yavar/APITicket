@@ -17,10 +17,12 @@ public partial class Transactions : ModelBase
     /// <summary>
     /// بدون تخفیف
     /// </summary>
+    [Column("Amount",TypeName = "Decimal(16,2)")]
     public Decimal Amount { get; set; }
     /// <summary>
     /// با تخفیف
     /// </summary>
+    [Column("BillAmount", TypeName = "Decimal(16,2)")]
     public Decimal BillAmount { get; set; }
 
     [ForeignKey(nameof(Reservation))]

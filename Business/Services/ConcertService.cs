@@ -161,6 +161,8 @@ namespace Services.Services
                     poster = concert.poster,
                     img_Url = concert.img_url,
                     Concertid = concert.Id,
+                    lat = concert.Place.lat,
+                    lng = concert.Place.lng,
                     Place = new()
                     {
                         placeId = concert.Place.Id,

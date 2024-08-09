@@ -11,7 +11,8 @@ public partial class Ticket : ModelBase
 
     public Guid FloorSeatId { get; set; }
 
-    public decimal Price { get; set; }
+    [Column("Price", TypeName = "Decimal(16,2)")]
+    public Decimal Price { get; set; }
 
     [ForeignKey(nameof(Reservation))]
     public Guid? ReservedGroupId { get; set; }

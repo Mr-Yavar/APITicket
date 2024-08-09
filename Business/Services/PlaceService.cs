@@ -57,7 +57,7 @@ namespace Services.Services
             place.Title = dto.Title;
             place.Description = dto.Description;
             place.Address = dto.Address;
-            place.City = dto.City;
+            place.CityId = dto.CityId;
             place.img_Url = dto.img_Url ?? place.img_Url;
             place.lng = dto.lng;
             place.lat = dto.lat;
