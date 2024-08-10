@@ -11,11 +11,16 @@ namespace Entities.Enum
     {
 
         [Description("نامعتبر")]
-        INVALIAD = -1,
-
+        INVALIAD = -2,
+        [Description("بدون شرط")]
+        NOCONDITION = -1,
         [Description("کنسرت")]
         Concert = 0,
         [Description("اجرا کننده")]
-        Promoter = 1
+        Promoter = 1,
+        [Description("شهر")]
+        City = 2,
+        [Description("مکان برگزاری")]
+        Place = 3
     }
 }

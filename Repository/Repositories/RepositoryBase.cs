@@ -93,7 +93,7 @@ namespace Repositories.Repositories
             return query.Skip((parameters.PageNumber - 1) * parameters.PageSize).Take(parameters.PageSize).Include(include);
 
         }
-        public async Task<IQueryable<T>> GetPagedWithBy<TOrderBy, TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TOrderBy>> order, bool isASC, RequestFeatures parameters)
+        public async Task<IQueryable<T>> GetPagedWithBy<TOrderBy>(Expression<Func<T, bool>> expression, Expression<Func<T, TOrderBy>> order, bool isASC, RequestFeatures parameters)
         {
             var query = FindByCondition(expression, false);
             if (isASC)

@@ -12,7 +12,7 @@ namespace Entities.DataTransferObjects
         public string Title { get; set; }
         public string Code { get; set; }
         public bool IsActive { get; set; }
-        public Guid ObjectId { get; set; }
+        public Guid? ObjectId { get; set; }
         public DiscountType DiscountType { get; set; }
         public Decimal? MaxDiscount { get; set; }
         public Decimal? Percentage { get; set; }

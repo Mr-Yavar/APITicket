@@ -27,7 +27,13 @@ namespace WebAPI.Controllers
             _discount= discount;
         }
 
-
+        /// <summary>
+        /// صرفا کنسرت هایی که جاری هستند یعنی زمان پایان آنها فرا نرسیده
+        /// صفحه داشبود
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="currentPage"></param>
+        /// <returns></returns>
         [HttpGet("[action]/{pageSize}/{currentPage}")]
         public async Task<IActionResult> GetAllActiveConcerts(int pageSize, int currentPage)
         {
@@ -112,7 +118,7 @@ namespace WebAPI.Controllers
 
 
         /// <summary>
-        /// ایجاد کنسرت
+        /// ویرایش کنسرت
         /// </summary>
         /// <param name="Files"></param>
         /// <param name="Concert"></param>
@@ -210,6 +216,13 @@ namespace WebAPI.Controllers
 
 
 
+
+        [HttpGet("[action]/{pageSize}/{currentPage}")]
+        public async Task<IActionResult> GetAllDiscount(int pageSize,int currentPage)
+        {
+            var res = await _discount.GetAll(new() {PageNumber=currentPage,PageSize=pageSize });
+            return Ok(res);
+        }
 
 
         [HttpGet("[action]/{Id}")]

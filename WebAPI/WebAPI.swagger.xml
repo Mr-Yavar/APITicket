@@ -58,6 +58,15 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:WebAPI.Controllers.ManagerController.GetAllActiveConcerts(System.Int32,System.Int32)">
+            <summary>
+            صرفا کنسرت هایی که جاری هستند یعنی زمان پایان آنها فرا نرسیده
+            صفحه داشبود
+            </summary>
+            <param name="pageSize"></param>
+            <param name="currentPage"></param>
+            <returns></returns>
+        </member>
         <member name="M:WebAPI.Controllers.ManagerController.GetAllRelatedConcerts(System.Int32,System.Int32)">
             <summary>
             گرفتن کنتسرهای مرتبط با کاربر
@@ -79,7 +88,7 @@
         <member name="M:WebAPI.Controllers.ManagerController.UpdateConcert(Entities.DataTransferObjects.FilesDto,System.String)">
             
             <summary>
-            ایجاد کنسرت
+            ویرایش کنسرت
             </summary>
             <param name="Files"></param>
             <param name="Concert"></param>
@@ -635,6 +644,18 @@
             <inheritdoc />
         </member>
         <member name="M:WebAPI.Migrations.definitionsData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebAPI.Migrations.dicountObjectIdcanbenull">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.dicountObjectIdcanbenull.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.dicountObjectIdcanbenull.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebAPI.Migrations.dicountObjectIdcanbenull.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

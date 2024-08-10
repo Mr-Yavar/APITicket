@@ -3,29 +3,42 @@ using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Features.CustomRequest;
+using Features.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Services.Services
 {
     public class DiscountService : ServiceBase, IDiscountService
     {
 
+        public DiscountService(IMapper mapper, IRepositoryManager repositoryManager) : base(repositoryManager, mapper)
+        {
 
-   
 
-        public DiscountService(IMapper mapper,IRepositoryManager repositoryManager):base( repositoryManager,mapper) {
-        
-      
-         
+
+        }
+
+        public async Task<PagedData<List<DiscountDto>>> GetAll(DiscountTableRequest dto)
+        {
+            var query =await _repositoryManager.IDiscountRepository.GetPagedWithBy<DateTime>(x => true, x => x.CreatedDate, false, dto);
+            var data = await query.ToListAsync();
+
+            PagedList<DiscountDto> result = new( _mapper.Map<List<DiscountDto>>(data), _repositoryManager.IDiscountRepository.FindAll(false).Count(), dto.PageNumber, dto.PageSize);
+
+            return new PagedData<List<DiscountDto>>(result.MetaData,result.ToList());
         }
 
         public async Task Add(DiscountDto dto)
         {
+            dto.CreatedDate = DateTime.Now;
+           
             Discount model = _mapper.Map<Discount>(dto);
             _repositoryManager.IDiscountRepository.Create(model);
             _repositoryManager.Save();
@@ -34,8 +47,8 @@ namespace Services.Services
 
         public async Task Update(DiscountDto dto)
         {
- 
-            var oldModel =  await _repositoryManager.IDiscountRepository.FindByCondition(x => x.Id == dto.Id, true).FirstOrDefaultAsync();
+
+            var oldModel = await _repositoryManager.IDiscountRepository.FindByCondition(x => x.Id == dto.Id, true).FirstOrDefaultAsync();
 
             oldModel.Title = dto.Title;
             oldModel.IsActive = dto.IsActive;
@@ -52,7 +65,7 @@ namespace Services.Services
         public async Task<DiscountDto> GetByCode(string Code)
         {
 
-            var model = await _repositoryManager.IDiscountRepository.FindByCondition(x=>x.Code.ToLower()==Code.ToLower() && x.IsActive && x.ExpirationDate >= DateTime.Now,false).FirstOrDefaultAsync();
+            var model = await _repositoryManager.IDiscountRepository.FindByCondition(x => x.Code.ToLower() == Code.ToLower() && x.IsActive && x.ExpirationDate >= DateTime.Now, false).FirstOrDefaultAsync();
             var res = _mapper.Map<DiscountDto>(model);
             return res;
 
@@ -62,7 +75,7 @@ namespace Services.Services
         public async Task<DiscountDto> GetById(Guid Id)
         {
 
-            var model =await _repositoryManager.IDiscountRepository.FindByCondition(x => x.Id ==Id, false).FirstOrDefaultAsync();
+            var model = await _repositoryManager.IDiscountRepository.FindByCondition(x => x.Id == Id, false).FirstOrDefaultAsync();
             var res = _mapper.Map<DiscountDto>(model);
             return res;
 
@@ -74,7 +87,7 @@ namespace Services.Services
 
             var oldModel = await _repositoryManager.IDiscountRepository.FindByCondition(x => x.Id == Id, true).FirstOrDefaultAsync();
 
-        
+
             oldModel.IsActive = !oldModel.IsActive;
 
             _repositoryManager.IDiscountRepository.Update(oldModel);
@@ -84,24 +97,25 @@ namespace Services.Services
         }
 
 
-        public async Task<Decimal> CalculateDiscount(Decimal Amount,Guid DiscountId,Guid ConcertId,Guid PromoterId,Guid PlaceId, bool checking = true)
+        public async Task<Decimal> CalculateDiscount(Decimal Amount, Guid DiscountId, Guid ConcertId, Guid PromoterId, Guid PlaceId, bool checking = true)
         {
             var discount = await this.GetById(DiscountId);
             if (discount == null)
                 return Amount;
 
-            if(!checking || (discount.IsActive==true && discount.ExpirationDate >= DateTime.Now))
+            if (!checking || (discount.IsActive == true && discount.ExpirationDate >= DateTime.Now))
             {
                 Decimal res = Amount;
-                if(discount.MaxDiscount.HasValue && !discount.Percentage.HasValue)
+                if (discount.MaxDiscount.HasValue && !discount.Percentage.HasValue)
                 {
                     res = Amount - discount.MaxDiscount.Value;
 
                     res = res < 0 ? 0 : res;
 
-                }else if (!discount.MaxDiscount.HasValue && discount.Percentage.HasValue)
+                }
+                else if (!discount.MaxDiscount.HasValue && discount.Percentage.HasValue)
                 {
-                    res = Amount * discount.Percentage.Value /100;
+                    res = Amount * discount.Percentage.Value / 100;
                     res = Amount - res;
                     res = res < 0 ? 0 : res;
                 }

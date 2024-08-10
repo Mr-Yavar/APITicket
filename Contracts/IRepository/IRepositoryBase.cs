@@ -21,7 +21,7 @@ namespace Contracts.IRepository
        
         void SaveChanges();
         Task<IIncludableQueryable<T, TProperty>> GetPagedWithByAndInclude<TOrderBy, TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TOrderBy>> order, Expression<Func<T, TProperty>> include, bool isASC, RequestFeatures parameters);
-        Task<IQueryable<T>> GetPagedWithBy<TOrderBy, TProperty>(Expression<Func<T, bool>> expression, Expression<Func<T, TOrderBy>> order,bool isASC, RequestFeatures parameters);
+        Task<IQueryable<T>> GetPagedWithBy<TOrderBy>(Expression<Func<T, bool>> expression, Expression<Func<T, TOrderBy>> order,bool isASC, RequestFeatures parameters);
 
 
     }

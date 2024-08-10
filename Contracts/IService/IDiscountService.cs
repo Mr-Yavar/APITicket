@@ -1,5 +1,6 @@
 ﻿using Entities.DataTransferObjects;
 using Entities.Models;
+using Features.CustomRequest;
 using Features.RequestFeatures;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Contracts.IService
 {
     public interface IDiscountService : IService
     {
+        Task<PagedData<List<DiscountDto>>> GetAll(DiscountTableRequest dto);
         Task Add(DiscountDto dto);
         Task Update(DiscountDto dto);
         Task<DiscountDto> GetByCode(string Code);
