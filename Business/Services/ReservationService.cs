@@ -35,7 +35,7 @@ namespace Services.Services
             _discountService = discountService;
             _userManager = userManager;
             _transactionService = transactionService;
-            var t = userManager.FindByNameAsync("mr_yavar").Result;
+           
             _frontEnd = configuration.GetSection("Configuration:FrontEnd").Value;
         }
 

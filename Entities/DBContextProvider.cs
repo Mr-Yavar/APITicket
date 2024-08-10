@@ -1,5 +1,6 @@
 ﻿using Entities.Configurtion;
 using Entities.Models;
+using Entities.ModelsConfiguration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,9 +20,11 @@ namespace Entities
            { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new DefinitionsConfiguration());
             base.OnModelCreating(modelBuilder);
 
             //modelBuilder.ApplyConfiguration(new RoleConfiguration());
+           
         }
 
         public DbSet<Category> Categories { get; set; }
