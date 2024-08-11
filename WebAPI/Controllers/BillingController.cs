@@ -29,10 +29,10 @@ namespace WebAPI.Controllers
 
         }
 
-        [HttpGet("[action]/{Code}")]
-        public async Task<IActionResult> GetDiscount(string Code)
+        [HttpGet("[action]/{TempReservationId}/{Code}")]
+        public async Task<IActionResult> GetDiscount(Guid TempReservationId,string Code)
         {
-            DiscountDto res = await  _discountService.GetByCode(Code);
+            DiscountDto res = await  _discountService.GetByCode(TempReservationId,Code);
             if (res == null)
             {
                 res = new DiscountDto()

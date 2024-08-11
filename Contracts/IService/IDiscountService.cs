@@ -15,9 +15,9 @@ namespace Contracts.IService
         Task<PagedData<List<DiscountDto>>> GetAll(DiscountTableRequest dto);
         Task Add(DiscountDto dto);
         Task Update(DiscountDto dto);
-        Task<DiscountDto> GetByCode(string Code);
+        Task<DiscountDto> GetByCode(Guid tempReservationId,string Code);
         Task<DiscountDto> GetById(Guid Id);
         Task<DiscountDto> ToggleDiscount(Guid Id);
-        Task<Decimal> CalculateDiscount(Decimal Amount, Guid DiscountId, Guid ConcertId, Guid PromoterId, Guid PlaceId,bool checking = true);
+        Task<Decimal?> CalculateDiscount(Decimal Amount, Guid DiscountId, Guid TempReservationID, bool checking = true);
     }
 }

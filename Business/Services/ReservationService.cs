@@ -194,25 +194,51 @@ namespace Services.Services
 
             dto.url = dto.url.TrimEnd('/');
             Guid TransactionId = Guid.NewGuid();
+
+        
+            //============================= مقداردهی دیتای داخلی
+
             BillingDto billingDto = new BillingDto()
             {
                 Amount = Amount,
-                DiscountId = dto.DiscountId,
-                BillingAmount = dto.DiscountId.HasValue ? await _discountService.CalculateDiscount(Amount, dto.DiscountId.Value, Guid.Empty, Guid.Empty, Guid.Empty, true) : Amount,
+                DiscountId = null,
+                BillingAmount =  Amount,
                 FullName = User.FirstName + " " + User.LastName,
                 PhoneNumber = User.PhoneNumber,
-                //  ReturnUrl = _frontEnd + dto.url + "/"+dto.PayService +"/" + TransactionId.ToIfcGuid(),
                 TransactionId = TransactionId,
                 UserId = UserId,
                 TempReservationId = dto.ReservationId,
                 PayService = dto.PayService,
             };
 
+
+            if (dto.DiscountId.HasValue)
+            {
+                var DiscountAmount = await _discountService.CalculateDiscount(Amount, dto.DiscountId.Value, userTcikets.Id, true);
+
+                if(DiscountAmount.HasValue)
+                {
+                    billingDto.DiscountId = dto.DiscountId;
+                    billingDto.BillingAmount = DiscountAmount.Value;
+                } 
+
+            }
+
+
             billingDto.PayService = billingDto.BillingAmount < 10 ? PayServiceType.NoService : billingDto.PayService;
             billingDto.ReturnUrl = _frontEnd + dto.url + "/" + billingDto.PayService + "/" + TransactionId.ToIfcGuid();
 
             string payUrl = await _transactionService.CreatePayment(billingDto); // کد درگاه پرداخت
 
+
+
+
+
+
+            //افزودن کد تخفیف به رزرو موقت
+            userTcikets.DiscountId = billingDto.DiscountId;
+            _repositoryManager.ITempReservationRepository.Update(userTcikets);
+            _repositoryManager.ITempReservationRepository.SaveChanges();
 
             return new()
             {
