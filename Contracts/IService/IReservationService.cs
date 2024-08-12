@@ -1,6 +1,7 @@
 ﻿using Entities.DataTransferObjects;
 using Entities.DataTransferObjects.PayingDto;
 using Entities.Models;
+using Features.CustomRequest;
 using Features.RequestFeatures;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,14 @@ namespace Contracts.IService
         Task<toVerifyResponse> VerifyPaidBilling(Guid UserId, toVerifyDto dto);
         Task<toPayResponse> ReservationToPay(Guid UserId, toPayDto dto);
         Task<ReservationResultDto> GetUserReservationDetailsById(Guid UserId, Guid ReservationId);
+
+        /// <summary>
+        /// گرفتن صفحه بندی شده رزروهای یوزر
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="ReservationId"></param>
+        /// <returns></returns>
+        Task<PagedData<List<ReservationResultDto>>> GetUserReservations(Guid UserId, UserReservationTableRequest dto);
+
     }
 }

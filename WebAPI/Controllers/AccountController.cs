@@ -1,290 +1,125 @@
-﻿using Asp.Versioning;
-using AutoMapper;
-
+﻿using AutoMapper;
+using Contracts.IService;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Features.CustomRequest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Reflection;
+using System.Drawing.Printing;
+using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
-    [ApiVersion("1.0")]
-    [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
+    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-
+        IHttpContextAccessor _httpContextAccessor;
+        IReservationService _reservationService;
+        ITransactionService _transactionService;
         public AccountController(IMapper mapper,
                                  IHttpContextAccessor httpContextAccessor,
                                  UserManager<User> userManager,
-                                 RoleManager<IdentityRole> roleManager) : base()
-        {
+                                 IReservationService reservationService,
+                                   ITransactionService transactionService
+                                 ) : base() {
+
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(_httpContextAccessor));
+            _reservationService = reservationService ?? throw new ArgumentNullException(    nameof(reservationService));
+            _transactionService = transactionService ?? throw new ArgumentNullException(    nameof(transactionService));
         }
 
-        #region Users
-  
 
-        /// <summary>
-        /// گرفتن همه کابران
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            var result = _userManager.Users.Select(x =>new
-            UserDto
-            {
-                Id = Guid.Parse(x.Id),
-                PhoneNumber = x.PhoneNumber,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                UserName = x.UserName,
-      
-            }).ToList();
-            return Ok(result);
-
-
-        }
-
-        /// <summary>
-        /// بروزرسانی کاربران
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPut]
-        [Route("[action]")]
-        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto model)
-        {
-
-            var userExists = await _userManager.FindByIdAsync(model.Id.ToString());
-
-
-            if (userExists == null)
-                return NotFound(new Response { Status = "Error", Message = "User was not found!" });
-
-            userExists.PhoneNumber = model.PhoneNumber;
-
-            userExists.UserName = model.UserName;
-            userExists.FirstName = model.FirstName;
-            userExists.LastName = model.LastName;
-            userExists.Gender = model.Gender;
-            var result = await _userManager.UpdateAsync(userExists);
-
-            await _userManager.RemoveFromRoleAsync(userExists, (await _userManager.GetRolesAsync(userExists)).First());
-            await _userManager.AddToRoleAsync(userExists,model.Role);
-         
-            if (result.Succeeded && model.Password != null && model.Password != "")
-            {
-
-                await _userManager.RemovePasswordAsync(userExists);
-                await _userManager.AddPasswordAsync(userExists, model.Password);
-            }
-
-
-            if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again.", Errors = result.Errors.Select(x => x.Description).ToList() });
-
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
-        }
-
-        #endregion
-
-
-        #region Roles
-        /// <summary>
-        /// ایجاد نقش جدید
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        [HttpPost("[action]")]
-        public async Task<IActionResult> CreateRole([FromBody] RoleDto dto)
-        {
-            //if (ModelState.IsValid)
-            //{
-            IdentityRole Role = new IdentityRole
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = dto.Name,
-               // Description = dto.Description,
-                //Locked = false
-            };
-            IdentityResult result = await _roleManager.CreateAsync(Role);
-            if (result.Errors.Count() > 0)
-                return Ok(new
-                {
-                    success = false,
-                    message = result.Errors.First().Description,
-                });
-
-            //foreach (IdentityError error in result.Errors)
-            //    ModelState.AddModelError("", error.Description);
-            //};
-
-            return Ok(new
-            {
-                success = true,
-                message = "Role created successfully.",
-            });
-        }
-        /// <summary>
-        /// گرفتن همه نقش های
-        /// </summary>
-        /// <returns></returns>
         [HttpGet("[action]")]
-        public async Task<IActionResult> ListRoles()
+        public async Task<IActionResult> GetProfile()
         {
-            return Ok(_roleManager.Roles.Select(x => new RoleDto() { Id = Guid.Parse(x.Id), Name = x.Name,
+            string UserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var userInfo = await _userManager.FindByIdAsync(UserId);
+
+            if(userInfo!= null)
+            {
+                var res = new UserForRegistrationDto()
+                {
+                    Email = userInfo.Email,
+                    FirstName = userInfo.FirstName,
+                    LastName = userInfo.LastName,
+                    PhoneNumber = userInfo.PhoneNumber,
+                    UserName = userInfo.UserName
+                };
+
+                return Ok(res); 
                 
-                //Description = x.Description, Locked = x.Locked 
-            
-            }).ToList());
+            }
+
+            return BadRequest();
         }
-        /// <summary>
-        /// گرفتن اطلاعات یک نقش برای ویرایش کاربران و سطح دسترسی ها
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-       /* [HttpGet("[action]")]
-        public async Task<IActionResult> GetRole(Guid id)
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UserForRegistrationDto dto)
         {
-            var role = await _roleManager.FindByIdAsync(id.ToString());
-            if (role == null)
+            string UserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var userInfo = await _userManager.FindByIdAsync(UserId);
+
+            userInfo.PhoneNumber = dto.PhoneNumber;
+            userInfo.UserName = dto.UserName;
+            userInfo.FirstName = dto.FirstName;
+            userInfo.LastName = dto.LastName;   
+            userInfo.Email = dto.Email;
+            
+            await _userManager.UpdateAsync(userInfo);
+
+            var res = new UserForRegistrationDto()
             {
-                return NotFound("نقش مورد نظر یافت نشد");
-            }
-
-            List<User> RoleUsers = (await _userManager.GetUsersInRoleAsync(role.Name)).ToList<User>();
-            List<User> Users = _userManager.Users.ToList();
-
-            var res = new RoleDto() { Id = id, Name = role.Name, Users = Users.Select(x => new UserRoleDto() { Id = Guid.Parse(x.Id), UserName = x.UserName, FirstName = x.FirstName, LastName = x.LastName, Selected = RoleUsers.Any(user => user.Id == x.Id) }).ToList() };
-
-
-            List<RoleClaimDto> Permissions = typeof(SMPermissions).GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => new RoleClaimDto() { Type = ServiceClaimTypes.SM_Permission, Value = x.GetValue(null).ToString(), Selected = false }).ToList();
-            Permissions.AddRange(typeof(PMSPermission).GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => new RoleClaimDto() { Type = ServiceClaimTypes.PMS_Permission, Value = x.GetValue(null).ToString(), Selected = false }).ToList());
-
-            (await _roleManager.GetClaimsAsync(role)).ToList().ForEach(claim =>
-            {
-                var Permission = Permissions.FirstOrDefault(x => x.Type == claim.Type && x.Value == claim.Value);
-                Permission.Selected = true;
-            });
-
-            res.Claims = Permissions;
+                Email = userInfo.Email,
+                FirstName = userInfo.FirstName,
+                LastName = userInfo.LastName,
+                PhoneNumber = userInfo.PhoneNumber,
+                UserName = userInfo.UserName
+            };
             return Ok(res);
-        }*/
+        }
 
-        /// <summary>
-        /// بروزرسانی نقش و کاربران و سطح دسترسی های آن
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-     /*   [HttpPatch("[action]")]
-        public async Task<IActionResult> UpdateRole([FromBody] RoleDto dto)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UpdatePassword(ChangePasswordDto dto)
         {
-            var role = await _roleManager.FindByIdAsync(dto.Id.ToString());
-            if (role == null)
+            string UserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userInfo = await _userManager.FindByIdAsync(UserId);
+            var res = await _userManager.ChangePasswordAsync(userInfo,dto.CurrentPassword,dto.Password);
+            if (res.Succeeded)
             {
-                return NotFound("نقش مورد نظر یافت نشد");
+                return Ok(res);
             }
-
-
-            var AllRoleClaims = await _roleManager.GetClaimsAsync(role);
-
-            for (int i = 0; i < dto.Claims.Count; i++)
+            else
             {
-                var claim = dto.Claims[i];
-                if (AllRoleClaims.Any(x => x.Type == claim.Type && x.Value == claim.Value))
-                {
-                    if (!claim.Selected)
-                        await _roleManager.RemoveClaimAsync(role, AllRoleClaims.FirstOrDefault(x => x.Type == claim.Type && x.Value == claim.Value));
-
-                }
-                else
-                {
-                    if (claim.Selected)
-                        await _roleManager.AddClaimAsync(role, new System.Security.Claims.Claim(claim.Type, claim.Value));
-                }
+                return BadRequest(res.Errors);
             }
+        }
+
+        [HttpGet("[action]/{pageSize}/{currentPage}")]
+        public async Task<IActionResult> MyReservation(int pageSize,int currentPage)
+        {
+            string UserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var res = await _reservationService.GetUserReservations(Guid.Parse(UserId), new() { PageNumber = currentPage, PageSize = pageSize });
+            return Ok(res);
+        }
+
+        [HttpGet("[action]/{pageSize}/{currentPage}")]
+        public async Task<IActionResult> AllPayments(int pageSize, int currentPage)
+        {
+            string UserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var res = await _transactionService.GetUserTransactions(Guid.Parse(UserId), new() { PageNumber = currentPage, PageSize = pageSize });
+            return Ok(res);
+            
+        }
 
 
 
-
-
-
-
-
-
-
-            for (int i = 0; i < dto.Users.Count; i++)
-            {
-                var user = await _userManager.FindByIdAsync(dto.Users[i].Id.ToString());
-                IdentityResult result = null;
-                if (dto.Users[i].Selected && !(await _userManager.IsInRoleAsync(user, role.Name)))
-                {
-                    // اضافه کردن رول به یک یوزر
-                    result = await _userManager.AddToRoleAsync(user, role.Name);
-                }
-                else if (!dto.Users[i].Selected && await _userManager.IsInRoleAsync(user, role.Name))
-                {
-
-                    result = await _userManager.RemoveFromRoleAsync(user, role.Name);
-
-                }
-                else
-                    continue;
-
-
-            }
-            if (!role.Locked)
-            {
-                role.Name = dto.Name;
-                role.Description = dto.Description;
-            }
-            await _roleManager.UpdateAsync(role);
-
-            return Ok(new Response() { Message = "has updated!" });
-        }*/
-
-        //[HttpDelete("[action]")]
-        //public async Task<IActionResult> RemoveRole(Guid RoleId)
-        //{
-        //    var role = await _roleManager.FindByIdAsync(RoleId.ToString());
-        //    if (role == null)
-        //    {
-        //        return Ok(new
-        //        {
-        //            success = false,
-        //            message = $"Role cannot be found!",
-        //        });
-        //    }
-
-        //    var result = await _roleManager.DeleteAsync(role);
-        //    if (result.Errors.Count() > 0)
-        //        return Ok(new
-        //        {
-        //            success = false,
-        //            message = result.Errors.First().Description,
-        //        });
-
-        //    return Ok(new
-        //    {
-        //        success = true,
-        //        message = "Role deleted successfully.",
-        //    });
-        //}
-
-
-
-
-
-
-
-        #endregion
     }
 }

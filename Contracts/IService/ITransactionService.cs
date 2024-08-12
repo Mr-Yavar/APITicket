@@ -2,6 +2,7 @@
 using Entities.DataTransferObjects.PayingDto;
 using Entities.Enum;
 using Entities.Models;
+using Features.CustomRequest;
 using Features.RequestFeatures;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,6 @@ namespace Contracts.IService
         Task<string> CreatePayment(BillingDto dto);
         Task<PayStatusType> VerifyPayment(toVerifyDto dto,Transactions transaction);
         Task CancelTransactionsByTempReservation(Guid TempReservationId);
+        Task<PagedData<List<TransactionInfoDto>>> GetUserTransactions(Guid UserId, UserTransactionTableRequest dto);
     }
 }

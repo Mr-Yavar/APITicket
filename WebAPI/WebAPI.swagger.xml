@@ -4,32 +4,6 @@
         <name>WebAPI</name>
     </assembly>
     <members>
-        <member name="M:WebAPI.Controllers.AccountController.GetAllUsers">
-            <summary>
-            گرفتن همه کابران
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WebAPI.Controllers.AccountController.UpdateUser(Entities.DataTransferObjects.UserUpdateDto)">
-            <summary>
-            بروزرسانی کاربران
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebAPI.Controllers.AccountController.CreateRole(Entities.DataTransferObjects.RoleDto)">
-            <summary>
-            ایجاد نقش جدید
-            </summary>
-            <param name="dto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebAPI.Controllers.AccountController.ListRoles">
-            <summary>
-            گرفتن همه نقش های
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:WebAPI.Controllers.ConcertsController.GetConcertInfo(System.Guid)">
             <summary>
             اطلاعات کلی کنسرت
@@ -175,6 +149,32 @@
         <member name="M:WebAPI.Controllers.PromotersController.GetPromoter(System.Guid)">
             <summary>
             گرفتن  مکان  برگزاری
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.UsersController.GetAllUsers">
+            <summary>
+            گرفتن همه کابران
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.UsersController.UpdateUser(Entities.DataTransferObjects.UserUpdateDto)">
+            <summary>
+            بروزرسانی کاربران
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.UsersController.CreateRole(Entities.DataTransferObjects.RoleDto)">
+            <summary>
+            ایجاد نقش جدید
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.UsersController.ListRoles">
+            <summary>
+            گرفتن همه نقش های
             </summary>
             <returns></returns>
         </member>

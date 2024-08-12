@@ -6,6 +6,8 @@ using Entities.DataTransferObjects.PayingDto;
 using Entities.Enum;
 using Entities.Models;
 using Entities.Utils;
+using Features.CustomRequest;
+using Features.RequestFeatures;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -486,6 +488,47 @@ namespace Services.Services
             };
 
             return res;
+        }
+
+        public async Task<PagedData<List<ReservationResultDto>>> GetUserReservations(Guid UserId, UserReservationTableRequest dto)
+        {
+            var query = await _repositoryManager.IReservationRepository.GetPagedWithByAndInclude(x => x.UserId == UserId.ToString() && x.Status == ReservationStatusType.Completed, x => x.CreatedDate, x => x.Discount, false, dto);
+            var UserReservations = await query.Include(x => x.Tickets).ThenInclude(x => x.Event.Concert.Place.City).ToListAsync();
+
+            foreach (var item in UserReservations)
+            {
+                
+            }
+
+        
+
+            PagedList<ReservationResultDto> result = new(UserReservations.Select(UserReservation => new ReservationResultDto()
+            {
+                ConcertInfo = new()
+                {
+                    Title = UserReservation.Tickets.ElementAt(0).Event.Concert.Title,
+                    EndDate = UserReservation.Tickets.ElementAt(0).Event.Concert.EndDate,
+                    StartDate = UserReservation.Tickets.ElementAt(0).Event.Concert.StartDate,
+                    Note = UserReservation.Tickets.ElementAt(0).Event.Concert.Note,
+                   
+                },
+                Place = new()
+                {
+                    address = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Address,
+                    City = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.City.Title,
+                    Name = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Title,
+                    placeId = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Id,
+                    Description = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Description,
+                },
+
+                ReservationId = UserReservation.Id,
+               ReservationDate = UserReservation.CreatedDate
+
+            }).ToList(), _repositoryManager.IReservationRepository.FindByCondition(x => x.UserId == UserId.ToString() && x.Status == ReservationStatusType.Completed, false).Count(),dto.PageNumber ,dto.PageSize);
+
+
+            return new(result.MetaData,result.ToList());
+
         }
 
         //public async Task<bool> AddReservation(Guid UserId, TempReservation dto)

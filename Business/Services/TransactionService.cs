@@ -7,6 +7,8 @@ using Entities.DataTransferObjects.PayingDto;
 using Entities.DataTransferObjects.PayService.PayPing;
 using Entities.Enum;
 using Entities.Models;
+using Features.CustomRequest;
+using Features.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -21,7 +23,7 @@ namespace Services.Services
 
         private Dictionary<string, string?> _PAYPING_API { get; set; }
         private IPaymentFactory _paymentFactory { get; set; }
-        public TransactionService(IMapper mapper, IRepositoryManager repositoryManager, IConfiguration configuration,IPaymentFactory paymentFactory) : base(repositoryManager, mapper)
+        public TransactionService(IMapper mapper, IRepositoryManager repositoryManager, IConfiguration configuration, IPaymentFactory paymentFactory) : base(repositoryManager, mapper)
         {
 
             _PAYPING_API = configuration.GetSection("Configuration:PAYPAING_API").AsEnumerable().ToDictionary(x => x.Key, x => x.Value);
@@ -32,7 +34,7 @@ namespace Services.Services
         {
 
 
-         
+
 
             //در صورت وجود تراکنش های قبلی آنها را تعیین وضعیت کنیم
             var preTranactions = _repositoryManager.ITransactionRepository.FindByCondition(x => x.TempReservedId == dto.TempReservationId, true).ToList();
@@ -44,7 +46,7 @@ namespace Services.Services
             }
             _repositoryManager.ITransactionRepository.SaveChanges();
 
-            
+
             toPayResponse NewPaymentResponse = new()
             {
                 payCode = "-",
@@ -61,14 +63,15 @@ namespace Services.Services
             if (NewPaymentResponse == null)
                 return "";
 
-            _repositoryManager.ITransactionRepository.Create(new() { 
-                Amount = dto.Amount, 
-                BillAmount = dto.BillingAmount, 
+            _repositoryManager.ITransactionRepository.Create(new()
+            {
+                Amount = dto.Amount,
+                BillAmount = dto.BillingAmount,
                 Id = dto.TransactionId,
                 CreatedDate = DateTime.Now,
                 refId = NewPaymentResponse.payCode,
                 ServiceType = dto.PayService,
-                Status = Entities.Enum.PayStatusType.InProgress ,
+                Status = Entities.Enum.PayStatusType.InProgress,
                 TempReservedId = dto.TempReservationId
             });
 
@@ -85,20 +88,20 @@ namespace Services.Services
 
             if (transaction.Id != dto.clientrefid)
                 return PayStatusType.Refuted;
-             
+
 
             bool verifyResponse = true;
             if (dto.PayService != PayServiceType.NoService)
             {
                 IPaymentGateway paymentService = _paymentFactory.GetInstanceByType(dto.PayService);
-                 verifyResponse = await paymentService.VerifyPayment(dto);
+                verifyResponse = await paymentService.VerifyPayment(dto);
             }
 
 
             if (verifyResponse)
             {
                 transaction.Status = Entities.Enum.PayStatusType.Verified;
-                
+
             }
             else
             {
@@ -122,6 +125,38 @@ namespace Services.Services
                 _repositoryManager.ITransactionRepository.Update(item);
             }
             _repositoryManager.ITransactionRepository.SaveChanges();
+        }
+
+
+
+
+        public async Task<PagedData<List<TransactionInfoDto>>> GetUserTransactions(Guid UserId, UserTransactionTableRequest dto)
+        {
+            var query = await _repositoryManager.ITransactionRepository.GetPagedWithByAndInclude(x => (x.TempReservation.UserId == UserId.ToString() || x.Reservation.UserId == UserId.ToString()), x => x.CreatedDate, x => x.Reservation, false, dto);
+            var Data = await query.Include(x => x.TempReservation).ToListAsync();
+
+            var countQ = _repositoryManager.ITransactionRepository.GetByWithIncludes(x => (x.TempReservation.UserId == UserId.ToString() || x.Reservation.UserId == UserId.ToString()), x => x.Reservation).Include(x => x.TempReservation).Count();
+
+
+            PagedList<TransactionInfoDto> res = new(
+
+                Data.Select(tra => new TransactionInfoDto()
+                {
+                    Amount = tra.Amount,
+                    BillAmount = tra.BillAmount,
+                    CreatedDate = tra.CreatedDate,
+                    Id = tra.Id,
+                    ServiceType = tra.ServiceType.ToString(),
+                    Status = tra.Status.ToString()
+                }
+
+
+                ).ToList(), countQ, dto.PageNumber, dto.PageSize);
+
+
+            return new PagedData<List<TransactionInfoDto>>(res.MetaData, res);
+
+
         }
     }
 }

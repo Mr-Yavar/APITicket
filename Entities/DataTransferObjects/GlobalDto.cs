@@ -23,10 +23,12 @@ namespace Entities.DataTransferObjects
         public HallInfoDto Hall { get; set; }
         public Guid ReservationId { get; set; }
         public Decimal Amount { get; set; }
+        public DateTime ReservationDate { get; set; }
+
 
     }
 
-    
+
 
     public class TempReservationDto
     {
