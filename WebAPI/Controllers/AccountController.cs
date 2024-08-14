@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateProfile([FromBody] UserForRegistrationDto dto)
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileDto dto)
         {
             string UserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
