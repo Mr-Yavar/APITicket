@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetProfile()
         {
             string UserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+           
             var userInfo = await _userManager.FindByIdAsync(UserId);
 
             if(userInfo!= null)

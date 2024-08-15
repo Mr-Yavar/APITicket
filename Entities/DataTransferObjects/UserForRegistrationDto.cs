@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations;
 namespace Entities.DataTransferObjects;
 public record UserForRegistrationDto
 {
+
+   
+
     public string FirstName { get; set; }
     public string LastName { get; set; }
     [Required(ErrorMessage = "Username is required")]

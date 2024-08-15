@@ -21,10 +21,11 @@ namespace Entities.DataTransferObjects
         public List<SeatInfo> seats { get; set; }
         public PlaceInfoDto Place { get; set; }
         public HallInfoDto Hall { get; set; }
+        public TransactionInfoDto? Transaction { get; set; }
         public Guid ReservationId { get; set; }
         public Decimal Amount { get; set; }
         public DateTime ReservationDate { get; set; }
-
+        public int? TicketCount {  get; set; } 
 
     }
 
@@ -93,6 +94,13 @@ namespace Entities.DataTransferObjects
 
         public bool? isEnded { get; set; }
         public KeyItemsDto<EventInfoDto> Events { get; set; }
+
+        public int? ReservationCount { get; set; }
+        public int? TicketCount { get; set; }
+        public int? ReservedTicketCount { get; set; }
+
+        public int? EventCount { get; set; }
+        
 
     }
 

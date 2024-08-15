@@ -4,6 +4,30 @@
         <name>WebAPI</name>
     </assembly>
     <members>
+        <member name="M:WebAPI.Controllers.AdminController.GetUsers(System.Int32,System.Int32,System.String)">
+            <summary>
+            گرفتن همه کاربران به صورت صفحه بندی
+            نقش ادمین سیستم
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.AdminController.GetUser(System.Guid)">
+            <summary>
+            گرفتن  کاربر
+            نقش ادمین سیستم
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.AdminController.UpdateUser(Entities.DataTransferObjects.UserUpdateDto)">
+            <summary>
+            ویرایش اطلاعات کاربر
+            نقش ادمین سیستم
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:WebAPI.Controllers.ConcertsController.GetConcertInfo(System.Guid)">
             <summary>
             اطلاعات کلی کنسرت

@@ -29,6 +29,7 @@ namespace Contracts.IService
         /// <param name="ReservationId"></param>
         /// <returns></returns>
         Task<PagedData<List<ReservationResultDto>>> GetUserReservations(Guid UserId, UserReservationTableRequest dto);
+        Task<PagedData<List<ReservationResultDto>>> GetConcertReservations(Guid ConcertId, UserReservationTableRequest dto);
 
     }
 }

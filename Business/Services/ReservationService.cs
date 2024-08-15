@@ -37,7 +37,7 @@ namespace Services.Services
             _discountService = discountService;
             _userManager = userManager;
             _transactionService = transactionService;
-           
+
             _frontEnd = configuration.GetSection("Configuration:FrontEnd").Value;
         }
 
@@ -197,14 +197,14 @@ namespace Services.Services
             dto.url = dto.url.TrimEnd('/');
             Guid TransactionId = Guid.NewGuid();
 
-        
+
             //============================= مقداردهی دیتای داخلی
 
             BillingDto billingDto = new BillingDto()
             {
                 Amount = Amount,
                 DiscountId = null,
-                BillingAmount =  Amount,
+                BillingAmount = Amount,
                 FullName = User.FirstName + " " + User.LastName,
                 PhoneNumber = User.PhoneNumber,
                 TransactionId = TransactionId,
@@ -218,11 +218,11 @@ namespace Services.Services
             {
                 var DiscountAmount = await _discountService.CalculateDiscount(Amount, dto.DiscountId.Value, userTcikets.Id, true);
 
-                if(DiscountAmount.HasValue)
+                if (DiscountAmount.HasValue)
                 {
                     billingDto.DiscountId = dto.DiscountId;
                     billingDto.BillingAmount = DiscountAmount.Value;
-                } 
+                }
 
             }
 
@@ -460,8 +460,9 @@ namespace Services.Services
                         floorId = x.Id
                     }).ToList(),
                 },
-                Place = new() { 
-                    address  = eventInfo.Hall.Place.Address,
+                Place = new()
+                {
+                    address = eventInfo.Hall.Place.Address,
                     City = eventInfo.Hall.Place.City.Title,
                     Name = eventInfo.Hall.Place.Title,
                     placeId = eventInfo.Hall.Place.Id,
@@ -470,7 +471,7 @@ namespace Services.Services
                 Hall = new()
                 {
                     Name = eventInfo.Hall.Title,
-                   
+
                 },
                 ReservationId = UserReservation.Id,
                 seats = UserReservation.Tickets
@@ -493,14 +494,10 @@ namespace Services.Services
         public async Task<PagedData<List<ReservationResultDto>>> GetUserReservations(Guid UserId, UserReservationTableRequest dto)
         {
             var query = await _repositoryManager.IReservationRepository.GetPagedWithByAndInclude(x => x.UserId == UserId.ToString() && x.Status == ReservationStatusType.Completed, x => x.CreatedDate, x => x.Discount, false, dto);
-            var UserReservations = await query.Include(x => x.Tickets).ThenInclude(x => x.Event.Concert.Place.City).ToListAsync();
+            var UserReservations = await query.Include(x => x.Tickets).ThenInclude(x => x.Event.Concert.Place.City).Include(x => x.Transactions.Where(x => x.Status == PayStatusType.Verified)).ToListAsync();
 
-            foreach (var item in UserReservations)
-            {
-                
-            }
 
-        
+
 
             PagedList<ReservationResultDto> result = new(UserReservations.Select(UserReservation => new ReservationResultDto()
             {
@@ -510,7 +507,7 @@ namespace Services.Services
                     EndDate = UserReservation.Tickets.ElementAt(0).Event.Concert.EndDate,
                     StartDate = UserReservation.Tickets.ElementAt(0).Event.Concert.StartDate,
                     Note = UserReservation.Tickets.ElementAt(0).Event.Concert.Note,
-                   
+
                 },
                 Place = new()
                 {
@@ -520,14 +517,71 @@ namespace Services.Services
                     placeId = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Id,
                     Description = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Description,
                 },
+                Transaction = new()
+                {
+                    Amount = UserReservation.Transactions.First().Amount,
+                    BillAmount = UserReservation.Transactions.First().BillAmount,
+                    CreatedDate = UserReservation.Transactions.First().CreatedDate,
+                    ServiceType = UserReservation.Transactions.First().ServiceType.ToString(),
+                    Status = UserReservation.Transactions.First().Status.ToString()
 
+                },
                 ReservationId = UserReservation.Id,
-               ReservationDate = UserReservation.CreatedDate
+                ReservationDate = UserReservation.CreatedDate,
+                TicketCount = UserReservation.Tickets.Count()
 
-            }).ToList(), _repositoryManager.IReservationRepository.FindByCondition(x => x.UserId == UserId.ToString() && x.Status == ReservationStatusType.Completed, false).Count(),dto.PageNumber ,dto.PageSize);
+            }).ToList(), _repositoryManager.IReservationRepository.FindByCondition(x => x.UserId == UserId.ToString() && x.Status == ReservationStatusType.Completed, false).Count(), dto.PageNumber, dto.PageSize);
 
 
-            return new(result.MetaData,result.ToList());
+            return new(result.MetaData, result.ToList());
+
+        }
+
+
+        public async Task<PagedData<List<ReservationResultDto>>> GetConcertReservations(Guid ConcertId, UserReservationTableRequest dto)
+        {
+            var query = await _repositoryManager.IReservationRepository.GetPagedWithByAndInclude(x => x.Status == ReservationStatusType.Completed, x => x.CreatedDate, x => x.Discount, false, dto);
+            var UserReservations = await query.Include(x => x.Tickets.Where(y => y.Event.ConcertId == ConcertId)).ThenInclude(x => x.Event.Concert.Place.City).Include(x => x.Transactions.Where(x => x.Status == PayStatusType.Verified)).ToListAsync();
+
+
+            var count = (_repositoryManager.IReservationRepository.GetByWithIncludes(x => x.Status == ReservationStatusType.Completed, x => x.Discount)).Include(x => x.Tickets.Where(y => y.Event.ConcertId == ConcertId)).ThenInclude(x => x.Event.Concert.Place.City).Include(x => x.Transactions.Where(x => x.Status == PayStatusType.Verified)).Count();
+
+            PagedList<ReservationResultDto> result = new(UserReservations.Select(UserReservation => new ReservationResultDto()
+            {
+                ConcertInfo = new()
+                {
+                    Title = UserReservation.Tickets.ElementAt(0).Event.Concert.Title,
+                    EndDate = UserReservation.Tickets.ElementAt(0).Event.Concert.EndDate,
+                    StartDate = UserReservation.Tickets.ElementAt(0).Event.Concert.StartDate,
+                    Note = UserReservation.Tickets.ElementAt(0).Event.Concert.Note,
+
+                },
+                Place = new()
+                {
+                    address = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Address,
+                    City = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.City.Title,
+                    Name = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Title,
+                    placeId = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Id,
+                    Description = UserReservation.Tickets.ElementAt(0).Event.Concert.Place.Description,
+                },
+                Transaction = new()
+                {
+                    Amount = UserReservation.Transactions.First().Amount,
+                    BillAmount = UserReservation.Transactions.First().BillAmount,
+                    CreatedDate = UserReservation.Transactions.First().CreatedDate,
+                    ServiceType = UserReservation.Transactions.First().ServiceType.ToString(),
+                    Status = UserReservation.Transactions.First().Status.ToString()
+
+                },
+                ReservationId = UserReservation.Id,
+                ReservationDate = UserReservation.CreatedDate,
+                TicketCount = UserReservation.Tickets.Count()
+            }).ToList(),
+            count
+            , dto.PageNumber, dto.PageSize);
+
+
+            return new(result.MetaData, result.ToList());
 
         }
 

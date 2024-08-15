@@ -38,7 +38,7 @@ namespace Services.Services
 
             var query = (await _repositoryManager.IConcertRepository.GetPagedWithByAndInclude(_ => true, x => x.StartDate, x => x.Place, false, concertTable));
 
-            query.Include(x => x.Category).Include(x => x.Place).Include(x => x.Promoter).ToList().ForEach(concert =>
+            query.Include(x => x.Category).Include(x => x.Place).Include(x => x.Promoter).Include(x=>x.Events).ThenInclude(x=>x.Tickets).ToList().ForEach(concert =>
             {
 
                 data.Add(new()
@@ -57,7 +57,10 @@ namespace Services.Services
                     {
                         Title = concert.Promoter.Title,
                     },
-                    isEnded = concert.EndDate >= DateTime.Now
+                    ReservationCount = concert.Events.SelectMany(x=>x.Tickets).Where(x=>x.ReservedGroupId != null).Select(x=>x.ReservedGroupId).Distinct().Count(),
+                    TicketCount = concert.Events.SelectMany(x => x.Tickets).Count(),
+                    ReservedTicketCount = concert.Events.SelectMany(x => x.Tickets).Where(x => x.ReservedGroupId != null).Select(x => x.ReservedGroupId).Count(),
+
 
                 });
 
