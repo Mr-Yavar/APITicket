@@ -179,7 +179,7 @@ namespace Services.Services
                             StartSaleDate = x.StartSaleDate,
                             ExecutionDate = x.ExecutionDate,
                             Note = x.Note,
-                            isEnded = !(x.EndSaleDate > DateTime.Now && x.StartSaleDate <= DateTime.Now),
+                            isEnded = !((x.EndSaleDate > DateTime.Now && x.StartSaleDate <= DateTime.Now) || x.StartSaleDate >= DateTime.Now),
                             isFilled = x.Tickets.Any(x => x.ReservedGroupId == null),
 
                         }).ToList()
