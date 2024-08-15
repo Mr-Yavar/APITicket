@@ -16,9 +16,10 @@ namespace Services.Services
     public class UsersService : ServiceBase, IUsersService
     {
         private UserManager<User> _userManager;
-        public UsersService(IMapper mapper, IRepositoryManager repositoryManager, UserManager<User> userManager) : base(repositoryManager, mapper)
+        RoleManager<IdentityRole> _roleManager;
+        public UsersService(IMapper mapper, IRepositoryManager repositoryManager, UserManager<User> userManager,RoleManager<IdentityRole> roleManager) : base(repositoryManager, mapper)
         {
-
+            _roleManager = roleManager;
             _userManager = userManager;
         }
 
@@ -66,7 +67,8 @@ namespace Services.Services
                 FirstName = userInfo.FirstName,
                 LastName = userInfo.LastName,
                 PhoneNumber = userInfo.PhoneNumber,
-                UserName = userInfo.UserName
+                UserName = userInfo.UserName,
+                Role = (await _userManager.GetRolesAsync(userInfo)).First()
             };
 
 
@@ -100,12 +102,24 @@ namespace Services.Services
             userExists.PhoneNumber = dto.PhoneNumber;
             var result = await _userManager.UpdateAsync(userExists);
 
+           
+            var roles =await _userManager.GetRolesAsync(userExists);
+            var role = await _roleManager.FindByNameAsync(dto.Role);
+            if (!roles.Contains(role.Name))
+            {
+                result = await _userManager.RemoveFromRolesAsync(userExists, roles);
+                result = await _userManager.AddToRoleAsync(userExists, role.Name);
+
+
+            }
 
             if (result.Succeeded && dto.Password != null && dto.Password != "")
             {
 
-                await _userManager.RemovePasswordAsync(userExists);
-                await _userManager.AddPasswordAsync(userExists, dto.Password);
+
+                    result = await _userManager.RemovePasswordAsync(userExists);
+                    if(result.Succeeded)
+                        result = await _userManager.AddPasswordAsync(userExists, dto.Password);
             }
 
 

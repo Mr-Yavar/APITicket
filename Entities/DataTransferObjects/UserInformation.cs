@@ -24,9 +24,9 @@ namespace Entities.DataTransferObjects
         public string LastName { get; set; }
         public string UserName { get; set; }
         public GenderType Gender { get; set; }
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
-        public string? Role { get; set; }
+        public string Role { get; set; }
     }
 
     public class RoleDto
