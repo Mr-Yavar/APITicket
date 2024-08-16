@@ -3,6 +3,7 @@ using Contracts.IPaymentGateway;
 using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.AdminDto;
 using Entities.DataTransferObjects.PayingDto;
 using Entities.DataTransferObjects.PayService.PayPing;
 using Entities.Enum;
@@ -157,6 +158,41 @@ namespace Services.Services
             return new PagedData<List<TransactionInfoDto>>(res.MetaData, res);
 
 
+        }
+
+
+        public async Task<DashboardCardItemDto> GetDayInCome(DateTime date)
+        {
+
+            DateTime yesterday = date.Date.AddDays(-1);
+
+           Decimal sumBillAmount_Today =await _repositoryManager.ITransactionRepository.FindByCondition(x => x.CreatedDate.Date == date.Date && x.Status == PayStatusType.Verified, false).SumAsync(x => x.BillAmount);
+            Decimal sumBillAmount_yesterday = await _repositoryManager.ITransactionRepository.FindByCondition(x => x.CreatedDate.Date == yesterday.Date && x.Status == PayStatusType.Verified, false).SumAsync(x => x.BillAmount);
+
+
+            return new()
+            {
+                Amount = sumBillAmount_Today,
+                ChangePercent = (sumBillAmount_yesterday > 0 ? (sumBillAmount_Today / sumBillAmount_yesterday) * 100 : sumBillAmount_Today * 100) * (sumBillAmount_yesterday > sumBillAmount_Today ? -1 : 1),
+            };
+        }
+
+
+        public async Task<DashboardCardItemDto> GetWeekInCome(DateTime date)
+        {
+
+            DateTime _7DaysAgo = date.Date.AddDays(-7);
+            DateTime _14DaysAgo = date.Date.AddDays(-14);
+
+            Decimal sumBillAmount_7DayAgo = await _repositoryManager.ITransactionRepository.FindByCondition(x => (date.Date >= x.CreatedDate.Date  && _7DaysAgo.Date <= x.CreatedDate.Date)  && x.Status == PayStatusType.Verified, false).SumAsync(x => x.BillAmount);
+            Decimal sumBillAmount_14_7 = await _repositoryManager.ITransactionRepository.FindByCondition(x => (_7DaysAgo.Date > x.CreatedDate.Date && _14DaysAgo.Date <= x.CreatedDate.Date) && x.Status == PayStatusType.Verified, false).SumAsync(x => x.BillAmount);
+
+
+            return new()
+            {
+                Amount = sumBillAmount_7DayAgo,
+                ChangePercent = (sumBillAmount_14_7 > 0 ? (sumBillAmount_7DayAgo / sumBillAmount_14_7) * 100 : sumBillAmount_7DayAgo * 100) * (sumBillAmount_14_7 > sumBillAmount_7DayAgo ? -1 : 1),
+            };
         }
     }
 }

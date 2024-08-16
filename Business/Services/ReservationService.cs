@@ -2,6 +2,7 @@
 using Contracts.IRepository;
 using Contracts.IService;
 using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.AdminDto;
 using Entities.DataTransferObjects.PayingDto;
 using Entities.Enum;
 using Entities.Models;
@@ -39,6 +40,25 @@ namespace Services.Services
             _transactionService = transactionService;
 
             _frontEnd = configuration.GetSection("Configuration:FrontEnd").Value;
+        }
+
+
+        public async Task<DashboardCardItemDto> GetDailyReservedTicket(DateTime date)
+        {
+
+            DateTime yesterday = date.Date.AddDays(-1);
+
+           int count = await _repositoryManager.ITicketRepository.GetByWithIncludes(x => x.Reservation.CreatedDate.Date == date.Date, x=>x.Reservation).CountAsync();
+            int yesterdayCount = await _repositoryManager.ITicketRepository.GetByWithIncludes(x => x.Reservation.CreatedDate.Date == yesterday.Date, x => x.Reservation).CountAsync();
+
+
+            return new DashboardCardItemDto()
+            {
+                Amount = count,
+                ChangePercent =   ((yesterdayCount > 0 )? (count/ yesterdayCount) *100 : count*100)  * (yesterdayCount > count ? -1 : 1),
+            };
+
+             
         }
 
 

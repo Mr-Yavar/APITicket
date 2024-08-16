@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.AdminDto;
 using Entities.DataTransferObjects.PayingDto;
 using Entities.Enum;
 using Entities.Models;
@@ -18,5 +19,8 @@ namespace Contracts.IService
         Task<PayStatusType> VerifyPayment(toVerifyDto dto,Transactions transaction);
         Task CancelTransactionsByTempReservation(Guid TempReservationId);
         Task<PagedData<List<TransactionInfoDto>>> GetUserTransactions(Guid UserId, UserTransactionTableRequest dto);
+
+        Task<DashboardCardItemDto> GetWeekInCome(DateTime date);
+        Task<DashboardCardItemDto> GetDayInCome(DateTime date);
     }
 }

@@ -9,6 +9,6 @@ namespace Entities.DataTransferObjects.AdminDto
     public class DashboardCardItemDto
     {
         public Decimal Amount { get; set; }
-        public Decimal ChangePrecent { get; set; }
+        public Decimal ChangePercent { get; set; }
     }
 }

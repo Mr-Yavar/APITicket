@@ -1,5 +1,6 @@
 ﻿using Contracts.IService;
 using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.AdminDto;
 using Entities.Enum;
 using Entities.Exceptions;
 using Entities.Utils;
@@ -18,13 +19,31 @@ namespace WebAPI.Controllers
         private IHallService _hallService;
         private IAttachmentsService _attachmentsService;
         private IDiscountService _discount;
-        public ManagerController(IPlaceService placeService, IHallService hallService, IConcertService concertService,IAttachmentsService attachments,IDiscountService discount)
+        private IReservationService _reservationService;
+        private ITransactionService _transactionService;
+        public ManagerController(IPlaceService placeService, IHallService hallService, IConcertService concertService,IAttachmentsService attachments,IDiscountService discount, IReservationService reservationService, ITransactionService tra)
         {
             _placeService = placeService;
             _concertService = concertService;
             _hallService = hallService;
             _attachmentsService = attachments;
             _discount= discount;
+            _transactionService = tra;
+            _reservationService = reservationService;
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetDashboardItem()
+        {
+            var cardDailySale = await _reservationService.GetDailyReservedTicket(DateTime.Now);
+            var cardDayIncome = await _transactionService.GetDayInCome(DateTime.Now);
+            var cardWeekIncome = await _transactionService.GetWeekInCome(DateTime.Now);
+           return Ok( new DashboardInformationDto()
+            {
+                DailySale = cardDailySale,
+                DayIncome = cardDayIncome,
+                WeekIncome = cardWeekIncome,
+            });
         }
 
         /// <summary>

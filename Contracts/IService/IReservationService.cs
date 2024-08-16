@@ -1,4 +1,5 @@
 ﻿using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.AdminDto;
 using Entities.DataTransferObjects.PayingDto;
 using Entities.Models;
 using Features.CustomRequest;
@@ -13,6 +14,7 @@ namespace Contracts.IService
 {
     public interface IReservationService : IService
     {
+        Task<DashboardCardItemDto> GetDailyReservedTicket(DateTime date);
         Task<Guid?> AddTemporaryReservation(Guid UserId, TempReservationDto dto);
 
         Task<bool> RemoveTemporaryReservation(Guid UserId);
