@@ -205,7 +205,7 @@ namespace Services.Services
             concerts.Events = new();
 
             _context.Events.Where(x => x.ExecutionDate > DateTime.Now && x.EndSaleDate > DateTime.Now && x.StartSaleDate < DateTime.Now && x.Id == EventId)
-                .Include(x => x.Hall.Floors)
+                .Include(x => x.Hall.Floors.OrderBy(x=>x.DisplayOrder))
                 .Include(x => x.Tickets.OrderBy(x => Convert.ToInt32(((x.FloorSeat.Seat.Row + 999).ToString()) + ((x.FloorSeat.Seat.Column + 999).ToString())))).ThenInclude(y => y.FloorSeat.Seat).AsNoTracking()
 
                 .ToList().ForEach(evnt =>
