@@ -26,10 +26,28 @@ namespace WebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllConcerts()
+        public async Task<IActionResult> GetAllConcerts(string CityIds="",string CategoryIds = "",string searchTxt = "")
         {
 
-            var result = concertService.GetAllPublicConcerts();
+            List<Guid> Cities = new();
+            List<Guid> Categories = new();
+      
+
+            var Guids = CityIds.Split(',');
+            foreach (var item in Guids)
+            {
+                if(Guid.TryParse(item,out Guid res))
+                    Cities.Add(res);
+            }
+
+             Guids = CategoryIds.Split(',');
+            foreach (var item in Guids)
+            {
+                if (Guid.TryParse(item, out Guid res))
+                    Categories.Add(res);
+            }
+
+            var result = concertService.GetAllPublicConcerts(Cities,Categories,searchTxt);
 
             return Ok(result);
         }

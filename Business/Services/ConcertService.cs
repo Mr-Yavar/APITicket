@@ -113,14 +113,32 @@ namespace Services.Services
         }
 
 
-        public glbConcertsDto GetAllPublicConcerts()
+        public glbConcertsDto GetAllPublicConcerts(List<Guid> CityIds, List<Guid> CategoryIds, string SearchText)
         {
 
             var concerts = new glbConcertsDto();
 
             concerts.Concerts = new();
+            var query = _repositoryManager.IConcertRepository.FindByCondition(x => x.EndDate >= DateTime.Now, false).Include(x=>x.Place).Include(x => x.Category).Include(x=>x.Promoter).Where(x=>true);
 
-            _context.Concerts.Where(x => x.EndDate >= DateTime.Now).Include(x => x.Category).Include(x => x.Events).Include(x => x.Place).ToList().ForEach(concert =>
+
+            if (CityIds.Count > 0)
+            {
+                query = query.Where(x => CityIds.Contains(x.Place.CityId ));
+            }
+
+            if (CategoryIds.Count > 0)
+            {
+                query = query.Where(x => CategoryIds.Contains(x.CategoryId));
+            }
+
+            if (SearchText.Length > 3)
+            {
+                query = query.Where(x => (x.Promoter.Title + x.Title + x.Place.Title).ToLower().Contains(SearchText.ToLower()));
+            }
+
+
+            query.Include(x => x.Events).ToList().ForEach(concert =>
             {
 
                 concerts.Concerts.Add(new()
@@ -134,6 +152,7 @@ namespace Services.Services
                     Place = new()
                     {
                         Name = concert.Place.Title,
+
                     }
 
                 });

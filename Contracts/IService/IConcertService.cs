@@ -12,7 +12,7 @@ namespace Contracts.IService
 {
     public interface IConcertService : IService
     {
-        glbConcertsDto GetAllPublicConcerts();
+        glbConcertsDto GetAllPublicConcerts(List<Guid> CityIds,List<Guid> CategoryIds,string SeatchText);
         glbConcertsDto GetSpecificConcert(Guid ConcertId);
         glbEventDto GetSpecificEvent(Guid EventId);
 

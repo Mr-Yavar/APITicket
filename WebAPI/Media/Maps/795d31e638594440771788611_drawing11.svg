@@ -1,0 +1,663 @@
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="100mm" height="100mm" viewBox="0 0 100 100" version="1.1" id="svg1" inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)" sodipodi:docname="drawing.svg">
+  <sodipodi:namedview id="namedview1" pagecolor="#ffffff" bordercolor="#000000" borderopacity="0.25" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" inkscape:document-units="mm" inkscape:zoom="2.2556398" inkscape:cx="169.13162" inkscape:cy="91.548307" inkscape:window-width="1600" inkscape:window-height="829" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1" showgrid="true">
+    <inkscape:grid id="grid25" units="mm" originx="0" originy="0" spacingx="0.99999999" spacingy="0.99999999" empcolor="#0099e5" empopacity="0.30196078" color="#0099e5" opacity="0.14901961" empspacing="5" dotted="false" gridanglex="30" gridanglez="30" visible="true"/>
+  </sodipodi:namedview>
+  <defs id="defs1">
+    <linearGradient id="swatch16" inkscape:swatch="solid">
+      <stop style="stop-color:#a6a6a9;stop-opacity:1;" offset="0" id="stop16"/>
+    </linearGradient>
+    <linearGradient inkscape:collect="always" xlink:href="#swatch16" id="linearGradient16" x1="15.152061" y1="27.902534" x2="82.825744" y2="27.902534" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.78249677,0,0,0.82795159,12.356075,17.933145)"/>
+    <linearGradient inkscape:collect="always" xlink:href="#swatch16" id="linearGradient18" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-0.33185292,-0.27377697,-0.116378,0.80893714,34.083197,23.015124)" x1="15.152061" y1="27.902534" x2="82.825744" y2="27.902534"/>
+    <linearGradient inkscape:collect="always" xlink:href="#swatch16" id="linearGradient1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.33185292,-0.27377697,0.116378,0.80893714,67.188203,22.883533)" x1="15.152061" y1="27.902534" x2="82.825744" y2="27.902534"/>
+  </defs>
+  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+    <path style="opacity:0.76;fill:#05285b;stroke-width:0.264583" d="M 24.75,5.3957345 28.268957,3.2843601 H 70.613743 L 74.367297,5.513033 70.496445,3.7535544 H 28.268957 Z" id="path7"/>
+    <path style="opacity:0.76;fill:url(#linearGradient16);fill-opacity:0.794613;stroke-width:0.360999" d="m 24.212513,54.606064 3.10202,-27.141943 46.378777,0.05105 3.473641,27.009165 z" id="path16" sodipodi:nodetypes="ccccc" inkscape:highlight-color="#949494"/>
+    <path style="opacity:0.76;fill:url(#linearGradient18);fill-opacity:0.794613;stroke-width:0.245779" d="M 23.90015,54.697541 26.399707,27.093607 6.7235311,10.916656 1.4539099,36.090194 Z" id="path16-6-1" sodipodi:nodetypes="ccccc" inkscape:highlight-color="#949494"/>
+    <path style="opacity:0.76;fill:url(#linearGradient1);fill-opacity:0.794613;stroke-width:0.245779" d="M 77.37125,54.56595 74.871693,26.962016 94.547869,10.785065 99.817492,35.958603 Z" id="path16-6-1-4" sodipodi:nodetypes="ccccc" inkscape:highlight-color="#949494"/>
+    <g id="g25" transform="rotate(40.823827,-0.56242998,14.705642)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c1c1" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21">f1_r1_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_r1_c2" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1">f1_r1_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c3" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4">f1_r1_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c4" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3">f1_r1_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c5c5" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1">f1_r1_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c6" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1">f1_r1_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_r1_c7c7" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8">f1_r1_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_r1_c8" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8">f1_r1_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8" transform="rotate(40.823827,-12.379588,16.836415)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c1" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c2" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c3" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c4" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c5" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c6" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c7" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c8" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-94" transform="rotate(-0.03171675,77039.93,-86183.426)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c18" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-2">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c19" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-4">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c20" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-7">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c21" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-5">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c22" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-1">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c23" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-2">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c24" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-2">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c25" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-1-7-8">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-9-5" transform="rotate(-0.03171675,77138.101,-42455.835)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c10" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-0-7">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c11" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-5-9">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c9" cx="-3.8600237" cy="8.5778313" r="1" transform="rotate(-42.883383)">
+        <title id="title21-1-7-9-0-5-7-5">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c12" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-4-2">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c13" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-4-1">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c14" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-7-6">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c15" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-0-4">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c16" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-3-8">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c17" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-1-7-7-2">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-94-6-7" transform="rotate(-0.03171675,69434.009,-86332.635)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c18" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-2-9-6">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c19" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-4-0-7">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c20" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-7-5-7">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c21" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-5-9-1">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c22" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-1-4-2">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c23" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-2-5-7">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c24" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-2-1-6">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c25" cx="13.448381" cy="24.790367" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-1-7-8-3-2">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-9-5-6-5" transform="rotate(-0.03171675,69532.18,-42605.044)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c10" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-0-7-6-3">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c11" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-5-9-7-8">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c9" cx="-3.8600237" cy="8.5778313" r="1" transform="rotate(-42.883383)">
+        <title id="title21-1-7-9-0-5-7-5-3-6">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c12" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-4-2-5-9">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c13" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-4-1-7-9">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c14" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-7-6-7-4">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c15" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-0-4-1-3">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c16" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-3-8-0-3">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c17" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-1-7-7-2-7-8">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-94-9" transform="rotate(-0.03171675,61283.861,-85802.483)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c18" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-2-6">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c19" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-4-1">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c20" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-7-6">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c21" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-5-8">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c22" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-1-47">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c23" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-2-56">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c24" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-2-9">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c25c25" cx="13.230444" cy="24.507925" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-1-7-8-5">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-9-5-9" transform="rotate(-0.03171675,61382.032,-42074.894)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c10" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-0-7-2">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c11" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-5-9-75">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c9" cx="-3.5103681" cy="9.0630875" r="1" transform="rotate(-42.883383)">
+        <title id="title21-1-7-9-0-5-7-5-30">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c12" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-4-2-4">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c13" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-4-1-2">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c14" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-7-6-3">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c15" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-0-4-5">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c16" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-3-8-5">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c17" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-1-7-7-2-9">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-94-6-7-9" transform="rotate(-0.03171675,53359.916,-85315.933)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c18" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-2-9-6-3">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c19" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-4-0-7-5">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c20" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-7-5-7-4">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c21" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-5-9-1-9">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c22" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-1-4-2-2">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c23" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-2-5-7-7">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c24c24" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-2-1-6-3">f1_r3_c7</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-9-5-6-5-2" transform="rotate(-0.03171675,53458.087,-41588.34)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c10" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-0-7-6-3-4">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c11" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-5-9-7-8-4">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c12" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-4-2-5-9-6">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c13" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-4-1-7-9-1">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c14" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-7-6-7-4-2">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c15" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-0-4-1-3-3">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c16" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-3-8-0-3-5">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c17" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-1-7-7-2-7-8-1">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-94-9-1" transform="rotate(-0.03171675,46398.89,-85571.589)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c18" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-2-6-4">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c19" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-4-1-2">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c20" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-7-6-1">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c21" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-5-8-4">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c22" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-1-47-8">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c23" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-2-56-2">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_r2_c24" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-2-9-2">f1_r3_c7</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-9-5-9-5" transform="rotate(-0.03171675,46497.061,-41844)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c10" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-0-7-2-2">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c11" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-5-9-75-6">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c12" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-4-2-4-3">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c13" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-4-1-2-1">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c14" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-7-6-3-6">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c15" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-0-4-5-2">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c16" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-3-8-5-8">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c17" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-1-7-7-2-9-0">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-94-9-1-5" transform="rotate(-0.03171675,38695.679,-85582.218)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c18" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-2-6-4-4">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c19" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-4-1-2-8">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c20" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-7-6-1-6">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c21" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-5-8-4-1">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c22" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-1-47-8-5">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c23" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-2-56-2-2">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c24" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-2-9-2-7">f1_r3_c7</title>
+      </circle>
+    </g>
+    <g id="g25-8-4-6-9-5-9-5-6" transform="rotate(-0.03171675,38793.85,-41854.63)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c10" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-45-3-0-7-2-2-0">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c11" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-9-0-5-9-75-6-6">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c12" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-9-4-4-2-4-3-8">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c13" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-41-0-4-1-2-1-7">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c14" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-3-3-7-6-3-6-7">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c15" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-47-0-0-4-5-2-9">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c16" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-8-1-3-8-5-8-9">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c17" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-1-7-7-2-9-0-1">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-9" transform="rotate(40.823827,-18.143162,17.570651)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c1" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-4">f1_r4_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c2" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-1">f1_r4_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c3" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-8">f1_r4_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c4" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-4">f1_r4_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_r4_c5" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-8">f1_r4_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c6" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-4">f1_r4_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c7" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-0">f1_r4_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c8" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-6">f1_r4_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-9-1" transform="rotate(40.823827,-24.218822,19.275905)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c1" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-4-7">f1_r5_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c2" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-1-7">f1_r5_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c3" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-8-9">f1_r5_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_r5_c4" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-4-7">f1_r5_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c5" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-8-2">f1_r5_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c6" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-4-8">f1_r5_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c7" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-0-8">f1_r5_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_r5_c8" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-6-4">f1_r5_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-9-1-1" transform="rotate(40.823827,-29.904244,20.144222)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c1" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-4-7-5">f1_r6_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c2" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-1-7-7">f1_r6_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c3" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-8-9-3">f1_r6_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c4" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-4-7-3">f1_r6_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c5" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-8-2-5">f1_r6_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c6" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-4-8-0">f1_r6_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c7" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-0-8-2">f1_r6_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c8" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-6-4-3">f1_r6_c8</title>
+      </circle>
+      <text xml:space="preserve" style="font-size:2.2745px;opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.327812" x="1.3001965" y="-10.861564" id="text1" transform="matrix(0.88779678,-0.76697016,0.55721845,0.64500129,0,0)" inkscape:label="text1"><tspan sodipodi:role="line" id="tspan1" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.2745px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';fill:#d8df00;fill-opacity:1;stroke-width:0.327812" x="1.3001965" y="-10.861564">1</tspan></text>
+    </g>
+    <g id="g25-0" transform="rotate(40.823827,-6.4323281,15.692814)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c1" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-15">f1_r2_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c2" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-9">f1_r2_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c3" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-1">f1_r2_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c4" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-5">f1_r2_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c5" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-5">f1_r2_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c6" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-9">f1_r2_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c7" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-3">f1_r2_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c8" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)" sodipodi:insensitive="true">
+        <title id="title21-1-4-3-1-1-8-8-6">f1_r2_c8</title>
+      </circle>
+    </g>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="9.8970671" y="17.272215" id="text2"><tspan sodipodi:role="line" id="tspan2" style="stroke-width:0.264583" x="9.8970671" y="17.272215">2</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="12.157589" y="19.308163" id="text2-5"><tspan sodipodi:role="line" id="tspan2-2" style="stroke-width:0.264583" x="12.157589" y="19.308163">3</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="14.501037" y="21.172392" id="text3"><tspan sodipodi:role="line" id="tspan3" style="stroke-width:0.264583" x="14.501037" y="21.172392">4</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="16.721237" y="23.103529" id="text3-5"><tspan sodipodi:role="line" id="tspan3-0" style="stroke-width:0.264583" x="16.721237" y="23.103529">5</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="19.017033" y="25.13122" id="text4"><tspan sodipodi:role="line" id="tspan4" style="stroke-width:0.264583" x="19.017033" y="25.13122">6</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="21.214592" y="27.088705" id="text4-2"><tspan sodipodi:role="line" id="tspan4-9" style="stroke-width:0.264583" x="21.214592" y="27.088705">7</tspan></text>
+    <g id="g1" transform="translate(3.937638,2.401985)">
+      <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="19.647512" y="26.626778" id="text4-4"><tspan sodipodi:role="line" id="tspan4-8" style="stroke-width:0.264583" x="19.647512" y="26.626778">8</tspan></text>
+    </g>
+    <g id="g25-2" transform="matrix(-0.75672322,0.65373539,0.65373539,0.75672322,91.562124,3.448486)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c33" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-5">f1_r1_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_r1_c32" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-8">f1_r1_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_r1_c31c31" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-0">f1_r1_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c30" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-7">f1_r1_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_r1_c29" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-14">f1_r1_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c28" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-5">f1_r1_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c27" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-6">f1_r1_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r1_c26" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-2">f1_r1_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-4" transform="matrix(-0.75672322,0.65373539,0.65373539,0.75672322,93.043997,11.692149)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c33" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-6">f1_r3_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c32" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-7">f1_r3_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c31" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-7">f1_r3_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c30" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-2">f1_r3_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c29" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-4">f1_r3_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c28" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-2">f1_r3_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c27" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-9">f1_r3_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r3_c26" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-9">f1_r3_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-9-4" transform="matrix(-0.75672322,0.65373539,0.65373539,0.75672322,93.966142,15.638624)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c33" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-4-5">f1_r4_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c32" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-1-1">f1_r4_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c31" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-8-0">f1_r4_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c30" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-4-8">f1_r4_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c29" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-8-3">f1_r4_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c28" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-4-4">f1_r4_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c27" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-0-85">f1_r4_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r4_c26" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-6-6">f1_r4_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-9-1-6" transform="matrix(-0.75672322,0.65373539,0.65373539,0.75672322,94.329426,20.025345)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c33" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-4-7-2">f1_r5_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c32" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-1-7-6">f1_r5_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c31" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-8-9-9">f1_r5_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c30" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-4-7-5">f1_r5_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c29" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-8-2-6">f1_r5_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c28" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-4-8-3">f1_r5_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c27" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-0-8-4">f1_r5_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r5_c26" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-6-4-2">f1_r5_c8</title>
+      </circle>
+    </g>
+    <g id="g25-8-9-1-1-4" transform="matrix(-0.75672322,0.65373539,0.65373539,0.75672322,95.144914,23.95335)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c33" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-7-4-7-5-2">f1_r6_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c32" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-7-1-7-7-4">f1_r6_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c31" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-4-8-9-3-3">f1_r6_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c30" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-0-4-7-3-0">f1_r6_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c29" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-57-8-2-5-3">f1_r6_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c28" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-28-4-8-0-6">f1_r6_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c27" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-37-0-8-2-9">f1_r6_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r6_c26" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-8-0-6-4-3-3">f1_r6_c8</title>
+      </circle>
+      <text xml:space="preserve" style="font-size:2.2745px;opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.327812" x="1.3001965" y="-10.861564" id="text1-4" transform="matrix(0.88779678,-0.76697016,0.55721845,0.64500129,0,0)" inkscape:label="text1"><tspan sodipodi:role="line" id="tspan1-2" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.2745px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';fill:#d8df00;fill-opacity:1;stroke-width:0.327812" x="1.3001965" y="-10.861564">1</tspan></text>
+    </g>
+    <g id="g25-0-3" transform="matrix(-0.75672322,0.65373539,0.65373539,0.75672322,92.344786,7.526002)">
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c33" cx="-1.7782161" cy="10.639757" r="1" transform="rotate(-42.851666)">
+        <title id="title21-15-1">f1_r2_c1</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c32" cx="0.47840717" cy="12.690558" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-9-3">f1_r2_c2</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c31" cx="2.666755" cy="14.785547" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-1-2">f1_r2_c3</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c30" cx="4.8865285" cy="16.808218" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-5-5">f1_r2_c4</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c29" cx="7.0574822" cy="18.844198" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-5-6">f1_r2_c5</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c28" cx="9.2782812" cy="20.928585" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-9-2">f1_r2_c6</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c27" cx="11.449669" cy="22.905426" r="1" transform="rotate(-42.851666)">
+        <title id="title21-1-4-3-1-1-8-3-2">f1_r2_c7</title>
+      </circle>
+      <circle style="opacity: 0.76; fill: blue; fill-opacity: 0.956229; stroke-width: 0.251014;" id="f1_r2_c26" cx="13.703166" cy="24.946949" r="1" transform="rotate(-42.851666)" sodipodi:insensitive="true">
+        <title id="title21-1-4-3-1-1-8-8-6-7">f1_r2_c8</title>
+      </circle>
+    </g>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="-91.14183" y="16.775469" id="text2-0" transform="scale(-1,1)"><tspan sodipodi:role="line" id="tspan2-1" style="stroke-width:0.264583" x="-91.14183" y="16.775469">2</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="-88.88131" y="18.811419" id="text2-5-8" transform="scale(-1,1)"><tspan sodipodi:role="line" id="tspan2-2-8" style="stroke-width:0.264583" x="-88.88131" y="18.811419">3</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="-86.537857" y="20.675646" id="text3-1" transform="scale(-1,1)"><tspan sodipodi:role="line" id="tspan3-2" style="stroke-width:0.264583" x="-86.537857" y="20.675646">4</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="-84.317657" y="22.606783" id="text3-5-0" transform="scale(-1,1)"><tspan sodipodi:role="line" id="tspan3-0-9" style="stroke-width:0.264583" x="-84.317657" y="22.606783">5</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="-82.021866" y="24.634478" id="text4-5" transform="scale(-1,1)"><tspan sodipodi:role="line" id="tspan4-3" style="stroke-width:0.264583" x="-82.021866" y="24.634478">6</tspan></text>
+    <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="-79.824303" y="26.591959" id="text4-2-3" transform="scale(-1,1)"><tspan sodipodi:role="line" id="tspan4-9-6" style="stroke-width:0.264583" x="-79.824303" y="26.591959">7</tspan></text>
+    <g id="g2" transform="matrix(-1,0,0,1,97.10126,1.90525)">
+      <text xml:space="preserve" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:'B Zar';-inkscape-font-specification:'B Zar Bold';opacity:0.76;fill:#d8df00;fill-opacity:1;stroke-width:0.264583" x="19.647512" y="26.626778" id="text4-4-6"><tspan sodipodi:role="line" id="tspan4-8-8" style="stroke-width:0.264583" x="19.647512" y="26.626778">8</tspan></text>
+    </g>
+  </g>
+</svg>
