@@ -172,7 +172,7 @@ namespace Entities.DataTransferObjects
         public Guid SeatId { get; set; }
         public Guid FloorSeatId { get; set; }
         public Guid? ReservedGroupId { get; set; }
-
+        public string? FloorTitle { get; set; }
         public bool isReserved { get; set; }
        
     }

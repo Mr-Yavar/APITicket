@@ -90,7 +90,8 @@ namespace Services.Services
                     Name = "f" + ticket.FloorSeat.Floor.DisplayOrder + "_r" + ticket.FloorSeat.Seat.Row.ToString() + "_c" + ticket.FloorSeat.Seat.Column.ToString(),
                     Price = ticket.Price,
                     SeatId = ticket.FloorSeat.Seat.Id,
-                    isReserved = ticket.ReservedGroupId != null
+                    isReserved = ticket.ReservedGroupId != null,
+                    FloorTitle = ticket.FloorSeat.Floor.Title,
                 }).ToList() : new(),
                 TempReservationId = userTcikets.Id
 
@@ -503,7 +504,8 @@ namespace Services.Services
                     Name = "f" + ticket.FloorSeat.Floor.DisplayOrder + "_r" + ticket.FloorSeat.Seat.Row.ToString() + "_c" + ticket.FloorSeat.Seat.Column.ToString(),
                     Price = ticket.Price,
                     SeatId = ticket.FloorSeat.Seat.Id,
-                    isReserved = ticket.ReservedGroupId != null
+                    isReserved = ticket.ReservedGroupId != null,
+                    FloorTitle = ticket.FloorSeat.Floor.Title,
                 }).ToList()
 
             };
