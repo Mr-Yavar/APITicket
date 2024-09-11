@@ -102,7 +102,18 @@ namespace Services.Services
             userExists.PhoneNumber = dto.PhoneNumber;
             var result = await _userManager.UpdateAsync(userExists);
 
-           
+            if(dto.IsActive.HasValue && !dto.IsActive.Value)
+            {
+                await _userManager.SetLockoutEnabledAsync(userExists,true);
+                await _userManager.SetLockoutEndDateAsync(userExists,new DateTimeOffset(9999,1,1,1,1,1,1,1,TimeSpan.Zero));
+            }
+            else
+            {
+                await _userManager.SetLockoutEnabledAsync(userExists, false);
+                
+            }
+
+
             var roles =await _userManager.GetRolesAsync(userExists);
             var role = await _roleManager.FindByNameAsync(dto.Role);
             if (!roles.Contains(role.Name))
@@ -112,6 +123,8 @@ namespace Services.Services
 
 
             }
+
+
 
             if (result.Succeeded && dto.Password != null && dto.Password != "")
             {

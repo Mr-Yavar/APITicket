@@ -26,6 +26,7 @@ namespace Entities.DataTransferObjects
         public GenderType Gender { get; set; }
         public string? Password { get; set; }
 
+        public bool? IsActive { get; set; } = true;
         public string Role { get; set; }
     }
 

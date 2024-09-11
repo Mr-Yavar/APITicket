@@ -178,6 +178,10 @@ namespace WebAPI.Extensions
                 o.User.RequireUniqueEmail = false;
                 ;
 
+                o.Lockout.AllowedForNewUsers = true;
+                o.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                o.Lockout.MaxFailedAccessAttempts = 5;
+
             }).AddEntityFrameworkStores<DBContextProvider>()
             .AddDefaultTokenProviders();
 

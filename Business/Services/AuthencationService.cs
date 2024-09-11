@@ -32,16 +32,19 @@ namespace Services.Services
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private SignInManager<User> _signInManager;
         private User? _user;
         private ILoggerManager _logger;
         private IOptionsMonitor<JwtSettings> Settings;
-        public AuthenticationService(DBContextProvider f, ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtSettings> _settings) : base(repositoryManager, mapper)
+        public AuthenticationService(SignInManager<User> signInManager, ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IOptionsMonitor<JwtSettings> _settings) : base(repositoryManager, mapper)
         {
             _logger = logger;
             _userManager = userManager; _configuration = configuration;
             _roleManager = roleManager;
             Settings = _settings;
 
+            _signInManager = signInManager;
+            
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
@@ -82,12 +85,27 @@ namespace Services.Services
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
 
+          
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);
-            var result = (_user != null && await _userManager.CheckPasswordAsync(_user,
-           userForAuth.Password));
-            if (!result)
+            
+           
+            
+            var res =await _signInManager.CheckPasswordSignInAsync(_user, userForAuth.Password, true);
+
+            if (res.Succeeded)
+            {
+
+            }
+            else
+            {
+
+                var t = res;
+                var e = _user.LockoutEnd;
                 _logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
-            return result;
+            }
+
+           
+            return res.Succeeded;
         }
         public async Task<string> CreateToken()
         {
