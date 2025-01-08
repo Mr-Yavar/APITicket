@@ -53,6 +53,8 @@ namespace Services.Services
         public async Task<DynParametersDto> GetChildrenByParentKey(string Key)
         {
             var result = await _repositoryManager.IDynParametersRepository.FindByCondition(x => x.Value == Key && x.ParentId == null, false).Include(x => x.Children).FirstOrDefaultAsync();
+            if (result == null)
+                return default;
             var res = _mapper.Map<DynParametersDto>(result);
             res.Values = _mapper.Map<List<DynParamterValueDto>>(result.Children);
             return res;
