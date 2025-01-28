@@ -87,8 +87,9 @@ namespace Services.Services
 
           
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);
-            
-           
+
+            if (_user is null)
+                throw new Exception("There is no user");
             
             var res =await _signInManager.CheckPasswordSignInAsync(_user, userForAuth.Password, true);
 
