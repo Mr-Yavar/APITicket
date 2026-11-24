@@ -1,4 +1,5 @@
 ﻿using Entities.Enum;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,15 +10,23 @@ namespace Entities.Models;
 
 public partial class Reservation : ModelBase
 {
-    [ForeignKey(nameof(User))]
+
     public string UserId { get; set; }
+    [ForeignKey(nameof(UserId))]
+    [DeleteBehavior(DeleteBehavior.NoAction)]
+    public User User { get; set; }
+
+
     public ReservationStatusType Status { get; set; }
 
-    [ForeignKey(nameof(Discount))]
+
     public Guid? DiscountId { get; set; }
 
+    [ForeignKey(nameof(DiscountId))]
+    [DeleteBehavior(DeleteBehavior.NoAction)]
     public Discount? Discount { get; set; }
-    [InverseProperty("Reservation")]
+
+
     public ICollection<Ticket> Tickets { get; set; }
 
 

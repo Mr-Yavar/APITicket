@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,8 +24,11 @@ public partial class Place : ModelBase
     [Column("lat", TypeName = "Decimal(9,6)")]
     public Decimal lat { get; set; }
 
-    [ForeignKey(nameof(City))]
+
     public Guid CityId { get; set; }
+    [ForeignKey(nameof(CityId))]
+
+    [DeleteBehavior(DeleteBehavior.NoAction)]
     public Definitions City { get; set; }
     public virtual ICollection<Concert> Concerts { get; } = new List<Concert>();
 

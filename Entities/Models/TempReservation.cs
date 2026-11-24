@@ -11,15 +11,21 @@ namespace Entities.Models;
 [PrimaryKey(nameof(Id))]
 public partial class TempReservation : ModelBase
 {
-    [ForeignKey(nameof(User))]
+   
     public string UserId { get; set; }
+    [ForeignKey(nameof(UserId))]
+    [DeleteBehavior(DeleteBehavior.NoAction)]
+    public User User { get; set; }
+
     public ReservationStatusType Status { get; set; }
 
     public DateTime? ExpirationDate { get; set; }
 
-    [ForeignKey(nameof(Discount))]
+
     public Guid? DiscountId { get; set; }
 
+    [ForeignKey(nameof(DiscountId))]
+    [DeleteBehavior(DeleteBehavior.NoAction)]
     public Discount? Discount { get; set; }
     
     public ICollection<Ticket> Tickets { get; set; }

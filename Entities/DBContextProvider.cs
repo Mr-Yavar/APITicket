@@ -20,7 +20,7 @@ namespace Entities
            { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new DefinitionsConfiguration());
+            modelBuilder.ApplyConfiguration(new DefinitionsConfiguration());
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new RoleConfiguration());

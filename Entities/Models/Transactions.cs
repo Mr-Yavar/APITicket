@@ -1,4 +1,5 @@
 ﻿using Entities.Enum;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,12 +26,18 @@ public partial class Transactions : ModelBase
     [Column("BillAmount", TypeName = "Decimal(16,2)")]
     public Decimal BillAmount { get; set; }
 
-    [ForeignKey(nameof(Reservation))]
+
+
     public Guid? ReservedGroupId { get; set; }
+    [ForeignKey(nameof(ReservedGroupId))]
+    [DeleteBehavior(DeleteBehavior.NoAction)]
     public Reservation? Reservation { get; set; }
 
-    [ForeignKey(nameof(TempReservation))]
+
+
     public Guid? TempReservedId { get; set; }
+    [ForeignKey(nameof(TempReservedId))]
+    [DeleteBehavior(DeleteBehavior.NoAction)]
     public TempReservation? TempReservation { get; set; }
 
 }
